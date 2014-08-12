@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://7x7nRAotGfxHfy7Llfl3:T4JsCjMDJNxVQADl8ip3npmTm9JgEZhqL2xmc3Di@localhost:5002/oauth2/token
+    uri: http://oB7rLIqHmdoAXHRAmWtM:ZE8xqtUY5kYqmHIhd8lzdjqD1CPa8sRBPvmF9UuG@localhost:5002/oauth2/token
     body:
       encoding: UTF-8
       string: grant_type=client_credentials
@@ -14,7 +14,7 @@ http_interactions:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
-      - "*/*"
+      - '*/*'
   response:
     status:
       code: 200
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - Werkzeug/0.9.4 Python/2.7.3
       Date:
-      - Tue, 05 Aug 2014 18:15:11 GMT
+      - Tue, 12 Aug 2014 15:19:07 GMT
     body:
       encoding: UTF-8
-      string: '{"access_token": "fKd12YNbilTwVe8D3eF1ReNBkGzoElJuUjyt5ehz", "token_type":
-        "bearer", "expires": 1407266111, "expires_in": 3600}'
+      string: '{"access_token": "88CVCN9YDDAQdTC3GeQMcrMPyDJPErQZ3PECJcln", "token_type":
+        "bearer", "expires": 1407860348, "expires_in": 3600}'
     http_version: 
-  recorded_at: Tue, 05 Aug 2014 18:22:43 GMT
+  recorded_at: Tue, 12 Aug 2014 15:19:07 GMT
 recorded_with: VCR 2.9.2

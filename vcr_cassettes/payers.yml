@@ -2,58 +2,19 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:5002/api/v4/payers?state=CA
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - pokitdok-ruby 0.4.1 ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
-      Authorization:
-      - Bearer fKd12YNbilTwVe8D3eF1ReNBkGzoElJuUjyt5ehz
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-  response:
-    status:
-      code: 301
-      message: MOVED PERMANENTLY
-    headers:
-      Content-Type:
-      - text/html; charset=utf-8
-      Content-Length:
-      - '297'
-      Location:
-      - http://localhost:5002/api/v4/payers/?state=CA
-      Server:
-      - Werkzeug/0.9.4 Python/2.7.3
-      Date:
-      - Tue, 05 Aug 2014 18:15:12 GMT
-    body:
-      encoding: UTF-8
-      string: |-
-        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-        <title>Redirecting...</title>
-        <h1>Redirecting...</h1>
-        <p>You should be redirected automatically to target URL: <a href="http://localhost:5002/api/v4/payers/?state=CA">http://localhost:5002/api/v4/payers/?state=CA</a>.  If not click the link.
-    http_version: 
-  recorded_at: Tue, 05 Aug 2014 18:22:44 GMT
-- request:
-    method: get
     uri: http://localhost:5002/api/v4/payers/?state=CA
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - pokitdok-ruby 0.4.1 ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
+      - pokitdok-ruby 0.4.1 ruby 2.0.0p451 (2014-02-24 revision 45167) [x86_64-darwin12.5.0]
       Authorization:
-      - Bearer fKd12YNbilTwVe8D3eF1ReNBkGzoElJuUjyt5ehz
+      - Bearer 88CVCN9YDDAQdTC3GeQMcrMPyDJPErQZ3PECJcln
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
-      - "*/*"
+      - '*/*'
   response:
     status:
       code: 200
@@ -62,7 +23,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Content-Length:
-      - '39745'
+      - '40812'
       Mimetype:
       - application/json
       Charset:
@@ -70,54 +31,43 @@ http_interactions:
       Server:
       - Werkzeug/0.9.4 Python/2.7.3
       Date:
-      - Tue, 05 Aug 2014 18:15:12 GMT
+      - Tue, 12 Aug 2014 15:19:07 GMT
     body:
       encoding: UTF-8
-      string: '{"meta": {"processing_time": 28, "rate_limit_amount": 5, "rate_limit_reset":
-        1407266111, "rate_limit_cap": 8434}, "data": [{"supported_transactions": ["270",
-        "276"], "payer_name": "Blue Cross and Blue Shield of Nebraska", "payer_key":
-        "bcbsne", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_ne"},
+      string: '{"meta": {"rate_limit_amount": 254, "rate_limit_reset": 1407856935,
+        "application_mode": "production", "processing_time": 25, "rate_limit_cap":
+        1000, "activity_id": "53ea306b56c02c23a3a3f755"}, "data": [{"supported_transactions":
+        ["837"], "payer_name": "Fidelis Care of New York", "payer_key": "FIDELIS",
+        "production_status": false, "trading_partner_id": "fidelis_care_ny"}, {"supported_transactions":
+        ["270"], "payer_name": "Blue Cross and Blue Shield of Iowa", "payer_key":
+        "bciac", "production_status": true, "trading_partner_id": "blue_cross_blue_shield_ia"},
         {"supported_transactions": ["270"], "payer_name": "Blue Cross and Blue Shield
-        of Iowa", "payer_key": "bciac", "production_status": true, "trading_partner_id":
-        "blue_cross_blue_shield_ia"}, {"supported_transactions": ["270"], "payer_name":
-        "Blue Cross and Blue Shield of North Carolina", "payer_key": "BCBSNC", "production_status":
-        true, "trading_partner_id": "blue_cross_blue_shield_nc"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross and Blue Shield of New Hampshire", "payer_key":
-        "", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_nh"},
-        {"supported_transactions": [], "payer_name": "Blue Cross and Blue Shield of
-        South Carolina", "payer_key": "", "production_status": false, "trading_partner_id":
-        "blue_cross_blue_shield_sc"}, {"supported_transactions": [], "payer_name":
-        "Blue Cross and Blue Shield of Western New York", "payer_key": "", "production_status":
-        false, "trading_partner_id": "blue_cross_blue_shield_w_ny"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross and Blue Shield of Puerto Rico", "payer_key":
-        "", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_pr"},
-        {"supported_transactions": [], "payer_name": "Blue Shield of Northeastern
-        New York", "payer_key": "", "production_status": false, "trading_partner_id":
-        "blue_shield_ne_ny"}, {"supported_transactions": [], "payer_name": "Coventry
-        Health Care of South Dakota", "payer_key": "", "production_status": false,
-        "trading_partner_id": "coventry_health_care_sd"}, {"supported_transactions":
-        [], "payer_name": "Coventry Health Care of Tennessee", "payer_key": "", "production_status":
-        false, "trading_partner_id": "coventry_health_care_tn"}, {"supported_transactions":
-        [], "payer_name": "Coventry Health Care of West Virginia", "payer_key": "",
-        "production_status": false, "trading_partner_id": "coventry_health_care_wv"},
-        {"supported_transactions": [], "payer_name": "University of Pittsburgh Medical
-        Center Health Plan", "payer_key": "", "production_status": false, "trading_partner_id":
-        "university_pittsburgh_medical_center_health_plan"}, {"supported_transactions":
-        [], "payer_name": "Wellmark Blue Cross and Blue Shield of South Dakota", "payer_key":
-        "", "production_status": false, "trading_partner_id": "wellmark_blue_cross_blue_shield_sd"},
+        of North Carolina", "payer_key": "BCBSNC", "production_status": true, "trading_partner_id":
+        "blue_cross_blue_shield_nc"}, {"supported_transactions": [], "payer_name":
+        "Blue Cross and Blue Shield of Texas", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_cross_blue_shield_tx"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of Vermont", "payer_key": "",
+        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_vt"},
         {"supported_transactions": ["834", "835", "837", "270", "271", "276", "277",
-        "278"], "payer_name": "Mock Payer with eligibility inquiry rejection", "payer_key":
-        "MOCKPAYER_REJECTION", "production_status": false, "trading_partner_id": "MOCKPAYER_REJECTION"},
-        {"supported_transactions": ["834", "835", "837", "270", "271", "276", "277",
-        "278"], "payer_name": "Mock Payer with Implementation Acknowledgement", "payer_key":
-        "MOCKPAYER_ACK", "production_status": false, "trading_partner_id": "MOCKPAYER_ACK"},
-        {"supported_transactions": ["834", "835", "837", "270", "271", "276", "277",
-        "278"], "payer_name": "Mock Payer for Testing", "payer_key": "MOCKPAYER",
-        "production_status": false, "trading_partner_id": "MOCKPAYER"}, {"supported_transactions":
-        ["270"], "payer_name": "Blue Shield of California", "payer_key": "BSCA", "production_status":
-        true, "trading_partner_id": "blue_shield_ca"}, {"supported_transactions":
-        ["270", "276", "837"], "payer_name": "Premera Blue Cross", "payer_key": "PREMERA",
-        "production_status": true, "trading_partner_id": "premera_blue_cross"}, {"supported_transactions":
+        "278"], "payer_name": "Mock Payer with Random I/O wait for Testing", "payer_key":
+        "MOCKPAYER_RANDOM_WAIT", "production_status": false, "trading_partner_id":
+        "MOCKPAYER_RANDOM_WAIT"}, {"supported_transactions": ["834", "835", "837",
+        "270", "271", "276", "277", "278"], "payer_name": "Mock Payer with eligibility
+        inquiry rejection", "payer_key": "MOCKPAYER_REJECTION", "production_status":
+        false, "trading_partner_id": "MOCKPAYER_REJECTION"}, {"supported_transactions":
+        ["834", "835", "837", "270", "271", "276", "277", "278"], "payer_name": "Mock
+        Payer with Implementation Acknowledgement", "payer_key": "MOCKPAYER_ACK",
+        "production_status": false, "trading_partner_id": "MOCKPAYER_ACK"}, {"supported_transactions":
+        ["834", "835", "837", "270", "271", "276", "277", "278"], "payer_name": "Mock
+        Payer with eligibility inquiry rejection", "payer_key": "MOCKPAYER_PARSE_ERROR",
+        "production_status": false, "trading_partner_id": "MOCKPAYER_PARSE_ERROR"},
+        {"supported_transactions": ["837", "837"], "payer_name": "Medica HealthCare",
+        "payer_key": "MEDICA", "production_status": false, "trading_partner_id": "medica_health_care"},
+        {"supported_transactions": ["270", "837"], "payer_name": "Harvard Pilgrim
+        Healthcare", "payer_key": "UNITED", "production_status": false, "trading_partner_id":
+        "harvard_pilgrim_health_care"}, {"supported_transactions": ["270", "276",
+        "837"], "payer_name": "Premera Blue Cross", "payer_key": "PREMERA", "production_status":
+        true, "trading_partner_id": "premera_blue_cross"}, {"supported_transactions":
         ["270", "276", "837"], "payer_name": "Blue Cross and Blue Shield of Georgia",
         "payer_key": "bcbsga", "production_status": true, "trading_partner_id": "blue_cross_blue_shield_ga"},
         {"supported_transactions": ["270", "276", "837"], "payer_name": "Anthem Blue
@@ -139,103 +89,108 @@ http_interactions:
         {"supported_transactions": ["270", "276", "837"], "payer_name": "Anthem Blue
         Cross and Blue Shield of Virginia", "payer_key": "bcvac", "production_status":
         true, "trading_partner_id": "anthem_blue_cross_blue_shield_va"}, {"supported_transactions":
-        ["270"], "payer_name": "United Healthcare Plan of the River Valley", "payer_key":
-        "", "production_status": false, "trading_partner_id": "united_health_care_plan_river_valley"},
-        {"supported_transactions": ["270", "837"], "payer_name": "TRICARE West", "payer_key":
-        "", "production_status": false, "trading_partner_id": "tricare_west"}, {"supported_transactions":
-        [], "payer_name": "AARP Medicare Supplement", "payer_key": "", "production_status":
-        false, "trading_partner_id": "aarp_medicare_supplement"}, {"supported_transactions":
-        [], "payer_name": "AARP Medicare Complete", "payer_key": "", "production_status":
-        false, "trading_partner_id": "aarp_medicare_complete"}, {"supported_transactions":
-        [], "payer_name": "Altius Health Plans", "payer_key": "", "production_status":
-        false, "trading_partner_id": "altius_health_plans"}, {"supported_transactions":
-        [], "payer_name": "AmeriChoice ", "payer_key": "", "production_status": false,
-        "trading_partner_id": "americhoice"}, {"supported_transactions": [], "payer_name":
-        "Amerigroup", "payer_key": "", "production_status": false, "trading_partner_id":
-        "amerigroup"}, {"supported_transactions": [], "payer_name": "AmeriHealth",
-        "payer_key": "", "production_status": false, "trading_partner_id": "amerihealth"},
-        {"supported_transactions": [], "payer_name": "Anthem Blue Cross and Blue Shield
-        of Missouri", "payer_key": "", "production_status": false, "trading_partner_id":
-        "anthem_blue_cross_blue_shield_mo"}, {"supported_transactions": [], "payer_name":
-        "Anthem Blue Cross and Blue Shield of Ohio", "payer_key": "", "production_status":
-        false, "trading_partner_id": "anthem_blue_cross_blue_shield_oh"}, {"supported_transactions":
-        [], "payer_name": "Arise Health", "payer_key": "", "production_status": false,
-        "trading_partner_id": "arise_health"}, {"supported_transactions": [], "payer_name":
-        "Arnett Health Plan", "payer_key": "", "production_status": false, "trading_partner_id":
-        "arnett_health_plan"}, {"supported_transactions": [], "payer_name": "Assurant
-        Health", "payer_key": "", "production_status": false, "trading_partner_id":
-        "assurant_health"}, {"supported_transactions": [], "payer_name": "Asuris Northwest
-        Health", "payer_key": "", "production_status": false, "trading_partner_id":
-        "asuris_northwest_health"}, {"supported_transactions": [], "payer_name": "Blue
-        Cross and Blue Shield of Alabama", "payer_key": "", "production_status": false,
-        "trading_partner_id": "blue_cross_blue_shield_al"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross and Blue Shield of Arizona", "payer_key": "",
-        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_az"},
+        ["270", "276", "837"], "payer_name": "TRICARE West", "payer_key": "", "production_status":
+        false, "trading_partner_id": "tricare_west"}, {"supported_transactions": ["270"],
+        "payer_name": "United Healthcare Plan of the River Valley", "payer_key": "",
+        "production_status": false, "trading_partner_id": "united_health_care_plan_river_valley"},
+        {"supported_transactions": [], "payer_name": "AARP Medicare Supplement", "payer_key":
+        "", "production_status": false, "trading_partner_id": "aarp_medicare_supplement"},
+        {"supported_transactions": [], "payer_name": "AARP Medicare Complete", "payer_key":
+        "", "production_status": false, "trading_partner_id": "aarp_medicare_complete"},
+        {"supported_transactions": [], "payer_name": "Altius Health Plans", "payer_key":
+        "", "production_status": false, "trading_partner_id": "altius_health_plans"},
+        {"supported_transactions": [], "payer_name": "AmeriChoice ", "payer_key":
+        "", "production_status": false, "trading_partner_id": "americhoice"}, {"supported_transactions":
+        [], "payer_name": "Amerigroup", "payer_key": "", "production_status": false,
+        "trading_partner_id": "amerigroup"}, {"supported_transactions": [], "payer_name":
+        "AmeriHealth", "payer_key": "", "production_status": false, "trading_partner_id":
+        "amerihealth"}, {"supported_transactions": [], "payer_name": "Anthem Blue
+        Cross and Blue Shield of Missouri", "payer_key": "", "production_status":
+        false, "trading_partner_id": "anthem_blue_cross_blue_shield_mo"}, {"supported_transactions":
+        [], "payer_name": "Anthem Blue Cross and Blue Shield of Ohio", "payer_key":
+        "", "production_status": false, "trading_partner_id": "anthem_blue_cross_blue_shield_oh"},
+        {"supported_transactions": [], "payer_name": "Arise Health", "payer_key":
+        "", "production_status": false, "trading_partner_id": "arise_health"}, {"supported_transactions":
+        [], "payer_name": "Arnett Health Plan", "payer_key": "", "production_status":
+        false, "trading_partner_id": "arnett_health_plan"}, {"supported_transactions":
+        [], "payer_name": "Asuris Northwest Health", "payer_key": "", "production_status":
+        false, "trading_partner_id": "asuris_northwest_health"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of Alabama", "payer_key": "",
+        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_al"},
         {"supported_transactions": [], "payer_name": "Blue Cross and Blue Shield of
-        Arkansas", "payer_key": "", "production_status": false, "trading_partner_id":
-        "blue_cross_blue_shield_ak"}, {"supported_transactions": [], "payer_name":
-        "Blue Cross and Blue Shield of California", "payer_key": "", "production_status":
-        false, "trading_partner_id": "blue_cross_blue_shield_ca"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross and Blue Shield of Colorado", "payer_key": "",
-        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_co"},
+        Arizona", "payer_key": "", "production_status": false, "trading_partner_id":
+        "blue_cross_blue_shield_az"}, {"supported_transactions": [], "payer_name":
+        "Blue Cross and Blue Shield of Arkansas", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_cross_blue_shield_ak"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of California", "payer_key":
+        "", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_ca"},
         {"supported_transactions": [], "payer_name": "Blue Cross and Blue Shield of
-        Connecticut", "payer_key": "", "production_status": false, "trading_partner_id":
-        "blue_cross_blue_shield_ct"}, {"supported_transactions": [], "payer_name":
-        "Blue Cross and Blue Shield of Florida", "payer_key": "", "production_status":
-        false, "trading_partner_id": "blue_cross_blue_shield_fl"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross and Blue Shield of Hawaii", "payer_key": "",
-        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_hi"},
+        Colorado", "payer_key": "", "production_status": false, "trading_partner_id":
+        "blue_cross_blue_shield_co"}, {"supported_transactions": [], "payer_name":
+        "Blue Cross and Blue Shield of Connecticut", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_cross_blue_shield_ct"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of Florida", "payer_key": "",
+        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_fl"},
         {"supported_transactions": [], "payer_name": "Blue Cross and Blue Shield of
-        Illinois", "payer_key": "", "production_status": false, "trading_partner_id":
-        "blue_cross_blue_shield_il"}, {"supported_transactions": [], "payer_name":
-        "Blue Cross and Blue Shield of Indiana", "payer_key": "", "production_status":
-        false, "trading_partner_id": "blue_cross_blue_shield_in"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross and Blue Shield of Kentucky", "payer_key": "",
-        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_ky"},
+        Hawaii", "payer_key": "", "production_status": false, "trading_partner_id":
+        "blue_cross_blue_shield_hi"}, {"supported_transactions": [], "payer_name":
+        "Blue Cross and Blue Shield of Illinois", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_cross_blue_shield_il"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of Indiana", "payer_key": "",
+        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_in"},
         {"supported_transactions": [], "payer_name": "Blue Cross and Blue Shield of
-        Louisiana", "payer_key": "", "production_status": false, "trading_partner_id":
-        "blue_cross_blue_shield_la"}, {"supported_transactions": [], "payer_name":
-        "Blue Cross and Blue Shield of Massachusetts", "payer_key": "", "production_status":
-        false, "trading_partner_id": "blue_cross_blue_shield_ma"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross and Blue Shield of Maine", "payer_key": "",
-        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_me"},
+        Kentucky", "payer_key": "", "production_status": false, "trading_partner_id":
+        "blue_cross_blue_shield_ky"}, {"supported_transactions": [], "payer_name":
+        "Blue Cross and Blue Shield of Louisiana", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_cross_blue_shield_la"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of Massachusetts", "payer_key":
+        "", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_ma"},
         {"supported_transactions": [], "payer_name": "Blue Cross and Blue Shield of
-        Michigan", "payer_key": "", "production_status": false, "trading_partner_id":
-        "blue_cross_blue_shield_mi"}, {"supported_transactions": [], "payer_name":
-        "Blue Cross and Blue Shield of Minnesota", "payer_key": "", "production_status":
-        false, "trading_partner_id": "blue_cross_blue_shield_mn"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross and Blue Shield of Mississippi", "payer_key":
-        "", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_ms"},
+        Maine", "payer_key": "", "production_status": false, "trading_partner_id":
+        "blue_cross_blue_shield_me"}, {"supported_transactions": [], "payer_name":
+        "Blue Cross and Blue Shield of Michigan", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_cross_blue_shield_mi"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of Minnesota", "payer_key":
+        "", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_mn"},
         {"supported_transactions": [], "payer_name": "Blue Cross and Blue Shield of
-        Montana", "payer_key": "", "production_status": false, "trading_partner_id":
-        "blue_cross_blue_shield_mt"}, {"supported_transactions": [], "payer_name":
-        "Blue Cross and Blue Shield of Nevada", "payer_key": "", "production_status":
-        false, "trading_partner_id": "blue_cross_blue_shield_nv"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross and Blue Shield of New Mexico", "payer_key":
-        "", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_nm"},
+        Mississippi", "payer_key": "", "production_status": false, "trading_partner_id":
+        "blue_cross_blue_shield_ms"}, {"supported_transactions": [], "payer_name":
+        "Blue Cross and Blue Shield of Montana", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_cross_blue_shield_mt"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of Nevada", "payer_key": "",
+        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_nv"},
         {"supported_transactions": [], "payer_name": "Blue Cross and Blue Shield of
-        North Dakota", "payer_key": "", "production_status": false, "trading_partner_id":
-        "blue_cross_blue_shield_nd"}, {"supported_transactions": [], "payer_name":
-        "Blue Cross and Blue Shield of Oklahoma", "payer_key": "", "production_status":
-        false, "trading_partner_id": "blue_cross_blue_shield_ok"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross and Blue Shield of Rhode Island", "payer_key":
-        "", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_ri"},
+        New Hampshire", "payer_key": "", "production_status": false, "trading_partner_id":
+        "blue_cross_blue_shield_nh"}, {"supported_transactions": [], "payer_name":
+        "Blue Cross and Blue Shield of New Mexico", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_cross_blue_shield_nm"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of North Dakota", "payer_key":
+        "", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_nd"},
+        {"supported_transactions": [], "payer_name": "Blue Cross and Blue Shield of
+        Oklahoma", "payer_key": "", "production_status": false, "trading_partner_id":
+        "blue_cross_blue_shield_ok"}, {"supported_transactions": [], "payer_name":
+        "Blue Cross and Blue Shield of Rhode Island", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_cross_blue_shield_ri"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of South Carolina", "payer_key":
+        "", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_sc"},
         {"supported_transactions": [], "payer_name": "Blue Cross and Blue Shield of
         Tennessee", "payer_key": "", "production_status": false, "trading_partner_id":
         "blue_cross_blue_shield_tn"}, {"supported_transactions": [], "payer_name":
-        "Blue Cross and Blue Shield of Texas", "payer_key": "", "production_status":
-        false, "trading_partner_id": "blue_cross_blue_shield_tx"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross and Blue Shield of Vermont", "payer_key": "",
-        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_vt"},
+        "Blue Cross and Blue Shield of Virginia", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_cross_blue_shield_va"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of Wyoming", "payer_key": "",
+        "production_status": false, "trading_partner_id": "blue_cross_blue_shield_wy"},
+        {"supported_transactions": [], "payer_name": "Blue Cross of Northeastern Pennsylvania",
+        "payer_key": "", "production_status": false, "trading_partner_id": "blue_cross_pa"},
+        {"supported_transactions": [], "payer_name": "Blue Cross of Idaho", "payer_key":
+        "", "production_status": false, "trading_partner_id": "blue_cross_id"}, {"supported_transactions":
+        [], "payer_name": "Blue Cross and Blue Shield of Western New York", "payer_key":
+        "", "production_status": false, "trading_partner_id": "blue_cross_blue_shield_w_ny"},
         {"supported_transactions": [], "payer_name": "Blue Cross and Blue Shield of
-        Virginia", "payer_key": "", "production_status": false, "trading_partner_id":
-        "blue_cross_blue_shield_va"}, {"supported_transactions": [], "payer_name":
-        "Blue Cross and Blue Shield of Wyoming", "payer_key": "", "production_status":
-        false, "trading_partner_id": "blue_cross_blue_shield_wy"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross of Northeastern Pennsylvania", "payer_key":
-        "", "production_status": false, "trading_partner_id": "blue_cross_pa"}, {"supported_transactions":
-        [], "payer_name": "Blue Cross of Idaho", "payer_key": "", "production_status":
-        false, "trading_partner_id": "blue_cross_id"}, {"supported_transactions":
+        Puerto Rico", "payer_key": "", "production_status": false, "trading_partner_id":
+        "blue_cross_blue_shield_pr"}, {"supported_transactions": [], "payer_name":
+        "Blue Shield of Northeastern New York", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_shield_ne_ny"}, {"supported_transactions":
         [], "payer_name": "BridgeSpan Health of Utah", "payer_key": "", "production_status":
         false, "trading_partner_id": "bridgespan_health_ut"}, {"supported_transactions":
         [], "payer_name": "BridgeSpan Health of Washington", "payer_key": "", "production_status":
@@ -301,16 +256,23 @@ http_interactions:
         "trading_partner_id": "coventry_health_care_pa"}, {"supported_transactions":
         [], "payer_name": "Coventry Health Care of South Carolina", "payer_key": "",
         "production_status": false, "trading_partner_id": "coventry_health_care_sc"},
-        {"supported_transactions": [], "payer_name": "Coventry Health Care of Utah",
-        "payer_key": "", "production_status": false, "trading_partner_id": "coventry_health_care_ut"},
-        {"supported_transactions": [], "payer_name": "Coventry Health Care of Virginia",
-        "payer_key": "", "production_status": false, "trading_partner_id": "coventry_health_care_va"},
-        {"supported_transactions": [], "payer_name": "Coventry Health Care of Wyoming",
-        "payer_key": "", "production_status": false, "trading_partner_id": "coventry_health_care_wy"},
-        {"supported_transactions": [], "payer_name": "Emblem Health", "payer_key":
-        "", "production_status": false, "trading_partner_id": "emblem_health"}, {"supported_transactions":
-        [], "payer_name": "Empire Plan (United Healthcare)", "payer_key": "", "production_status":
-        false, "trading_partner_id": "empire_plan_united_health"}, {"supported_transactions":
+        {"supported_transactions": [], "payer_name": "Coventry Health Care of South
+        Dakota", "payer_key": "", "production_status": false, "trading_partner_id":
+        "coventry_health_care_sd"}, {"supported_transactions": [], "payer_name": "Coventry
+        Health Care of Tennessee", "payer_key": "", "production_status": false, "trading_partner_id":
+        "coventry_health_care_tn"}, {"supported_transactions": [], "payer_name": "Coventry
+        Health Care of Utah", "payer_key": "", "production_status": false, "trading_partner_id":
+        "coventry_health_care_ut"}, {"supported_transactions": [], "payer_name": "Coventry
+        Health Care of Virginia", "payer_key": "", "production_status": false, "trading_partner_id":
+        "coventry_health_care_va"}, {"supported_transactions": [], "payer_name": "Coventry
+        Health Care of West Virginia", "payer_key": "", "production_status": false,
+        "trading_partner_id": "coventry_health_care_wv"}, {"supported_transactions":
+        [], "payer_name": "Coventry Health Care of Wyoming", "payer_key": "", "production_status":
+        false, "trading_partner_id": "coventry_health_care_wy"}, {"supported_transactions":
+        [], "payer_name": "Emblem Health", "payer_key": "", "production_status": false,
+        "trading_partner_id": "emblem_health"}, {"supported_transactions": [], "payer_name":
+        "Empire Plan (United Healthcare)", "payer_key": "", "production_status": false,
+        "trading_partner_id": "empire_plan_united_health"}, {"supported_transactions":
         [], "payer_name": "Evercare", "payer_key": "", "production_status": false,
         "trading_partner_id": "evercare"}, {"supported_transactions": [], "payer_name":
         "Excellus BlueCross BlueShield", "payer_key": "", "production_status": false,
@@ -346,16 +308,14 @@ http_interactions:
         "payer_key": "", "production_status": false, "trading_partner_id": "health_plus"},
         {"supported_transactions": [], "payer_name": "HealthSpring (Cigna)", "payer_key":
         "", "production_status": false, "trading_partner_id": "health_spring_cigna"},
-        {"supported_transactions": [], "payer_name": "Highmark Blue Cross Blue Shield
-        of West Virginia", "payer_key": "", "production_status": false, "trading_partner_id":
-        "highmark_blue_cross_blue_shield_wv"}, {"supported_transactions": [], "payer_name":
-        "Highmark Blue Cross Blue Shield", "payer_key": "", "production_status": false,
-        "trading_partner_id": "highmark_blue_cross_blue_shield"}, {"supported_transactions":
-        [], "payer_name": "Highmark Blue Shield", "payer_key": "", "production_status":
-        false, "trading_partner_id": "highmark_blue_shield"}, {"supported_transactions":
-        [], "payer_name": "Horizon Blue Cross and Blue Shield", "payer_key": "", "production_status":
-        false, "trading_partner_id": "horizon_blue_cross_blue_shield"}, {"supported_transactions":
-        [], "payer_name": "Humana", "payer_key": "", "production_status": false, "trading_partner_id":
+        {"supported_transactions": [], "payer_name": "Highmark Blue Cross Blue Shield",
+        "payer_key": "", "production_status": false, "trading_partner_id": "highmark_blue_cross_blue_shield"},
+        {"supported_transactions": [], "payer_name": "Highmark Blue Shield", "payer_key":
+        "", "production_status": false, "trading_partner_id": "highmark_blue_shield"},
+        {"supported_transactions": [], "payer_name": "Horizon Blue Cross and Blue
+        Shield", "payer_key": "", "production_status": false, "trading_partner_id":
+        "horizon_blue_cross_blue_shield"}, {"supported_transactions": [], "payer_name":
+        "Humana", "payer_key": "", "production_status": false, "trading_partner_id":
         "humana"}, {"supported_transactions": [], "payer_name": "Kaiser Permanente
         Mid-Atlantic", "payer_key": "", "production_status": false, "trading_partner_id":
         "kaiser_permanente_mid_atlantic"}, {"supported_transactions": [], "payer_name":
@@ -382,8 +342,6 @@ http_interactions:
         false, "trading_partner_id": "lovelace_health_plan"}, {"supported_transactions":
         [], "payer_name": "Magnolia Health Plan", "payer_key": "", "production_status":
         false, "trading_partner_id": "magnolia_health_plan"}, {"supported_transactions":
-        [], "payer_name": "Medica HealthCare", "payer_key": "", "production_status":
-        false, "trading_partner_id": "medica_health_care"}, {"supported_transactions":
         [], "payer_name": "Mega Health ", "payer_key": "", "production_status": false,
         "trading_partner_id": "mega_health"}, {"supported_transactions": [], "payer_name":
         "Meridian Health Plan of Michigan", "payer_key": "", "production_status":
@@ -495,8 +453,13 @@ http_interactions:
         "univera_health_care"}, {"supported_transactions": [], "payer_name": "University
         Health Alliance of Hawaii", "payer_key": "", "production_status": false, "trading_partner_id":
         "university_health_alliance_hi"}, {"supported_transactions": [], "payer_name":
-        "Wellmark Blue Cross and Blue Shield of Iowa", "payer_key": "", "production_status":
-        false, "trading_partner_id": "wellmark_blue_cross_blue_shield_ia"}, {"supported_transactions":
+        "University of Pittsburgh Medical Center Health Plan", "payer_key": "", "production_status":
+        false, "trading_partner_id": "university_pittsburgh_medical_center_health_plan"},
+        {"supported_transactions": [], "payer_name": "Wellmark Blue Cross and Blue
+        Shield of Iowa", "payer_key": "", "production_status": false, "trading_partner_id":
+        "wellmark_blue_cross_blue_shield_ia"}, {"supported_transactions": [], "payer_name":
+        "Wellmark Blue Cross and Blue Shield of South Dakota", "payer_key": "", "production_status":
+        false, "trading_partner_id": "wellmark_blue_cross_blue_shield_sd"}, {"supported_transactions":
         [], "payer_name": "Wellpoint, Inc", "payer_key": "", "production_status":
         false, "trading_partner_id": "wellpoint"}, {"supported_transactions": [],
         "payer_name": "Windsor Health Plan", "payer_key": "", "production_status":
@@ -505,57 +468,69 @@ http_interactions:
         "trading_partner_id": "winhealth"}, {"supported_transactions": ["834", "835",
         "837", "270", "271", "276", "277", "278"], "payer_name": "Mock Payer for Communication
         Error Testing", "payer_key": "MOCKPAYER_COMMERROR", "production_status": false,
-        "trading_partner_id": "MOCKPAYER_COMMERROR"}, {"supported_transactions": ["834",
-        "835", "837", "270", "271", "276", "277", "278"], "payer_name": "Mock Payer
-        with Random I/O wait for Testing", "payer_key": "MOCKPAYER_RANDOM_WAIT", "production_status":
-        false, "trading_partner_id": "MOCKPAYER_RANDOM_WAIT"}, {"supported_transactions":
-        ["834", "835", "837", "270", "271", "276", "277", "278"], "payer_name": "Mock
-        Payer with eligibility inquiry rejection", "payer_key": "MOCKPAYER_PARSE_ERROR",
-        "production_status": false, "trading_partner_id": "MOCKPAYER_PARSE_ERROR"},
-        {"supported_transactions": ["837"], "payer_name": "Highmark Blue Cross Blue
-        Shield of Pennsylvania", "payer_key": "", "production_status": false, "trading_partner_id":
-        "highmark_blue_cross_blue_shield_pa"}, {"supported_transactions": ["837"],
-        "payer_name": "Independence Blue Cross", "payer_key": "bcibc", "production_status":
-        false, "trading_partner_id": "independence_blue_cross"}, {"supported_transactions":
-        ["270", "276"], "payer_name": "Blue Cross and Blue Shield of Kansas City",
-        "payer_key": "bcbskc", "production_status": true, "trading_partner_id": "blue_cross_blue_shield_kc"},
+        "trading_partner_id": "MOCKPAYER_COMMERROR"}, {"supported_transactions": ["270",
+        "276"], "payer_name": "Blue Cross and Blue Shield of Kansas City", "payer_key":
+        "bcbskc", "production_status": true, "trading_partner_id": "blue_cross_blue_shield_kc"},
         {"supported_transactions": ["270", "276"], "payer_name": "Blue Cross and Blue
         Shield of Kansas", "payer_key": "bcbsks", "production_status": true, "trading_partner_id":
-        "blue_cross_blue_shield_ks"}, {"supported_transactions": ["270", "276"], "payer_name":
-        "MVP Health Care", "payer_key": "MVP", "production_status": true, "trading_partner_id":
-        "mvp_health_care"}, {"supported_transactions": ["270", "276"], "payer_name":
-        "Oxford Health Plans (United Healthcare)", "payer_key": "OXFORD", "production_status":
-        true, "trading_partner_id": "oxford_health_plan_united"}, {"supported_transactions":
+        "blue_cross_blue_shield_ks"}, {"supported_transactions": ["837"], "payer_name":
+        "Blue Cross and Blue Shield of Nebraska", "payer_key": "", "production_status":
+        false, "trading_partner_id": "blue_cross_blue_shield_ne"}, {"supported_transactions":
+        ["270", "276", "837"], "payer_name": "Blue Shield of California", "payer_key":
+        "BSCA", "production_status": true, "trading_partner_id": "blue_shield_ca"},
+        {"supported_transactions": ["837"], "payer_name": "AmeriHealth Administrators",
+        "payer_key": "ahad", "production_status": false, "trading_partner_id": "amerihealth_administrators"},
+        {"supported_transactions": ["837"], "payer_name": "AmeriHealth NJ Non-HMO",
+        "payer_key": "ahnj", "production_status": false, "trading_partner_id": "amerihealth_nj_non_hmo"},
+        {"supported_transactions": ["837"], "payer_name": "AmeriHealth DE Non-HMO",
+        "payer_key": "ahde", "production_status": false, "trading_partner_id": "amerihealth_de_non_hmo"},
+        {"supported_transactions": ["837"], "payer_name": "AmeriHealth NJ/DE HMO",
+        "payer_key": "ahnjdehmo", "production_status": false, "trading_partner_id":
+        "amerihealth_nj_de_hmo"}, {"supported_transactions": ["270", "276", "834",
+        "835", "837", "270", "271", "276", "277", "278"], "payer_name": "Mock Payer
+        for Testing", "payer_key": "MOCKPAYER", "production_status": false, "trading_partner_id":
+        "MOCKPAYER"}, {"supported_transactions": ["270", "837"], "payer_name": "Highmark
+        Blue Cross Blue Shield West Virginia", "payer_key": "BCBSWV", "production_status":
+        false, "trading_partner_id": "highmark_blue_cross_blue_shield_wv"}, {"supported_transactions":
         ["270", "276", "837"], "payer_name": "Blue Cross and Blue Shield of Missouri",
         "payer_key": "bcmoc", "production_status": true, "trading_partner_id": "blue_cross_blue_shield_mo"},
         {"supported_transactions": ["270", "276", "837"], "payer_name": "Blue Cross
         and Blue Shield of Ohio", "payer_key": "bcohc", "production_status": true,
         "trading_partner_id": "blue_cross_blue_shield_oh"}, {"supported_transactions":
-        ["270", "276", "837"], "payer_name": "Anthem Blue Cross California", "payer_key":
-        "bcca", "production_status": true, "trading_partner_id": "anthem_blue_cross_ca"},
-        {"supported_transactions": ["270", "276", "837"], "payer_name": "Anthem Blue
-        Cross and Blue Shield of New Hampshire", "payer_key": "bcnhc", "production_status":
-        true, "trading_partner_id": "anthem_blue_cross_blue_shield_nh"}, {"supported_transactions":
-        ["270", "276", "837"], "payer_name": "Empire Blue Cross and Blue Shield",
-        "payer_key": "bcbsny", "production_status": true, "trading_partner_id": "empire_blue_cross_blue_shield"},
+        ["270", "276", "837"], "payer_name": "Anthem Blue Cross and Blue Shield of
+        New Hampshire", "payer_key": "bcnhc", "production_status": true, "trading_partner_id":
+        "anthem_blue_cross_blue_shield_nh"}, {"supported_transactions": ["270", "276",
+        "837"], "payer_name": "Empire Blue Cross and Blue Shield", "payer_key": "bcbsny",
+        "production_status": true, "trading_partner_id": "empire_blue_cross_blue_shield"},
         {"supported_transactions": ["270", "276", "837"], "payer_name": "Anthem Blue
         Cross and Blue Shield of Nevada", "payer_key": "bcnvc", "production_status":
         true, "trading_partner_id": "anthem_blue_cross_blue_shield_nv"}, {"supported_transactions":
-        ["270", "837"], "payer_name": "Harvard Pilgrim Healthcare", "payer_key": "UNITED",
-        "production_status": false, "trading_partner_id": "harvard_pilgrim_health_care"},
-        {"supported_transactions": ["270", "276", "837"], "payer_name": "ConnectiCare",
-        "payer_key": "", "production_status": true, "trading_partner_id": "connecticare"},
+        ["270", "276", "837"], "payer_name": "Aetna", "payer_key": "AETNA", "production_status":
+        false, "trading_partner_id": "aetna"}, {"supported_transactions": ["837"],
+        "payer_name": "Independence Blue Cross INDEPENDENCE BLUE CROSS", "payer_key":
+        "bcibc", "production_status": false, "trading_partner_id": "independence_blue_cross"},
         {"supported_transactions": ["837"], "payer_name": "Highmark Blue Cross Blue
         Shield of Delaware", "payer_key": "bcbsd", "production_status": false, "trading_partner_id":
-        "highmark_blue_cross_blue_shield_de"}, {"supported_transactions": ["270",
-        "276", "837"], "payer_name": "Aetna", "payer_key": "AETNA", "production_status":
-        true, "trading_partner_id": "aetna"}, {"supported_transactions": ["270", "276",
-        "837"], "payer_name": "Cigna", "payer_key": "CIGNA", "production_status":
-        true, "trading_partner_id": "cigna"}, {"supported_transactions": ["270", "276"],
-        "payer_name": "Fidelis Care of New York", "payer_key": "FIDELIS", "production_status":
-        true, "trading_partner_id": "fidelis_care_ny"}, {"supported_transactions":
-        ["270", "276", "837"], "payer_name": "United Healthcare", "payer_key": "UNITED",
-        "production_status": true, "trading_partner_id": "united_health_care"}]}'
+        "highmark_blue_cross_blue_shield_de"}, {"supported_transactions": ["270"],
+        "payer_name": "Assurant Health", "payer_key": "ASSURANT HEALTH", "production_status":
+        false, "trading_partner_id": "assurant_health"}, {"supported_transactions":
+        ["270", "276", "837"], "payer_name": "Cigna", "payer_key": "CIGNA", "production_status":
+        true, "trading_partner_id": "cigna"}, {"supported_transactions": ["270", "276",
+        "837"], "payer_name": "ConnectiCare", "payer_key": "", "production_status":
+        true, "trading_partner_id": "connecticare"}, {"supported_transactions": ["270",
+        "276", "837"], "payer_name": "Anthem Blue Cross California", "payer_key":
+        "bcca", "production_status": true, "trading_partner_id": "anthem_blue_cross_ca"},
+        {"supported_transactions": ["270", "276"], "payer_name": "MVP Health Care",
+        "payer_key": "MVP", "production_status": true, "trading_partner_id": "mvp_health_care"},
+        {"supported_transactions": ["270", "276"], "payer_name": "Oxford Health Plans
+        (United Healthcare)", "payer_key": "OXFORD", "production_status": true, "trading_partner_id":
+        "oxford_health_plan_united"}, {"supported_transactions": ["270", "276", "837"],
+        "payer_name": "United Healthcare", "payer_key": "UNITED", "production_status":
+        true, "trading_partner_id": "united_health_care"}, {"supported_transactions":
+        ["837"], "payer_name": "Keystone Health Plan East", "payer_key": "khpe", "production_status":
+        false, "trading_partner_id": "keystone_health_plan_east"}, {"supported_transactions":
+        ["270", "837"], "payer_name": "Highmark Blue Cross Blue Shield of Pennsylvania",
+        "payer_key": "", "production_status": false, "trading_partner_id": "highmark_blue_cross_blue_shield_pa"}]}'
     http_version: 
-  recorded_at: Tue, 05 Aug 2014 18:22:44 GMT
+  recorded_at: Tue, 12 Aug 2014 15:19:07 GMT
 recorded_with: VCR 2.9.2

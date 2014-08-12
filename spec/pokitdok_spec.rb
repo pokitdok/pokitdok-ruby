@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-CLIENT_ID = '7x7nRAotGfxHfy7Llfl3'
-CLIENT_SECRET = 'T4JsCjMDJNxVQADl8ip3npmTm9JgEZhqL2xmc3Di'
+CLIENT_ID = 'oB7rLIqHmdoAXHRAmWtM'
+CLIENT_SECRET = 'ZE8xqtUY5kYqmHIhd8lzdjqD1CPa8sRBPvmF9UuG'
 POKITDOK_TEST_URL = 'http://localhost:5002'
 
 def check_meta_and_data(result)
@@ -70,7 +70,7 @@ describe PokitDok do
 
     describe 'Insurance Prices endpoint' do
       it 'should expose the insurance prices endpoint' do
-        query = { cpt_code: '12345', zip_code: '75201' }
+        query = { cpt_code: '87799', zip_code: '32218' }
 
         VCR.use_cassette 'insurance_prices' do
           @prices = @pokitdok.insurance_prices query
@@ -105,7 +105,7 @@ describe PokitDok do
 
         check_meta_and_data @claims_status
         refute_empty @claims_status['data']
-        
+
         assert_nil @claims_status['errors']
       end
     end
@@ -173,7 +173,7 @@ describe PokitDok do
 
         check_meta_and_data @payers
         refute_nil @payers['data']
-        @payers['data'].size.must_equal 224
+        @payers['data'].size.must_equal 229
       end
     end
 
@@ -190,5 +190,33 @@ describe PokitDok do
         @providers['data'].size.must_equal 1
       end
     end
+
+    describe 'Trading Partners endpoint index' do
+      it 'should expose the trading partners endpoint (index call)' do
+        query = {}
+
+        VCR.use_cassette 'trading_partners_index' do
+          @trading_partners = @pokitdok.trading_partners(query)
+        end
+
+        check_meta_and_data @trading_partners
+        @trading_partners['data'].must_be_instance_of Array
+        @trading_partners['data'].length.must_be :>, 1
+      end
+    end
+
+    describe 'Trading Partners endpoint get' do
+      it 'should expose the trading partners endpoint (get call)' do
+        query = { trading_partner_id: 'MOCKPAYER' }
+
+        VCR.use_cassette 'trading_partners_get' do
+          @trading_partners = @pokitdok.trading_partners(query)
+        end
+
+        check_meta_and_data @trading_partners
+        @trading_partners['data'].must_be_instance_of Hash
+      end
+    end
+
   end
 end

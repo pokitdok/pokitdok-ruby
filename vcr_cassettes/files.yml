@@ -15,15 +15,15 @@ http_interactions:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
-      - "*/*"
+      - '*/*'
       User-Agent:
-      - pokitdok-ruby 0.4.1 ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
+      - pokitdok-ruby 0.4.1 ruby 2.0.0p451 (2014-02-24 revision 45167) [x86_64-darwin12.5.0]
       Content-Type:
       - multipart/form-data; boundary=-----------RubyMultipartPost
       Content-Length:
       - '3266'
       Authorization:
-      - Bearer fKd12YNbilTwVe8D3eF1ReNBkGzoElJuUjyt5ehz
+      - Bearer 88CVCN9YDDAQdTC3GeQMcrMPyDJPErQZ3PECJcln
   response:
     status:
       code: 200
@@ -32,7 +32,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Content-Length:
-      - '684'
+      - '763'
       Mimetype:
       - application/json
       Charset:
@@ -40,18 +40,19 @@ http_interactions:
       Server:
       - Werkzeug/0.9.4 Python/2.7.3
       Date:
-      - Tue, 05 Aug 2014 18:15:12 GMT
+      - Tue, 12 Aug 2014 15:19:09 GMT
     body:
       encoding: UTF-8
-      string: '{"meta": {"rate_limit_amount": 4, "rate_limit_reset": 1407266111, "processing_time":
-        948, "rate_limit_cap": 8434, "credits_remaining": 13494, "credits_billed":
-        1}, "data": {"units_of_work": 1, "name": "batch file", "remaining_transitions":
+      string: '{"meta": {"rate_limit_amount": 260, "rate_limit_reset": 1407856935,
+        "application_mode": "production", "processing_time": 521, "rate_limit_cap":
+        1000, "credits_remaining": 12974, "activity_id": "53ea306d56c02c23afa3f755",
+        "credits_billed": 1}, "data": {"units_of_work": 1, "name": "batch file", "remaining_transitions":
         ["process", "complete"], "state": {"name": "queued", "title": "In queue waiting
-        to start"}, "trading_partner_id": "MOCKPAYER", "id": "53e11f3056c02c51ae2cbfd2",
+        to start"}, "trading_partner_id": "MOCKPAYER", "id": "53ea306d56c02c23afa3f755",
         "transition_path": ["store", "queue", "process", "complete"], "history": [{"record_dt":
-        "2014-08-05T18:15:12.509596", "name": "init", "title": "Initializing"}, {"record_dt":
-        "2014-08-05T18:15:12.510689", "name": "stored", "title": "Batch transactions
+        "2014-08-12T15:19:09.168442", "name": "init", "title": "Initializing"}, {"record_dt":
+        "2014-08-12T15:19:09.170534", "name": "stored", "title": "Batch transactions
         stored for later processing"}]}}'
     http_version: 
-  recorded_at: Tue, 05 Aug 2014 18:22:44 GMT
+  recorded_at: Tue, 12 Aug 2014 15:19:09 GMT
 recorded_with: VCR 2.9.2

@@ -8,15 +8,15 @@ http_interactions:
       string: '{"member":{"birth_date":"1970-01-01","first_name":"Jane","last_name":"Doe","id":"W000000000"},"provider":{"first_name":"JEROME","last_name":"AYA-AY","npi":"1467560003"},"service_types":["health_benefit_plan_coverage"],"trading_partner_id":"MOCKPAYER"}'
     headers:
       User-Agent:
-      - pokitdok-ruby 0.4.1 ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
+      - pokitdok-ruby 0.4.1 ruby 2.0.0p451 (2014-02-24 revision 45167) [x86_64-darwin12.5.0]
       Authorization:
-      - Bearer fKd12YNbilTwVe8D3eF1ReNBkGzoElJuUjyt5ehz
+      - Bearer 88CVCN9YDDAQdTC3GeQMcrMPyDJPErQZ3PECJcln
       Content-Type:
       - application/json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
-      - "*/*"
+      - '*/*'
   response:
     status:
       code: 200
@@ -25,7 +25,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Content-Length:
-      - '5656'
+      - '6482'
       Mimetype:
       - application/json
       Charset:
@@ -33,29 +33,39 @@ http_interactions:
       Server:
       - Werkzeug/0.9.4 Python/2.7.3
       Date:
-      - Tue, 05 Aug 2014 18:15:14 GMT
+      - Tue, 12 Aug 2014 15:19:08 GMT
     body:
       encoding: UTF-8
-      string: '{"meta": {"rate_limit_amount": 7, "rate_limit_reset": 1407266111, "processing_time":
-        805, "rate_limit_cap": 8434, "credits_remaining": 13492, "credits_billed":
-        1}, "data": {"service_types": ["professional_physician_visit_office"], "client_id":
-        "7x7nRAotGfxHfy7Llfl3", "payer": {"id": "MOCKPAYER", "name": "MOCK PAYER INC"},
-        "subscriber": {"birth_date": "1970-01-01", "first_name": "Jane", "last_name":
-        "Doe", "id": "W000000000", "address": {"city": "SPARTANBURG", "state": "SC",
-        "zipcode": "29307", "address_lines": ["123 MAIN ST"]}}, "correlation_id":
-        "5ee00870-f6a2-4af6-be02-9b80f4af0ea8", "trading_partner_id": "MOCKPAYER",
-        "provider": {"first_name": "JEROME", "last_name": "JEROME AYA-AY", "npi":
-        "1467560003"}, "coverage": {"plan_number": "0888188", "service_types": ["professional_physician_visit_office"],
-        "group_number": "088818801000013", "out_of_pocket": [{"in_plan_network": "yes",
-        "benefit_amount": {"currency": "USD", "amount": "3000"}, "coverage_level":
-        "individual"}, {"in_plan_network": "yes", "benefit_amount": {"currency": "USD",
-        "amount": "2983.57"}, "coverage_level": "individual", "time_period": "remaining"},
-        {"in_plan_network": "yes", "benefit_amount": {"currency": "USD", "amount":
-        "6000"}, "coverage_level": "family"}, {"in_plan_network": "yes", "benefit_amount":
-        {"currency": "USD", "amount": "5956.09"}, "coverage_level": "family", "time_period":
-        "remaining"}, {"in_plan_network": "no", "benefit_amount": {"currency": "USD",
-        "amount": "12500"}, "coverage_level": "individual"}, {"in_plan_network": "no",
-        "benefit_amount": {"currency": "USD", "amount": "12483.57"}, "coverage_level":
+      string: '{"meta": {"rate_limit_amount": 256, "rate_limit_reset": 1407856935,
+        "application_mode": "production", "processing_time": 405, "rate_limit_cap":
+        1000, "credits_remaining": 12975, "activity_id": "53ea306c56c02c23a7a3f755",
+        "credits_billed": 1}, "data": {"service_types": ["professional_physician_visit_office"],
+        "client_id": "oB7rLIqHmdoAXHRAmWtM", "payer": {"id": "MOCKPAYER", "name":
+        "MOCK PAYER INC"}, "summary": {"deductible": {"individual": {"in_network":
+        {"applied": {"currency": "USD", "amount": "16.43"}, "limit": {"currency":
+        "USD", "amount": "3000"}, "remaining": {"currency": "USD", "amount": "2983.57"}},
+        "out_of_network": {"applied": {"currency": "USD", "amount": "16.43"}, "limit":
+        {"currency": "USD", "amount": "6000"}, "remaining": {"currency": "USD", "amount":
+        "5983.57"}}}, "family": {"in_network": {"applied": {"currency": "USD", "amount":
+        "43.91"}, "limit": {"currency": "USD", "amount": "6000"}, "remaining": {"currency":
+        "USD", "amount": "5956.09"}}, "out_of_network": {"applied": {"currency": "USD",
+        "amount": "43.91"}, "limit": {"currency": "USD", "amount": "12000"}, "remaining":
+        {"currency": "USD", "amount": "11956.09"}}}}}, "subscriber": {"birth_date":
+        "1970-01-01", "first_name": "Jane", "last_name": "Doe", "id": "W000000000",
+        "address": {"city": "SPARTANBURG", "state": "SC", "zipcode": "29307", "address_lines":
+        ["123 MAIN ST"]}}, "correlation_id": "ed490e9a-ad0c-4fc4-b92c-f6cdc1af9388",
+        "trading_partner_id": "MOCKPAYER", "provider": {"first_name": "JEROME", "last_name":
+        "JEROME AYA-AY", "npi": "1467560003"}, "coverage": {"plan_number": "0888188",
+        "service_types": ["professional_physician_visit_office"], "group_number":
+        "088818801000013", "out_of_pocket": [{"in_plan_network": "yes", "benefit_amount":
+        {"currency": "USD", "amount": "3000"}, "coverage_level": "individual"}, {"in_plan_network":
+        "yes", "benefit_amount": {"currency": "USD", "amount": "2983.57"}, "coverage_level":
+        "individual", "time_period": "remaining"}, {"in_plan_network": "yes", "benefit_amount":
+        {"currency": "USD", "amount": "6000"}, "coverage_level": "family"}, {"in_plan_network":
+        "yes", "benefit_amount": {"currency": "USD", "amount": "5956.09"}, "coverage_level":
+        "family", "time_period": "remaining"}, {"in_plan_network": "no", "benefit_amount":
+        {"currency": "USD", "amount": "12500"}, "coverage_level": "individual"}, {"in_plan_network":
+        "no", "benefit_amount": {"currency": "USD", "amount": "12483.57"}, "coverage_level":
         "individual", "time_period": "remaining"}, {"in_plan_network": "no", "benefit_amount":
         {"currency": "USD", "amount": "25000"}, "coverage_level": "family"}, {"in_plan_network":
         "no", "benefit_amount": {"currency": "USD", "amount": "24956.09"}, "coverage_level":
@@ -107,5 +117,5 @@ http_interactions:
         "MOCK INDIVIDUAL ADVANTAGE PLAN", "service_date": "2013-08-10"}, "valid_request":
         true}}'
     http_version: 
-  recorded_at: Tue, 05 Aug 2014 18:22:46 GMT
+  recorded_at: Tue, 12 Aug 2014 15:19:08 GMT
 recorded_with: VCR 2.9.2

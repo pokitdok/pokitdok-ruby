@@ -2,19 +2,19 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:5002/api/v4/prices/insurance?cpt_code=12345&zip_code=75201
+    uri: http://localhost:5002/api/v4/prices/insurance?cpt_code=87799&zip_code=32218
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - pokitdok-ruby 0.4.1 ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
+      - pokitdok-ruby 0.4.1 ruby 2.0.0p451 (2014-02-24 revision 45167) [x86_64-darwin12.5.0]
       Authorization:
-      - Bearer fKd12YNbilTwVe8D3eF1ReNBkGzoElJuUjyt5ehz
+      - Bearer 88CVCN9YDDAQdTC3GeQMcrMPyDJPErQZ3PECJcln
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
-      - "*/*"
+      - '*/*'
   response:
     status:
       code: 200
@@ -23,7 +23,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Content-Length:
-      - '176'
+      - '959'
       Mimetype:
       - application/json
       Charset:
@@ -31,12 +31,13 @@ http_interactions:
       Server:
       - Werkzeug/0.9.4 Python/2.7.3
       Date:
-      - Tue, 05 Aug 2014 18:15:11 GMT
+      - Tue, 12 Aug 2014 15:19:08 GMT
     body:
       encoding: UTF-8
-      string: '{"meta": {"rate_limit_amount": 17, "rate_limit_reset":
-        1405482438, "processing_time": 18, "rate_limit_cap": 1000, "credits_remaining":
-        9997, "credits_billed": 1}, "data": {"amounts": [{"high_price": 159.75, "standard_deviation":
+      string: '{"meta": {"rate_limit_amount": 258, "rate_limit_reset": 1407856935,
+        "application_mode": "production", "processing_time": 36, "rate_limit_cap":
+        1000, "credits_remaining": 9904, "activity_id": "53ea306c56c02c23aba3f755",
+        "credits_billed": 1}, "data": {"amounts": [{"high_price": 159.75, "standard_deviation":
         36.41382675904168, "average_price": 54.5895, "payer_type": "insurance", "payment_type":
         "allowed", "low_price": 19.98, "median_price": 56.25}, {"high_price": 188.91,
         "standard_deviation": 26.57623445180863, "average_price": 104.77350000000001,
@@ -47,5 +48,5 @@ http_interactions:
         "payer_type": "medicare", "payment_type": "paid"}], "cpt_code": "87799", "geo_zip_area":
         "322"}}'
     http_version: 
-  recorded_at: Tue, 05 Aug 2014 18:22:43 GMT
+  recorded_at: Tue, 12 Aug 2014 15:19:08 GMT
 recorded_with: VCR 2.9.2

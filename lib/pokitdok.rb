@@ -156,13 +156,25 @@ module PokitDok
 
     # Invokes the payers endpoint, with an optional Hash of parameters.
     def payers(params = {})
-      response = @token.get('payers', headers: headers, params: params)
+      response = @token.get('payers/', headers: headers, params: params)
       JSON.parse(response.body)
     end
 
     # Invokes the providers endpoint, with an optional Hash of parameters.
     def providers(params = {})
-      response = @token.get('providers') do |request|
+      response = @token.get('providers/') do |request|
+        request.params = params
+      end
+      JSON.parse(response.body)
+    end
+
+    # Invokes the trading partners endpoint, with an optional Hash of
+    # parameters.
+    def trading_partners(params = {})
+      trading_partner_id = params.delete :trading_partner_id
+
+      response =
+      @token.get("tradingpartners/#{trading_partner_id}") do |request|
         request.params = params
       end
       JSON.parse(response.body)

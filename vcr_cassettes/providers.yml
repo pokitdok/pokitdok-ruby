@@ -2,45 +2,6 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:5002/api/v4/providers?npi=1467560003
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Faraday v0.9.0
-      Authorization:
-      - Bearer fKd12YNbilTwVe8D3eF1ReNBkGzoElJuUjyt5ehz
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-  response:
-    status:
-      code: 301
-      message: MOVED PERMANENTLY
-    headers:
-      Content-Type:
-      - text/html; charset=utf-8
-      Content-Length:
-      - '315'
-      Location:
-      - http://localhost:5002/api/v4/providers/?npi=1467560003
-      Server:
-      - Werkzeug/0.9.4 Python/2.7.3
-      Date:
-      - Tue, 05 Aug 2014 18:15:14 GMT
-    body:
-      encoding: UTF-8
-      string: |-
-        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-        <title>Redirecting...</title>
-        <h1>Redirecting...</h1>
-        <p>You should be redirected automatically to target URL: <a href="http://localhost:5002/api/v4/providers/?npi=1467560003">http://localhost:5002/api/v4/providers/?npi=1467560003</a>.  If not click the link.
-    http_version: 
-  recorded_at: Tue, 05 Aug 2014 18:22:46 GMT
-- request:
-    method: get
     uri: http://localhost:5002/api/v4/providers/?npi=1467560003
     body:
       encoding: US-ASCII
@@ -49,11 +10,11 @@ http_interactions:
       User-Agent:
       - Faraday v0.9.0
       Authorization:
-      - Bearer fKd12YNbilTwVe8D3eF1ReNBkGzoElJuUjyt5ehz
+      - Bearer 88CVCN9YDDAQdTC3GeQMcrMPyDJPErQZ3PECJcln
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
-      - "*/*"
+      - '*/*'
   response:
     status:
       code: 200
@@ -62,7 +23,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Content-Length:
-      - '1058'
+      - '1137'
       Mimetype:
       - application/json
       Charset:
@@ -70,22 +31,23 @@ http_interactions:
       Server:
       - Werkzeug/0.9.4 Python/2.7.3
       Date:
-      - Tue, 05 Aug 2014 18:15:14 GMT
+      - Tue, 12 Aug 2014 15:19:09 GMT
     body:
       encoding: UTF-8
-      string: '{"meta": {"rate_limit_amount": 9, "rate_limit_reset": 1407266111, "processing_time":
-        80, "rate_limit_cap": 8434, "credits_remaining": 9998, "credits_billed": 1},
-        "data": [{"provider": {"first_name": "JEROME", "last_name": "AYA-AY", "middle_name":
-        "BENITEZ", "uuid": "fc44d0e0-ea7f-492e-90f0-0f9148453019", "locations": [{"address_lines":
-        ["8311 WARREN H ABERNATHY HWY"], "city": "SPARTANBURG", "country": "US", "zipcode":
-        "29301", "state": "SC", "geo_location": [-82.014564, 34.93627], "role": ["practice",
-        "primary"]}, {"address_lines": ["408 LITCHFIELD DR"], "city": "MOORE", "zipcode":
-        "29369", "state": "SC", "geo_location": [-81.97699, 34.8981], "role": ["mailing"]}],
-        "gender": "Male", "fax": "8645604413", "specialty": ["General & Family Medicine",
-        "Family Practice", "Family Medicine"], "phone": "8645604304", "prefix": "DR",
-        "birth_date": "1972", "npi": "1467560003", "licenses": [{"state": "SC", "number":
-        "27210"}], "education": {"medical_school": "J C EDWARDS SCH MED MARSHALL U,
-        HUNTINGTON WV 2575", "graduation_year": "2004-01-01T00:00:00"}}}]}'
+      string: '{"meta": {"rate_limit_amount": 264, "rate_limit_reset": 1407856935,
+        "application_mode": "production", "processing_time": 29, "rate_limit_cap":
+        1000, "credits_remaining": 9858, "activity_id": "53ea306d56c02c23b9a3f755",
+        "credits_billed": 1}, "data": [{"provider": {"first_name": "JEROME", "last_name":
+        "AYA-AY", "middle_name": "BENITEZ", "uuid": "fc44d0e0-ea7f-492e-90f0-0f9148453019",
+        "locations": [{"address_lines": ["8311 WARREN H ABERNATHY HWY"], "city": "SPARTANBURG",
+        "country": "US", "zipcode": "29301", "state": "SC", "geo_location": [-82.014564,
+        34.93627], "role": ["practice", "primary"]}, {"address_lines": ["408 LITCHFIELD
+        DR"], "city": "MOORE", "zipcode": "29369", "state": "SC", "geo_location":
+        [-81.97699, 34.8981], "role": ["mailing"]}], "gender": "Male", "fax": "8645604413",
+        "specialty": ["General & Family Medicine", "Family Practice", "Family Medicine"],
+        "phone": "8645604304", "prefix": "DR", "birth_date": "1972", "npi": "1467560003",
+        "licenses": [{"state": "SC", "number": "27210"}], "education": {"medical_school":
+        "J C EDWARDS SCH MED MARSHALL U, HUNTINGTON WV 2575", "graduation_year": "2004-01-01T00:00:00"}}}]}'
     http_version: 
-  recorded_at: Tue, 05 Aug 2014 18:22:46 GMT
+  recorded_at: Tue, 12 Aug 2014 15:19:09 GMT
 recorded_with: VCR 2.9.2

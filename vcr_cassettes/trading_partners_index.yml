@@ -1,0 +1,337 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:5002/api/v4/tradingpartners/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.0
+      Authorization:
+      - Bearer 88CVCN9YDDAQdTC3GeQMcrMPyDJPErQZ3PECJcln
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Length:
+      - '24541'
+      Mimetype:
+      - application/json
+      Charset:
+      - utf-8
+      Server:
+      - Werkzeug/0.9.4 Python/2.7.3
+      Date:
+      - Tue, 12 Aug 2014 15:19:08 GMT
+    body:
+      encoding: UTF-8
+      string: '{"meta": {"rate_limit_amount": 259, "rate_limit_reset": 1407856935,
+        "application_mode": "production", "processing_time": 37, "rate_limit_cap":
+        1000, "activity_id": "53ea306c56c02c23ada3f755"}, "data": [{"is_enabled":
+        false, "supported_transactions": ["837"], "id": "fidelis_care_ny", "name":
+        "Fidelis Care of New York"}, {"is_enabled": true, "supported_transactions":
+        ["270"], "id": "blue_cross_blue_shield_ia", "name": "Blue Cross and Blue Shield
+        of Iowa"}, {"is_enabled": true, "supported_transactions": ["270"], "id": "blue_cross_blue_shield_nc",
+        "name": "Blue Cross and Blue Shield of North Carolina"}, {"is_enabled": false,
+        "id": "blue_cross_blue_shield_tx", "name": "Blue Cross and Blue Shield of
+        Texas"}, {"is_enabled": false, "id": "blue_cross_blue_shield_vt", "name":
+        "Blue Cross and Blue Shield of Vermont"}, {"is_enabled": false, "supported_transactions":
+        ["834", "835", "837", "270", "271", "276", "277", "278"], "id": "MOCKPAYER_RANDOM_WAIT",
+        "name": "Mock Payer with Random I/O wait for Testing"}, {"is_enabled": false,
+        "supported_transactions": ["834", "835", "837", "270", "271", "276", "277",
+        "278"], "id": "MOCKPAYER_REJECTION", "name": "Mock Payer with eligibility
+        inquiry rejection"}, {"is_enabled": false, "supported_transactions": ["834",
+        "835", "837", "270", "271", "276", "277", "278"], "id": "MOCKPAYER_ACK", "name":
+        "Mock Payer with Implementation Acknowledgement"}, {"is_enabled": false, "supported_transactions":
+        ["834", "835", "837", "270", "271", "276", "277", "278"], "id": "MOCKPAYER_PARSE_ERROR",
+        "name": "Mock Payer with eligibility inquiry rejection"}, {"is_enabled": false,
+        "supported_transactions": ["837", "837"], "id": "medica_health_care", "name":
+        "Medica HealthCare"}, {"is_enabled": false, "supported_transactions": ["270",
+        "837"], "id": "harvard_pilgrim_health_care", "name": "Harvard Pilgrim Healthcare"},
+        {"is_enabled": true, "supported_transactions": ["270", "276", "837"], "id":
+        "premera_blue_cross", "name": "Premera Blue Cross"}, {"is_enabled": true,
+        "supported_transactions": ["270", "276", "837"], "id": "blue_cross_blue_shield_ga",
+        "name": "Blue Cross and Blue Shield of Georgia"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "anthem_blue_cross_blue_shield_wi", "name": "Anthem
+        Blue Cross and Blue Shield of Wisconsin"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "anthem_blue_cross_blue_shield_co", "name": "Anthem
+        Blue Cross and Blue Shield of Colorado"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "anthem_blue_cross_blue_shield_me", "name": "Anthem
+        Blue Cross and Blue Shield of Maine"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "anthem_blue_cross_blue_shield_in", "name": "Anthem
+        Blue Cross and Blue Shield of Indiana"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "anthem_blue_cross_blue_shield_ct", "name": "Anthem
+        Blue Cross and Blue Shield of Connecticut"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "anthem_blue_cross_blue_shield_ky", "name": "Anthem
+        Blue Cross and Blue Shield of Kentucky"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "anthem_blue_cross_blue_shield_va", "name": "Anthem
+        Blue Cross and Blue Shield of Virginia"}, {"is_enabled": false, "supported_transactions":
+        ["270", "276", "837"], "id": "tricare_west", "name": "TRICARE West"}, {"is_enabled":
+        false, "supported_transactions": ["270"], "id": "united_health_care_plan_river_valley",
+        "name": "United Healthcare Plan of the River Valley"}, {"is_enabled": false,
+        "id": "aarp_medicare_supplement", "name": "AARP Medicare Supplement"}, {"is_enabled":
+        false, "id": "aarp_medicare_complete", "name": "AARP Medicare Complete"},
+        {"is_enabled": false, "id": "altius_health_plans", "name": "Altius Health
+        Plans"}, {"is_enabled": false, "id": "americhoice", "name": "AmeriChoice "},
+        {"is_enabled": false, "id": "amerigroup", "name": "Amerigroup"}, {"is_enabled":
+        false, "id": "amerihealth", "name": "AmeriHealth"}, {"is_enabled": false,
+        "id": "anthem_blue_cross_blue_shield_mo", "name": "Anthem Blue Cross and Blue
+        Shield of Missouri"}, {"is_enabled": false, "id": "anthem_blue_cross_blue_shield_oh",
+        "name": "Anthem Blue Cross and Blue Shield of Ohio"}, {"is_enabled": false,
+        "id": "arise_health", "name": "Arise Health"}, {"is_enabled": false, "id":
+        "arnett_health_plan", "name": "Arnett Health Plan"}, {"is_enabled": false,
+        "id": "asuris_northwest_health", "name": "Asuris Northwest Health"}, {"is_enabled":
+        false, "id": "blue_cross_blue_shield_al", "name": "Blue Cross and Blue Shield
+        of Alabama"}, {"is_enabled": false, "id": "blue_cross_blue_shield_az", "name":
+        "Blue Cross and Blue Shield of Arizona"}, {"is_enabled": false, "id": "blue_cross_blue_shield_ak",
+        "name": "Blue Cross and Blue Shield of Arkansas"}, {"is_enabled": false, "id":
+        "blue_cross_blue_shield_ca", "name": "Blue Cross and Blue Shield of California"},
+        {"is_enabled": false, "id": "blue_cross_blue_shield_co", "name": "Blue Cross
+        and Blue Shield of Colorado"}, {"is_enabled": false, "id": "blue_cross_blue_shield_ct",
+        "name": "Blue Cross and Blue Shield of Connecticut"}, {"is_enabled": false,
+        "id": "blue_cross_blue_shield_fl", "name": "Blue Cross and Blue Shield of
+        Florida"}, {"is_enabled": false, "id": "blue_cross_blue_shield_hi", "name":
+        "Blue Cross and Blue Shield of Hawaii"}, {"is_enabled": false, "id": "blue_cross_blue_shield_il",
+        "name": "Blue Cross and Blue Shield of Illinois"}, {"is_enabled": false, "id":
+        "blue_cross_blue_shield_in", "name": "Blue Cross and Blue Shield of Indiana"},
+        {"is_enabled": false, "id": "blue_cross_blue_shield_ky", "name": "Blue Cross
+        and Blue Shield of Kentucky"}, {"is_enabled": false, "id": "blue_cross_blue_shield_la",
+        "name": "Blue Cross and Blue Shield of Louisiana"}, {"is_enabled": false,
+        "id": "blue_cross_blue_shield_ma", "name": "Blue Cross and Blue Shield of
+        Massachusetts"}, {"is_enabled": false, "id": "blue_cross_blue_shield_me",
+        "name": "Blue Cross and Blue Shield of Maine"}, {"is_enabled": false, "id":
+        "blue_cross_blue_shield_mi", "name": "Blue Cross and Blue Shield of Michigan"},
+        {"is_enabled": false, "id": "blue_cross_blue_shield_mn", "name": "Blue Cross
+        and Blue Shield of Minnesota"}, {"is_enabled": false, "id": "blue_cross_blue_shield_ms",
+        "name": "Blue Cross and Blue Shield of Mississippi"}, {"is_enabled": false,
+        "id": "blue_cross_blue_shield_mt", "name": "Blue Cross and Blue Shield of
+        Montana"}, {"is_enabled": false, "id": "blue_cross_blue_shield_nv", "name":
+        "Blue Cross and Blue Shield of Nevada"}, {"is_enabled": false, "id": "blue_cross_blue_shield_nh",
+        "name": "Blue Cross and Blue Shield of New Hampshire"}, {"is_enabled": false,
+        "id": "blue_cross_blue_shield_nm", "name": "Blue Cross and Blue Shield of
+        New Mexico"}, {"is_enabled": false, "id": "blue_cross_blue_shield_nd", "name":
+        "Blue Cross and Blue Shield of North Dakota"}, {"is_enabled": false, "id":
+        "blue_cross_blue_shield_ok", "name": "Blue Cross and Blue Shield of Oklahoma"},
+        {"is_enabled": false, "id": "blue_cross_blue_shield_ri", "name": "Blue Cross
+        and Blue Shield of Rhode Island"}, {"is_enabled": false, "id": "blue_cross_blue_shield_sc",
+        "name": "Blue Cross and Blue Shield of South Carolina"}, {"is_enabled": false,
+        "id": "blue_cross_blue_shield_tn", "name": "Blue Cross and Blue Shield of
+        Tennessee"}, {"is_enabled": false, "id": "blue_cross_blue_shield_va", "name":
+        "Blue Cross and Blue Shield of Virginia"}, {"is_enabled": false, "id": "blue_cross_blue_shield_wy",
+        "name": "Blue Cross and Blue Shield of Wyoming"}, {"is_enabled": false, "id":
+        "blue_cross_pa", "name": "Blue Cross of Northeastern Pennsylvania"}, {"is_enabled":
+        false, "id": "blue_cross_id", "name": "Blue Cross of Idaho"}, {"is_enabled":
+        false, "id": "blue_cross_blue_shield_w_ny", "name": "Blue Cross and Blue Shield
+        of Western New York"}, {"is_enabled": false, "id": "blue_cross_blue_shield_pr",
+        "name": "Blue Cross and Blue Shield of Puerto Rico"}, {"is_enabled": false,
+        "id": "blue_shield_ne_ny", "name": "Blue Shield of Northeastern New York"},
+        {"is_enabled": false, "id": "bridgespan_health_ut", "name": "BridgeSpan Health
+        of Utah"}, {"is_enabled": false, "id": "bridgespan_health_wa", "name": "BridgeSpan
+        Health of Washington"}, {"is_enabled": false, "id": "capital_blue_cross",
+        "name": "Capital BlueCross"}, {"is_enabled": false, "id": "carefirst_blue_cross_blue_shield",
+        "name": "CareFirst BlueCross BlueShield"}, {"is_enabled": false, "id": "carelink_health_plans",
+        "name": "Carelink Health Plans"}, {"is_enabled": false, "id": "careplus_health_plans",
+        "name": "CarePlus Health Plans"}, {"is_enabled": false, "id": "caresource_ky",
+        "name": "CareSource of Kentucky"}, {"is_enabled": false, "id": "caresource_oh",
+        "name": "CareSource of Ohio"}, {"is_enabled": false, "id": "cigna_medicare_az",
+        "name": "Cignia Medicare (Arizona)"}, {"is_enabled": false, "id": "columbia_united_providers",
+        "name": "Columbia United Providers"}, {"is_enabled": false, "id": "community_health_wa",
+        "name": "Community Health Plan Washington"}, {"is_enabled": false, "id": "coventry_health",
+        "name": "Coventry Health"}, {"is_enabled": false, "id": "coventry_health_care_ak",
+        "name": "Coventry Health Care of Arkansas"}, {"is_enabled": false, "id": "coventry_health_care_de",
+        "name": "Coventry Health Care of Delaware"}, {"is_enabled": false, "id": "coventry_health_care_fl",
+        "name": "Coventry Health Care of Florida"}, {"is_enabled": false, "id": "coventry_health_care_ga",
+        "name": "Coventry Health Care of Georgia"}, {"is_enabled": false, "id": "coventry_health_care_id",
+        "name": "Coventry Health Care of Idaho"}, {"is_enabled": false, "id": "coventry_health_care_il",
+        "name": "Coventry Health Care of Illinois"}, {"is_enabled": false, "id": "coventry_health_care_ia",
+        "name": "Coventry Health Care of Iowa"}, {"is_enabled": false, "id": "coventry_health_care_ks",
+        "name": "Coventry Health Care of Kansas"}, {"is_enabled": false, "id": "coventry_health_care_la",
+        "name": "Coventry Health Care of Louisiana"}, {"is_enabled": false, "id":
+        "coventry_health_care_md", "name": "Coventry Health Care of Maryland"}, {"is_enabled":
+        false, "id": "coventry_health_care_mi", "name": "Coventry Health Care of Michigan"},
+        {"is_enabled": false, "id": "coventry_health_care_ms", "name": "Coventry Health
+        Care of Mississippi"}, {"is_enabled": false, "id": "coventry_health_care_mo",
+        "name": "Coventry Health Care of Missouri"}, {"is_enabled": false, "id": "coventry_health_care_ne",
+        "name": "Coventry Health Care of Nebraska"}, {"is_enabled": false, "id": "coventry_health_care_nv",
+        "name": "Coventry Health Care of Nevada"}, {"is_enabled": false, "id": "coventry_health_care_nc",
+        "name": "Coventry Health Care of North Carolina"}, {"is_enabled": false, "id":
+        "coventry_health_care_oh", "name": "Coventry Health Care of Ohio"}, {"is_enabled":
+        false, "id": "coventry_health_care_ok", "name": "Coventry Health Care of Oklahoma"},
+        {"is_enabled": false, "id": "coventry_health_care_pa", "name": "Coventry Health
+        Care of Pennsylvania"}, {"is_enabled": false, "id": "coventry_health_care_sc",
+        "name": "Coventry Health Care of South Carolina"}, {"is_enabled": false, "id":
+        "coventry_health_care_sd", "name": "Coventry Health Care of South Dakota"},
+        {"is_enabled": false, "id": "coventry_health_care_tn", "name": "Coventry Health
+        Care of Tennessee"}, {"is_enabled": false, "id": "coventry_health_care_ut",
+        "name": "Coventry Health Care of Utah"}, {"is_enabled": false, "id": "coventry_health_care_va",
+        "name": "Coventry Health Care of Virginia"}, {"is_enabled": false, "id": "coventry_health_care_wv",
+        "name": "Coventry Health Care of West Virginia"}, {"is_enabled": false, "id":
+        "coventry_health_care_wy", "name": "Coventry Health Care of Wyoming"}, {"is_enabled":
+        false, "id": "emblem_health", "name": "Emblem Health"}, {"is_enabled": false,
+        "id": "empire_plan_united_health", "name": "Empire Plan (United Healthcare)"},
+        {"is_enabled": false, "id": "evercare", "name": "Evercare"}, {"is_enabled":
+        false, "id": "excellus_blue_cross_blue_shield", "name": "Excellus BlueCross
+        BlueShield"}, {"is_enabled": false, "id": "fallon_community_health", "name":
+        "Fallon Community Health Plan"}, {"is_enabled": false, "id": "first_health",
+        "name": "First Health"}, {"is_enabled": false, "id": "golden_rule_united_health_one",
+        "name": "Golden Rule (United HealthOne)"}, {"is_enabled": false, "id": "great_west_health_care",
+        "name": "Great West Healthcare"}, {"is_enabled": false, "id": "group_health_cooperative",
+        "name": "Group Health Cooperative"}, {"is_enabled": false, "id": "harvard_pilgrim_health_care_connect",
+        "name": "Harvard Pilgrim Healthcare Connect"}, {"is_enabled": false, "id":
+        "health_alliance_plan_mi", "name": "Health Alliance Plan of Michigan"}, {"is_enabled":
+        false, "id": "health_keepers", "name": "Health Keepers Inc."}, {"is_enabled":
+        false, "id": "health_new_england", "name": "Health New England"}, {"is_enabled":
+        false, "id": "health_plan_nv", "name": "Health Plan of Nevada"}, {"is_enabled":
+        false, "id": "health_republic", "name": "Health Republic Insurance"}, {"is_enabled":
+        false, "id": "health_net", "name": "Healthnet"}, {"is_enabled": false, "id":
+        "health_now_ny", "name": "HealthNow New York"}, {"is_enabled": false, "id":
+        "health_partners_mn", "name": "HealthPartners of Minnesota"}, {"is_enabled":
+        false, "id": "health_plus", "name": "HealthPlus"}, {"is_enabled": false, "id":
+        "health_spring_cigna", "name": "HealthSpring (Cigna)"}, {"is_enabled": false,
+        "id": "highmark_blue_cross_blue_shield", "name": "Highmark Blue Cross Blue
+        Shield"}, {"is_enabled": false, "id": "highmark_blue_shield", "name": "Highmark
+        Blue Shield"}, {"is_enabled": false, "id": "horizon_blue_cross_blue_shield",
+        "name": "Horizon Blue Cross and Blue Shield"}, {"is_enabled": false, "id":
+        "humana", "name": "Humana"}, {"is_enabled": false, "id": "kaiser_permanente_mid_atlantic",
+        "name": "Kaiser Permanente Mid-Atlantic"}, {"is_enabled": false, "id": "kaiser_permanente_co",
+        "name": "Kaiser Permanente of Colorado"}, {"is_enabled": false, "id": "kaiser_permanente_ga",
+        "name": "Kaiser Permanente of Georgia"}, {"is_enabled": false, "id": "kaiser_permanente_northern_ca",
+        "name": "Kaiser Permanente of Northern California"}, {"is_enabled": false,
+        "id": "kaiser_permanente_oh", "name": "Kaiser Permanente of Ohio"}, {"is_enabled":
+        false, "id": "kaiser_permanente_southern_ca", "name": "Kaiser Permanente of
+        Southern California"}, {"is_enabled": false, "id": "kaiser_permanente_northwest",
+        "name": "Kaiser Permanente of the Northwest"}, {"is_enabled": false, "id":
+        "kaiser_permanente_hi", "name": "Kaiser Permanente of Hawaii"}, {"is_enabled":
+        false, "id": "lifewise_or", "name": "LifeWise of Oregon"}, {"is_enabled":
+        false, "id": "lifewise_wa", "name": "LifeWise of Washington"}, {"is_enabled":
+        false, "id": "lovelace_health_plan", "name": "Lovelace Health Plan"}, {"is_enabled":
+        false, "id": "magnolia_health_plan", "name": "Magnolia Health Plan"}, {"is_enabled":
+        false, "id": "mega_health", "name": "Mega Health "}, {"is_enabled": false,
+        "id": "meridian_health_plan_mi", "name": "Meridian Health Plan of Michigan"},
+        {"is_enabled": false, "id": "moda_health_plan", "name": "MODA Health Plan"},
+        {"is_enabled": false, "id": "molina_health_care_medicaid", "name": "Molina
+        Healthcare (Medicaid)"}, {"is_enabled": false, "id": "molina_health_care_ca",
+        "name": "Molina Healthcare of California"}, {"is_enabled": false, "id": "molina_health_care_fl",
+        "name": "Molina Healthcare of Florida"}, {"is_enabled": false, "id": "molina_health_care_mi",
+        "name": "Molina Healthcare of Michigan"}, {"is_enabled": false, "id": "molina_health_care_nm",
+        "name": "Molina Healthcare of New Mexico"}, {"is_enabled": false, "id": "molina_health_care_oh",
+        "name": "Molina Healthcare of Ohio"}, {"is_enabled": false, "id": "molina_health_care_tx",
+        "name": "Molina Healthcare of Texas"}, {"is_enabled": false, "id": "molina_health_care_ut",
+        "name": "Molina Healthcare of Utah"}, {"is_enabled": false, "id": "molina_health_care_wa",
+        "name": "Molina Healthcare of Washington"}, {"is_enabled": false, "id": "molina_health_care_wi",
+        "name": "Molina Healthcare of Wisconsin"}, {"is_enabled": false, "id": "navicare",
+        "name": "NaviCare"}, {"is_enabled": false, "id": "neighborhood_health_partnership_united",
+        "name": "Neighborhood Health Partnership (United Healthcare)"}, {"is_enabled":
+        false, "id": "neighborhood_health_plan", "name": "Neighborhood Health Plan"},
+        {"is_enabled": false, "id": "network_health", "name": "Network Health"}, {"is_enabled":
+        false, "id": "network_health_tufts_plan", "name": "NetworkHealth (A Tufts
+        Health Plan)"}, {"is_enabled": false, "id": "nv_health_coop", "name": "Nevada
+        Health Co-Op"}, {"is_enabled": false, "id": "nv_preferred_health_care", "name":
+        "Nevada Preferred Healthcare"}, {"is_enabled": false, "id": "new_west_health",
+        "name": "New West Health"}, {"is_enabled": false, "id": "ok_health_care_authority",
+        "name": "Oklahoma Health Care Authority"}, {"is_enabled": false, "id": "optima_health",
+        "name": "Optima Health"}, {"is_enabled": false, "id": "optum_health", "name":
+        "OptumHealth"}, {"is_enabled": false, "id": "or_health_coop", "name": "Oregon''s
+        Health CO-OP"}, {"is_enabled": false, "id": "pacificare_health_united", "name":
+        "PacifiCare Health (United HealthOne)"}, {"is_enabled": false, "id": "peninsula_health_care",
+        "name": "Peninsula Health Care"}, {"is_enabled": false, "id": "physicans_health_plan_mi",
+        "name": "Physicans Health Plan of Michigan"}, {"is_enabled": false, "id":
+        "physicans_health_plan_northern_in", "name": "Physicans Health Plan of Northern
+        Indiana"}, {"is_enabled": false, "id": "physicans_plus", "name": "Physicans
+        Plus"}, {"is_enabled": false, "id": "preferred_care_partners", "name": "Preferred
+        Care Partners"}, {"is_enabled": false, "id": "preferred_one", "name": "PreferredOne"},
+        {"is_enabled": false, "id": "premera_blue_cross_blue_shield_ak", "name": "Premera
+        Blue Cross Blue Shield of Alaska"}, {"is_enabled": false, "id": "presbytarian_health_plan",
+        "name": "Presbytarian Health Plan"}, {"is_enabled": false, "id": "priority_health",
+        "name": "Priority Health"}, {"is_enabled": false, "id": "priority_health_care",
+        "name": "Priority Health Care"}, {"is_enabled": false, "id": "providence_health_plan",
+        "name": "Providence Health Plan"}, {"is_enabled": false, "id": "regence_blue_cross_blue_shield_or",
+        "name": "Regence BlueCross BlueShield of Oregon"}, {"is_enabled": false, "id":
+        "regence_blue_cross_blue_sheild_ut", "name": "Regence BlueCross BlueShield
+        of Utah"}, {"is_enabled": false, "id": "regence_blue_shield_id", "name": "Regence
+        BlueShield of Idaho"}, {"is_enabled": false, "id": "regence_blue_shield_wa",
+        "name": "Regence BlueShield of Washington"}, {"is_enabled": false, "id": "sierra_health",
+        "name": "Sierra Health"}, {"is_enabled": false, "id": "st_mary_health_plan",
+        "name": "St. Mary''s Health Plans"}, {"is_enabled": false, "id": "health_plan_upper_oh_valley",
+        "name": "The Health Plan of the Upper Ohio Valley"}, {"is_enabled": false,
+        "id": "vt_health_plan", "name": "The Vermont Health Plan"}, {"is_enabled":
+        false, "id": "tricare_north", "name": "TRICARE North"}, {"is_enabled": false,
+        "id": "tricare_south", "name": "TRICARE South"}, {"is_enabled": false, "id":
+        "trillum_community_health_plan", "name": "Trillium Community Health Plan"},
+        {"is_enabled": false, "id": "tufts_health_plan", "name": "Tufts Health Plan"},
+        {"is_enabled": false, "id": "unicare", "name": "UniCare"}, {"is_enabled":
+        false, "id": "united_health_care_community_plan", "name": "United Healthcare
+        Community Plan (APIPA)"}, {"is_enabled": false, "id": "united_health_care_medicare_solutions",
+        "name": "United Healthcare Medicare Solutions"}, {"is_enabled": false, "id":
+        "unity_health", "name": "Unity Health "}, {"is_enabled": false, "id": "univera_health_care",
+        "name": "Univera Healthcare"}, {"is_enabled": false, "id": "university_health_alliance_hi",
+        "name": "University Health Alliance of Hawaii"}, {"is_enabled": false, "id":
+        "university_pittsburgh_medical_center_health_plan", "name": "University of
+        Pittsburgh Medical Center Health Plan"}, {"is_enabled": false, "id": "wellmark_blue_cross_blue_shield_ia",
+        "name": "Wellmark Blue Cross and Blue Shield of Iowa"}, {"is_enabled": false,
+        "id": "wellmark_blue_cross_blue_shield_sd", "name": "Wellmark Blue Cross and
+        Blue Shield of South Dakota"}, {"is_enabled": false, "id": "wellpoint", "name":
+        "Wellpoint, Inc"}, {"is_enabled": false, "id": "windsor_health_plan", "name":
+        "Windsor Health Plan"}, {"is_enabled": false, "id": "winhealth", "name": "WinHealth"},
+        {"is_enabled": false, "supported_transactions": ["834", "835", "837", "270",
+        "271", "276", "277", "278"], "id": "MOCKPAYER_COMMERROR", "name": "Mock Payer
+        for Communication Error Testing"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276"], "id": "blue_cross_blue_shield_kc", "name": "Blue Cross and
+        Blue Shield of Kansas City"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276"], "id": "blue_cross_blue_shield_ks", "name": "Blue Cross and
+        Blue Shield of Kansas"}, {"is_enabled": false, "supported_transactions": ["837"],
+        "id": "blue_cross_blue_shield_ne", "name": "Blue Cross and Blue Shield of
+        Nebraska"}, {"is_enabled": true, "supported_transactions": ["270", "276",
+        "837"], "id": "blue_shield_ca", "name": "Blue Shield of California"}, {"is_enabled":
+        false, "supported_transactions": ["837"], "id": "amerihealth_administrators",
+        "name": "AmeriHealth Administrators"}, {"is_enabled": false, "supported_transactions":
+        ["837"], "id": "amerihealth_nj_non_hmo", "name": "AmeriHealth NJ Non-HMO"},
+        {"is_enabled": false, "supported_transactions": ["837"], "id": "amerihealth_de_non_hmo",
+        "name": "AmeriHealth DE Non-HMO"}, {"is_enabled": false, "supported_transactions":
+        ["837"], "id": "amerihealth_nj_de_hmo", "name": "AmeriHealth NJ/DE HMO"},
+        {"is_enabled": false, "supported_transactions": ["270", "276", "834", "835",
+        "837", "270", "271", "276", "277", "278"], "id": "MOCKPAYER", "name": "Mock
+        Payer for Testing"}, {"is_enabled": false, "supported_transactions": ["270",
+        "837"], "id": "highmark_blue_cross_blue_shield_wv", "name": "Highmark Blue
+        Cross Blue Shield West Virginia"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "blue_cross_blue_shield_mo", "name": "Blue Cross
+        and Blue Shield of Missouri"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "blue_cross_blue_shield_oh", "name": "Blue Cross
+        and Blue Shield of Ohio"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "anthem_blue_cross_blue_shield_nh", "name": "Anthem
+        Blue Cross and Blue Shield of New Hampshire"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "empire_blue_cross_blue_shield", "name": "Empire
+        Blue Cross and Blue Shield"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "anthem_blue_cross_blue_shield_nv", "name": "Anthem
+        Blue Cross and Blue Shield of Nevada"}, {"is_enabled": false, "supported_transactions":
+        ["270", "276", "837"], "id": "aetna", "name": "Aetna"}, {"is_enabled": false,
+        "supported_transactions": ["837"], "id": "independence_blue_cross", "name":
+        "Independence Blue Cross INDEPENDENCE BLUE CROSS"}, {"is_enabled": false,
+        "supported_transactions": ["837"], "id": "highmark_blue_cross_blue_shield_de",
+        "name": "Highmark Blue Cross Blue Shield of Delaware"}, {"is_enabled": false,
+        "supported_transactions": ["270"], "id": "assurant_health", "name": "Assurant
+        Health"}, {"is_enabled": true, "supported_transactions": ["270", "276", "837"],
+        "id": "cigna", "name": "Cigna"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "connecticare", "name": "ConnectiCare"}, {"is_enabled":
+        true, "supported_transactions": ["270", "276", "837"], "id": "anthem_blue_cross_ca",
+        "name": "Anthem Blue Cross California"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276"], "id": "mvp_health_care", "name": "MVP Health Care"}, {"is_enabled":
+        true, "supported_transactions": ["270", "276"], "id": "oxford_health_plan_united",
+        "name": "Oxford Health Plans (United Healthcare)"}, {"is_enabled": true, "supported_transactions":
+        ["270", "276", "837"], "id": "united_health_care", "name": "United Healthcare"},
+        {"is_enabled": false, "supported_transactions": ["837"], "id": "keystone_health_plan_east",
+        "name": "Keystone Health Plan East"}, {"is_enabled": false, "supported_transactions":
+        ["270", "837"], "id": "highmark_blue_cross_blue_shield_pa", "name": "Highmark
+        Blue Cross Blue Shield of Pennsylvania"}]}'
+    http_version: 
+  recorded_at: Tue, 12 Aug 2014 15:19:08 GMT
+recorded_with: VCR 2.9.2

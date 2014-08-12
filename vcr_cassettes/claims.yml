@@ -11,15 +11,15 @@ http_interactions:
         Ins Co","plan_id":"1234567890"}}'
     headers:
       User-Agent:
-      - pokitdok-ruby 0.4.1 ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
+      - pokitdok-ruby 0.4.1 ruby 2.0.0p451 (2014-02-24 revision 45167) [x86_64-darwin12.5.0]
       Authorization:
-      - Bearer fKd12YNbilTwVe8D3eF1ReNBkGzoElJuUjyt5ehz
+      - Bearer 88CVCN9YDDAQdTC3GeQMcrMPyDJPErQZ3PECJcln
       Content-Type:
       - application/json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
-      - "*/*"
+      - '*/*'
   response:
     status:
       code: 200
@@ -28,7 +28,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Content-Length:
-      - '2108'
+      - '2203'
       Mimetype:
       - application/json
       Charset:
@@ -36,13 +36,14 @@ http_interactions:
       Server:
       - Werkzeug/0.9.4 Python/2.7.3
       Date:
-      - Tue, 05 Aug 2014 18:15:11 GMT
+      - Tue, 12 Aug 2014 15:19:09 GMT
     body:
       encoding: UTF-8
-      string: '{"meta": {"rate_limit_amount": 2, "rate_limit_reset": 1407266111, "processing_time":
-        32, "rate_limit_cap": 8434, "credits_remaining": 13495, "credits_billed":
-        1}, "data": {"units_of_work": 1, "name": "claims", "parameters": {"claim":
-        {"plan_participation": "assigned", "provider_signature": true, "total_charge_amount":
+      string: '{"meta": {"rate_limit_amount": 262, "rate_limit_reset": 1407856935,
+        "application_mode": "production", "processing_time": 17, "rate_limit_cap":
+        1000, "credits_remaining": 12972, "activity_id": "53ea306d56c02c23b5a3f755",
+        "credits_billed": 1}, "data": {"units_of_work": 1, "name": "claims", "parameters":
+        {"claim": {"plan_participation": "assigned", "provider_signature": true, "total_charge_amount":
         "60.0", "claim_frequency": "original", "place_of_service": "office", "direct_payment":
         "y", "patient_signature_on_file": true, "information_release": "informed_consent",
         "service_lines": [{"diagnosis_codes": ["487.1"], "unit_count": "1.0", "unit_type":
@@ -52,20 +53,20 @@ http_interactions:
         "last_name": "Doe", "gender": "female", "member_id": "W000000000", "payer_responsibility":
         "primary", "address": {"address_lines": ["123 N MAIN ST"], "state": "SC",
         "zipcode": "29301", "city": "SPARTANBURG"}, "birth_date": "1970-01-01"}, "correlation_id":
-        "1a1455a1-e62c-4047-8d2b-dd766f67ddcb", "client_id": "7x7nRAotGfxHfy7Llfl3",
+        "e9c08ce8-f519-4818-b2dd-bf39f3ea5a55", "client_id": "oB7rLIqHmdoAXHRAmWtM",
         "receiver": {"organization_name": "MOCKRECEIVER", "id": "MOCKRECEIVER"}, "submitter":
         {"organization_name": "POKITDOK TESTING", "id": "POKITDOKTEST", "email": "support@pokitdok.com"},
-        "billing_provider": {"first_name": "Jerome", "last_name": "Aya-Ay", "npi":
-        "1467560003", "taxonomy_code": "207Q00000X", "address": {"address_lines":
+        "async": false, "billing_provider": {"first_name": "Jerome", "last_name":
+        "Aya-Ay", "npi": "1467560003", "taxonomy_code": "207Q00000X", "address": {"address_lines":
         ["8311 WARREN H ABERNATHY HWY"], "state": "SC", "zipcode": "29301", "city":
         "SPARTANBURG"}, "tax_id": "123456789"}, "transaction_code": "chargeable"},
         "remaining_transitions": ["generate", "store", "transmit", "wait", "receive",
         "process", "complete"], "state": {"name": "scheduled", "title": "Scheduled
         for next available transmission to Trading Partner"}, "trading_partner_id":
-        "MOCKPAYER", "id": "53e11f2f56c02c51aa2cbfd2", "transition_path": ["schedule",
+        "MOCKPAYER", "id": "53ea306d56c02c23b5a3f755", "transition_path": ["schedule",
         "generate", "store", "transmit", "wait", "receive", "process", "complete"],
-        "history": [{"record_dt": "2014-08-05T18:15:11.434715", "name": "init", "title":
+        "history": [{"record_dt": "2014-08-12T15:19:09.682930", "name": "init", "title":
         "Initializing"}]}}'
     http_version: 
-  recorded_at: Tue, 05 Aug 2014 18:22:43 GMT
+  recorded_at: Tue, 12 Aug 2014 15:19:09 GMT
 recorded_with: VCR 2.9.2

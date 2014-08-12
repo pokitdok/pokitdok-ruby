@@ -17,15 +17,15 @@ http_interactions:
         Mar 26 22:18:47 2014"}'
     headers:
       User-Agent:
-      - pokitdok-ruby 0.4.1 ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
+      - pokitdok-ruby 0.4.1 ruby 2.0.0p451 (2014-02-24 revision 45167) [x86_64-darwin12.5.0]
       Authorization:
-      - Bearer fKd12YNbilTwVe8D3eF1ReNBkGzoElJuUjyt5ehz
+      - Bearer 88CVCN9YDDAQdTC3GeQMcrMPyDJPErQZ3PECJcln
       Content-Type:
       - application/json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
-      - "*/*"
+      - '*/*'
   response:
     status:
       code: 200
@@ -34,7 +34,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Content-Length:
-      - '2534'
+      - '2613'
       Mimetype:
       - application/json
       Charset:
@@ -42,41 +42,42 @@ http_interactions:
       Server:
       - Werkzeug/0.9.4 Python/2.7.3
       Date:
-      - Tue, 05 Aug 2014 18:15:14 GMT
+      - Tue, 12 Aug 2014 15:19:07 GMT
     body:
       encoding: UTF-8
-      string: '{"meta": {"rate_limit_amount": 8, "rate_limit_reset": 1407266111, "processing_time":
-        14, "rate_limit_cap": 8434, "credits_remaining": 9998, "credits_billed": 1},
-        "data": {"units_of_work": 1, "name": "enrollment", "parameters": {"reference_number":
-        "12456", "version": "4.0.0", "payer": {"tax_id": "654456654"}, "update_dt":
-        "Wed Mar 26 22:18:47 2014", "deleted": false, "major_version": "4", "subscriber":
-        {"maintenance_type": "Addition", "first_name": "JOHN", "last_name": "DOE",
-        "benefits": [{"maintenance_type": "Addition", "late_enrollment": false, "begin_date":
-        "Sat Jun  1 00:00:00 1996", "benefit_type": "Health", "coordination_of_benefits":
-        [{"status": "Unknown", "group_or_policy_number": "890111", "payer_responsibility":
-        "Primary"}]}, {"maintenance_type": "Addition", "late_enrollment": false, "begin_date":
-        "Sat Jun  1 00:00:00 1996", "benefit_type": "Dental"}, {"maintenance_type":
-        "Addition", "late_enrollment": false, "begin_date": "Sat Jun  1 00:00:00 1996",
-        "benefit_type": "Vision"}], "relationship": "Self", "contacts": [{"communication_type2":
-        "Work Phone Number", "primary_communication_type": "Home Phone Number", "communication_number2":
-        "7172341240", "primary_communication_number": "7172343334"}], "benefit_status":
-        "Active", "gender": "Male", "employment_status": "Full-time", "subscriber_number":
-        "123456789", "group_or_policy_number": "123456001", "maintenance_reason":
-        "Active", "handicapped": false, "eligibility_begin_date": "Thu May 23 00:00:00
-        1996", "ssn": "123456789", "tobacco_use": false, "member_id": "123456789",
-        "birth_date": "Fri Aug 16 00:00:00 1940", "middle_name": "P", "substance_abuse":
-        false, "address": {"city": "CAMP HILL", "line2": "APT 3G", "county": "CUMBERLAND",
-        "state": "PA", "postal_code": "17011", "line": "100 MARKET ST"}}, "correlation_id":
-        "5dba59b6-bf46-4365-abb5-9a3742b51330", "insert_dt": "Wed Mar 26 22:18:47
-        2014", "client_id": "7x7nRAotGfxHfy7Llfl3", "purpose": "Original", "trading_partner_id":
-        "MOCKPAYER", "action": "Change", "dependents": [], "sponsor": {"tax_id": "999888777"}},
-        "remaining_transitions": ["generate", "store", "transmit", "wait", "receive",
-        "process", "complete"], "state": {"name": "scheduled", "title": "Scheduled
-        for next available transmission to Trading Partner"}, "trading_partner_id":
-        "MOCKPAYER", "id": "53e11f3256c02c51ba2cbfd2", "transition_path": ["schedule",
-        "generate", "store", "transmit", "wait", "receive", "process", "complete"],
-        "history": [{"record_dt": "2014-08-05T18:15:14.110160", "name": "init", "title":
-        "Initializing"}]}}'
+      string: '{"meta": {"rate_limit_amount": 253, "rate_limit_reset": 1407856935,
+        "application_mode": "production", "processing_time": 15, "rate_limit_cap":
+        1000, "credits_remaining": 9970, "activity_id": "53ea306b56c02c23a1a3f755",
+        "credits_billed": 1}, "data": {"units_of_work": 1, "name": "enrollment", "parameters":
+        {"reference_number": "12456", "version": "4.0.0", "payer": {"tax_id": "654456654"},
+        "update_dt": "Wed Mar 26 22:18:47 2014", "deleted": false, "major_version":
+        "4", "subscriber": {"maintenance_type": "Addition", "first_name": "JOHN",
+        "last_name": "DOE", "benefits": [{"maintenance_type": "Addition", "late_enrollment":
+        false, "begin_date": "Sat Jun  1 00:00:00 1996", "benefit_type": "Health",
+        "coordination_of_benefits": [{"status": "Unknown", "group_or_policy_number":
+        "890111", "payer_responsibility": "Primary"}]}, {"maintenance_type": "Addition",
+        "late_enrollment": false, "begin_date": "Sat Jun  1 00:00:00 1996", "benefit_type":
+        "Dental"}, {"maintenance_type": "Addition", "late_enrollment": false, "begin_date":
+        "Sat Jun  1 00:00:00 1996", "benefit_type": "Vision"}], "relationship": "Self",
+        "contacts": [{"communication_type2": "Work Phone Number", "primary_communication_type":
+        "Home Phone Number", "communication_number2": "7172341240", "primary_communication_number":
+        "7172343334"}], "benefit_status": "Active", "gender": "Male", "employment_status":
+        "Full-time", "subscriber_number": "123456789", "group_or_policy_number": "123456001",
+        "maintenance_reason": "Active", "handicapped": false, "eligibility_begin_date":
+        "Thu May 23 00:00:00 1996", "ssn": "123456789", "tobacco_use": false, "member_id":
+        "123456789", "birth_date": "Fri Aug 16 00:00:00 1940", "middle_name": "P",
+        "substance_abuse": false, "address": {"city": "CAMP HILL", "line2": "APT 3G",
+        "county": "CUMBERLAND", "state": "PA", "postal_code": "17011", "line": "100
+        MARKET ST"}}, "correlation_id": "13e96862-855e-42ed-8a93-93e607797f85", "insert_dt":
+        "Wed Mar 26 22:18:47 2014", "trading_partner_id": "MOCKPAYER", "purpose":
+        "Original", "client_id": "oB7rLIqHmdoAXHRAmWtM", "action": "Change", "dependents":
+        [], "sponsor": {"tax_id": "999888777"}}, "remaining_transitions": ["generate",
+        "store", "transmit", "wait", "receive", "process", "complete"], "state": {"name":
+        "scheduled", "title": "Scheduled for next available transmission to Trading
+        Partner"}, "trading_partner_id": "MOCKPAYER", "id": "53ea306b56c02c23a1a3f755",
+        "transition_path": ["schedule", "generate", "store", "transmit", "wait", "receive",
+        "process", "complete"], "history": [{"record_dt": "2014-08-12T15:19:07.923201",
+        "name": "init", "title": "Initializing"}]}}'
     http_version: 
-  recorded_at: Tue, 05 Aug 2014 18:22:46 GMT
+  recorded_at: Tue, 12 Aug 2014 15:19:07 GMT
 recorded_with: VCR 2.9.2

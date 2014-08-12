@@ -8,15 +8,15 @@ http_interactions:
       string: '{"patient":{"birth_date":"1970-01-01","first_name":"JANE","last_name":"DOE","id":"1234567890"},"provider":{"first_name":"Jerome","last_name":"Aya-Ay","npi":"1467560003"},"service_date":"2014-01-01","trading_partner_id":"MOCKPAYER"}'
     headers:
       User-Agent:
-      - pokitdok-ruby 0.4.1 ruby 2.1.2p95 (2014-05-08 revision 45877) [x86_64-darwin13.0]
+      - pokitdok-ruby 0.4.1 ruby 2.0.0p451 (2014-02-24 revision 45167) [x86_64-darwin12.5.0]
       Authorization:
-      - Bearer fKd12YNbilTwVe8D3eF1ReNBkGzoElJuUjyt5ehz
+      - Bearer 88CVCN9YDDAQdTC3GeQMcrMPyDJPErQZ3PECJcln
       Content-Type:
       - application/json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
-      - "*/*"
+      - '*/*'
   response:
     status:
       code: 200
@@ -25,7 +25,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Content-Length:
-      - '1586'
+      - '2061'
       Mimetype:
       - application/json
       Charset:
@@ -33,29 +33,35 @@ http_interactions:
       Server:
       - Werkzeug/0.9.4 Python/2.7.3
       Date:
-      - Tue, 05 Aug 2014 18:15:13 GMT
+      - Tue, 12 Aug 2014 15:19:09 GMT
     body:
       encoding: UTF-8
-      string: '{"meta": {"rate_limit_amount": 6, "rate_limit_reset": 1407266111, "processing_time":
-        599, "rate_limit_cap": 8434, "credits_remaining": 13493, "credits_billed":
-        1}, "data": {"patient": {"claim_level_info": {"service_end_date": "2014-01-01",
-        "statuses": [{"total_claim_amount": {"currency": "USD", "amount": "150"},
+      string: '{"meta": {"rate_limit_amount": 261, "rate_limit_reset": 1407856935,
+        "application_mode": "production", "processing_time": 435, "rate_limit_cap":
+        1000, "credits_remaining": 12973, "activity_id": "53ea306d56c02c23b3a3f755",
+        "credits_billed": 1}, "data": {"patient": {"claims": [{"applied_to_deductible":
+        false, "total_claim_amount": {"currency": "USD", "amount": "150"}, "service_end_date":
+        "2014-01-01", "claim_control_number": "E1TWCYYMF00", "service_date": "2014-01-01",
+        "claim_payment_amount": {"currency": "USD", "amount": "125"}, "adjudication_finalized_date":
+        "2014-03-21", "statuses": [{"total_claim_amount": {"currency": "USD", "amount":
+        "150"}, "status_category": "Finalized/Payment-The claim/line has been paid.",
         "status_code": "Processed according to contract provisions (Contract refers
         to provisions that exist between the Health Plan and a Provider of Health
-        Care Services)", "status_category": "Finalized/Payment-The claim/line has
-        been paid.", "status_effective_date": "2014-04-24"}], "service_date": "2014-01-01",
-        "claim_control_number": "E1TWCYYMF00", "tracking_id": "E1TWCYYMF"}, "service_line_level_info":
-        [{"service_line_info": {"cpt_code": "99214", "charge_amount": {"currency":
-        "USD", "amount": "150"}, "payment_amount": {"currency": "USD", "amount": "125"}},
-        "service_end_date": "2014-03-05", "service_date": "2014-03-05", "statuses":
-        [{"status_code": "Processed according to contract provisions (Contract refers
-        to provisions that exist between the Health Plan and a Provider of Health
-        Care Services)", "status_category": "Finalized/Payment-The claim/line has
-        been paid.", "status_effective_date": "2014-04-24"}]}]}, "client_id": "7x7nRAotGfxHfy7Llfl3",
-        "payer": {"name": "MOCK PAYER INC", "id": "MOCKPAYER"}, "providers": [{"first_name":
-        "Jerome", "last_name": "Aya-Ay", "npi": "1467560003"}], "correlation_id":
-        "faba4302-80d0-48b0-9f14-28d5628b387b", "trading_partner_id": "MOCKPAYER",
-        "submitter": {"first_name": "Jerome", "last_name": "Aya-Ay", "id": "1467560003"}}}'
+        Care Services)", "claim_payment_amount": {"currency": "USD", "amount": "125"},
+        "adjudication_finalized_date": "2014-03-21", "status_effective_date": "2014-04-24",
+        "check_number": "08608-035632423", "remittance_date": "2014-04-09"}], "tracking_id":
+        "E1TWCYYMF", "services": [{"cpt_code": "99214", "service_end_date": "2014-03-05",
+        "payment_amount": {"currency": "USD", "amount": "125"}, "charge_amount": {"currency":
+        "USD", "amount": "150"}, "service_date": "2014-03-05", "statuses": [{"status_code":
+        "Processed according to contract provisions (Contract refers to provisions
+        that exist between the Health Plan and a Provider of Health Care Services)",
+        "status_category": "Finalized/Payment-The claim/line has been paid.", "status_effective_date":
+        "2014-04-24"}]}], "check_number": "08608-035632423", "remittance_date": "2014-04-09"}]},
+        "client_id": "oB7rLIqHmdoAXHRAmWtM", "payer": {"name": "MOCK PAYER INC", "id":
+        "MOCKPAYER"}, "providers": [{"first_name": "Jerome", "last_name": "Aya-Ay",
+        "npi": "1467560003"}], "correlation_id": "e24d39c3-bca6-44d8-8054-6575ed224f30",
+        "trading_partner_id": "MOCKPAYER", "submitter": {"first_name": "Jerome", "last_name":
+        "Aya-Ay", "id": "1467560003"}}}'
     http_version: 
-  recorded_at: Tue, 05 Aug 2014 18:22:45 GMT
+  recorded_at: Tue, 12 Aug 2014 15:19:09 GMT
 recorded_with: VCR 2.9.2
