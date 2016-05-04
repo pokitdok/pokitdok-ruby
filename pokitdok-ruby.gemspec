@@ -83,6 +83,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<webmock>, ["~> 1.17"])
       s.add_development_dependency(%q<guard>, ["~> 2.6"])
       s.add_development_dependency(%q<guard-minitest>, ["~> 2.2"])
+      s.add_development_dependency(%q<listen>, ["~> 3.0", "< 3.1.2"]) # 3.1.2 and later require ruby_dep which requires ruby >= 2.2.1
       s.add_development_dependency(%q<terminal-notifier>, [">= 0"])
       s.add_development_dependency(%q<terminal-notifier-guard>, ["~> 1.5"])
       s.add_development_dependency(%q<guard-rubocop>, ["~> 1.0"])
@@ -103,6 +104,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<webmock>, ["~> 1.17"])
       s.add_dependency(%q<guard>, ["~> 2.6"])
       s.add_dependency(%q<guard-minitest>, ["~> 2.2"])
+      s.add_dependency(%q<listen>, ["~> 3.0", "< 3.1.2"]) # 3.1.2 and later require ruby_dep which requires ruby >= 2.2.1
       s.add_dependency(%q<terminal-notifier>, [">= 0"])
       s.add_dependency(%q<terminal-notifier-guard>, ["~> 1.5"])
       s.add_dependency(%q<guard-rubocop>, ["~> 1.0"])
@@ -124,10 +126,10 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<webmock>, ["~> 1.17"])
     s.add_dependency(%q<guard>, ["~> 2.6"])
     s.add_dependency(%q<guard-minitest>, ["~> 2.2"])
+    s.add_dependency(%q<listen>, ["~> 3.0", "< 3.1.2"]) # 3.1.2 and later require ruby_dep which requires ruby >= 2.2.1
     s.add_dependency(%q<terminal-notifier>, [">= 0"])
     s.add_dependency(%q<terminal-notifier-guard>, ["~> 1.5"])
     s.add_dependency(%q<guard-rubocop>, ["~> 1.0"])
     s.add_dependency(%q<coveralls>, [">= 0"])
   end
 end
-
