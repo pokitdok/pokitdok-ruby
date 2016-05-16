@@ -7,5 +7,5 @@ rvm:
   - 2.2.3
 env:
   global:
-    - "JRUBY_OPTS=-Xcext.enabled=true"
+    - "JRUBY_OPTS=--1.9 -Xcext.enabled=true"
 sudo: false

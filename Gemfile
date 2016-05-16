@@ -20,4 +20,7 @@ group :development do
 	gem 'terminal-notifier-guard', '~> 1.5'
 	gem 'guard-rubocop', '~> 1.0'
 	gem 'coveralls', require: false
+	gem 'nokogiri', '~> 1.6.7.1'
+	gem 'spoon', '~> 0.0.4'
+	gem 'unf_ext', '~> 0.0.7.1'
 end
