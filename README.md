@@ -135,11 +135,12 @@ you can pass a third parameter to PokitDok::Pokitdok.new, like this:
 This library aims to support and is tested against these Ruby versions, 
 using travis-ci:
 
+* 2.2.3
 * 2.1.1
 * 2.0.0
 * 1.9.3
 * JRuby in 1.9 mode
-* Rubinius 2.2.7
+* Rubinius 2
 
 You may have luck with other interpreters - let us know how it goes.
 
