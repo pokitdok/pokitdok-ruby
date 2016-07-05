@@ -59,8 +59,10 @@ module PokitDok
     # +params+ an optional Hash of parameters
     #
     def activities(params = {})
+      activity_id = params.delete(:activity_id)
+
       scope 'default'
-      get('activities/', params)
+      get("activities/#{activity_id}", params)
     end
 
     # Invokes the authorizations endpoint.
@@ -283,7 +285,7 @@ module PokitDok
     # +params+ an optional Hash of parameters
     #
     def trading_partners(params = {})
-      trading_partner_id = params.delete :trading_partner_id
+      trading_partner_id = params.delete(:trading_partner_id)
 
       response =
         default_scope.get("tradingpartners/#{trading_partner_id}") do |request|
@@ -301,7 +303,7 @@ module PokitDok
     # +params+ an optional Hash of parameters
     #
     def appointment(params = {})
-      @appointment_id = params.delete :appointment_id
+      @appointment_id = params.delete(:appointment_id)
       scope 'user_schedule'
 
       get_one('schedule/appointmenttypes/', @appointment_id, params)
@@ -327,7 +329,7 @@ module PokitDok
     # +params+ an optional Hash of parameters
     #
     def appointment_type(params = {})
-      appointment_type = params.delete :uuid
+      appointment_type = params.delete(:uuid)
 
       response =
       default_scope.get("schedule/appointmenttypes/#{appointment_type}") do |request|
@@ -357,7 +359,7 @@ module PokitDok
     #
     def book_appointment(appointment_uuid, params = {})
       scope 'user_schedule'
-      
+
       put_one("schedule/appointments", appointment_uuid, params)
     end
 
@@ -367,7 +369,7 @@ module PokitDok
     # get the user's authorization via our OAuth2 provider, and pass the
     # authorization code you received into
     # scope_code('user_schedule', '(the authorization code)')
-    #    
+    #
     # +params+ an optional Hash of parameters
     #
     def cancel_appointment(appointment_uuid, params={})
@@ -382,7 +384,7 @@ module PokitDok
     # get the user's authorization via our OAuth2 provider, and pass the
     # authorization code you received into
     # scope_code('user_schedule', '(the authorization code)')
-    #    
+    #
     # +params+ an optional hash of parameters
     #
     def open_appointment_slots(params = {})
@@ -405,7 +407,7 @@ module PokitDok
     # +params+ an optional Hash of parameters
     #
     def scheduler(params = {})
-      scheduler_id = params.delete :uuid
+      scheduler_id = params.delete(:uuid)
 
       response =
         default_scope.get("schedule/schedulers/#{scheduler_id}") do |request|
@@ -420,7 +422,7 @@ module PokitDok
     # get the user's authorization via our OAuth2 provider, and pass the
     # authorization code you received into
     # scope_code('user_schedule', '(the authorization code)')
-    #    
+    #
     # +params+ an optional Hash of parameters
     #
     def schedule_slots(params = {})
@@ -469,14 +471,14 @@ module PokitDok
     # get the user's authorization via our OAuth2 provider, and pass the
     # authorization code you received into
     # scope_code('user_schedule', '(the authorization code)')
-    #    
+    #
     # +params+ an optional Hash of parameters
     #
     def update_appointment(appointment_uuid, params={})
       scope 'user_schedule'
 
       put_one("schedule/appointments", appointment_uuid, params)
-    end    
+    end
 
     private
       # Returns a standard User-Agent string to be passed along with all requests
@@ -534,7 +536,7 @@ module PokitDok
           JSON.parse(response.body)
         end
       end
-      
+
       # Refreshes the client token associated with this PokitDok connection
       #
       # FIXME: automatic refresh on expiration
