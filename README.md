@@ -123,12 +123,9 @@ pd.insurance_prices(cpt_code: '87799', zip_code: '29403')
               
 ```
 
-This version of pokitdok-ruby supports, and defaults to using, the new
-PokitDok v4 API. If you'd like to continue using the previous v3 API,
-you can pass a third parameter to PokitDok::Pokitdok.new, like this:
-
-```
-@pd = PokitDok::PokitDok.new('my_client_id', 'my_client_secret', 'v3')
+## Check SSL protocol and cipher
+```ruby
+pd.request('/ssl/')
 ```
 
 ## Supported Ruby Versions
