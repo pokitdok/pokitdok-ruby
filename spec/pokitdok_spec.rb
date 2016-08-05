@@ -327,17 +327,6 @@ class PokitDokTest < MiniTest::Test
         end
       end
 
-      describe 'Files endpoint' do
-        it 'should expose the files endpoint' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @files = @@pokitdok.files('MOCKPAYER', 'spec/fixtures/sample.270')
-
-          refute_nil(@files)
-        end
-      end
-
       describe 'Insurance Prices endpoint' do
         it 'should expose the insurance prices endpoint' do
           stub_request(:get, MATCH_NETWORK_LOCATION).
