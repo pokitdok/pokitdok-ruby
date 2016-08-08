@@ -150,16 +150,6 @@ module PokitDok
       get("enrollment/snapshot/#{params[:snapshot_id]}/data")
     end
 
-    # Uploads an EDI file to the files endpoint.
-    # Uses the multipart-post gem, since oauth2 doesn't support multipart.
-    #
-    # +trading_partner_id+ the trading partner to transmit to
-    # +filename+ the path to the file to transmit
-    #
-    def files(trading_partner_id, filename)
-      request('/files/', 'POST', filename, { trading_partner_id: trading_partner_id})
-    end
-
     # Invokes the insurance prices endpoint.
     #
     # +params+ an optional hash of parameters
