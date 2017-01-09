@@ -122,13 +122,12 @@ class OAuthApplicationClient
     if code
       # Currently non functioning as our OAuth2 authorization_code grant type is not implemented on the server
       params =  {
-          headers: { 'Authorization' => 'Basic' },
           scope: @scope,
           redirect_uri: @redirect_uri
       }
       @token = @api_client.auth_code.get_token(code, params)
     else
-      @token = @api_client.client_credentials.get_token(headers: { 'Authorization' => 'Basic' })
+      @token = @api_client.client_credentials.get_token()
     end
   end
 
