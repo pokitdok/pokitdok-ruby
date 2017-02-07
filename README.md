@@ -27,7 +27,7 @@ similar to Figaro, except it loads environment variables from .env, and it doesn
 
 To use `dotenv`, just install the gem by adding to your Gemfile:
 ```
-gem 'dotenv-rails'
+gem 'dotenv-rails', groups: [:development, :test]
 ```
 
 And add your configuration values to a `.env` file. Make sure you git ignore the file so that you don't 
@@ -38,8 +38,10 @@ POKITDOK_CLIENT_SECRET=your_secret_id
 ```
 You can then access the values in your Ruby ENV hash
 ```
-CLIENT_ID = ENV["POKITDOK_CLIENT_ID"]
-CLIENT_SECRET = ENV["POKITDOK_CLIENT_SECRET"]
+require 'dotenv'
+Dotenv.load
+client_id = ENV["POKITDOK_CLIENT_ID"]
+client_secret = ENV["POKITDOK_CLIENT_SECRET"]
 ```
 
 It's also possible to maintain unique sets of environment variables per app using basic linux commands. 
@@ -49,7 +51,12 @@ to store application-specific values.
 ## Quick Start
 ```ruby
 require 'pokitdok'
-pd = PokitDok::PokitDok.new(ENV["POKITDOK_CLIENT_ID"], ENV["POKITDOK_CLIENT_SECRET"])
+require 'dotenv'
+Dotenv.load
+
+client_id = ENV["POKITDOK_CLIENT_ID"]
+client_secret = ENV["POKITDOK_CLIENT_SECRET"]
+pd = PokitDok::PokitDok.new(client_id, client_secret)
 
 # Retrieve provider information by NPI
 pd.providers(npi: '1467560003')
