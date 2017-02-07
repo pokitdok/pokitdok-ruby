@@ -35,7 +35,7 @@ module PokitDok
                    redirect_uri=nil, scope= nil, code=nil, token= nil)
       @version = version
       @api_url = "#{base}/api/#{version}"
-      @user_agent = "pokitdok-ruby 0.8 #{RUBY_DESCRIPTION}"
+      @user_agent = "pokitdok-ruby#0.9.0##{Gem::Platform.local.os}##{Gem::Platform.local.version}"
 
       super(client_id, client_secret, '/oauth2/token', redirect_uri, scope, code, token, user_agent)
     end
