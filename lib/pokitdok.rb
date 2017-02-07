@@ -409,7 +409,7 @@ module PokitDok
       end
     end
 
-    private
+    public
       def get(endpoint, params = {})
         response = request(endpoint, 'GET', nil, params)
 
