@@ -25,9 +25,7 @@ Always use environment variables to store your PokitDok client and secret keys. 
 we recommmend either using `dotenv` or setting plain old Linux OS environment variables.  The dotenv gem is very 
 similar to Figaro, except it loads environment variables from .env, and it doesn't use YAML.
 
-To use `dotenv`, just install the gem:
-
-##### Gemfile
+To use `dotenv`, just install the gem by adding to your Gemfile:
 ```
 gem 'dotenv-rails'
 ```
@@ -43,6 +41,10 @@ You can then access the values in your Ruby ENV hash
 CLIENT_ID = ENV["POKITDOK_CLIENT_ID"]
 CLIENT_SECRET = ENV["POKITDOK_CLIENT_SECRET"]
 ```
+
+It's also possible to maintain unique sets of environment variables per app using basic linux commands. 
+One approach is to have each app running on your server be owned by a different user. You can then use the user's `.bashrc`
+to store application-specific values.
 
 ## Quick Start
 ```ruby
