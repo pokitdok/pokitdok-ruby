@@ -9,3 +9,4 @@ pkg
 .idea
 *.iml
 *.gem
+.env

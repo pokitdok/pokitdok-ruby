@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-CLIENT_ID = 'F7q38MzlwOxUwTHb7jvk'
-CLIENT_SECRET = 'O8DRamKmKMLtSTPjK99eUlbfOQEc44VVmp8ARmcY'
+CLIENT_ID = ENV["POKITDOK_CLIENT_ID"]
+CLIENT_SECRET = ENV["POKITDOK_CLIENT_SECRET"]
 SCHEDULE_AUTH_CODE = 'KmCCkuYkSmPEf7AxaCIUApX1pUFedJx9CrDWPMD8'
 BASE_URL = 'https://platform.pokitdok.com/v4/api'
 MATCH_NETWORK_LOCATION = /(.*\.)?pokitdok\.com/
