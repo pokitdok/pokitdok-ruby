@@ -13,7 +13,6 @@ group :development do
 	gem 'jeweler', '~> 2.0'
 	gem 'ansi', '~> 1.4'
 	gem 'minitest-reporters', '~> 1.0'
-	gem 'webmock', '~> 1.17'
 	gem 'guard', '~> 2.6'
 	gem 'guard-minitest', '~> 2.2'
 	gem 'terminal-notifier'
