@@ -71,6 +71,7 @@ class PokitDokTest < MiniTest::Test
         refute_nil(response["meta"].keys)
         refute_nil(response["data"].keys)
         assert response["data"]["client_id"] == CLIENT_ID
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
     end
     describe 'Error Test: Missing Trading Partner ID' do
@@ -93,6 +94,7 @@ class PokitDokTest < MiniTest::Test
         refute_nil(response["meta"].keys)
         refute_nil(response["data"].keys)
         assert response["data"]["errors"]["query"].to_s.include? "Unable to find configuration for trading_partner_id: None, transaction_set_name: eligibility"
+        assert @@pokitdok.status_code == 400, "Status Code assertion failure. Tested for 400, Observed status code: #{@@pokitdok.status_code}"
       end
     end
     describe 'Validation Error Test: Malformed Request' do
@@ -102,6 +104,7 @@ class PokitDokTest < MiniTest::Test
         refute_nil(response["meta"].keys)
         refute_nil(response["data"].keys)
         assert response["data"]["errors"]["validation"].to_s.include? "This endpoint only accepts JSON requests of <type 'dict'>. Request provided was of <type 'unicode'>."
+        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
       end
     end
     describe 'Validation Error Test: Malformed Request' do
@@ -118,6 +121,7 @@ class PokitDokTest < MiniTest::Test
         response = @@pokitdok.eligibility @bad_request
         refute_nil(response["meta"].keys)
         refute_nil(response["data"].keys)
+        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
         assert response["data"]["errors"]["validation"]["member"]["id"].to_s.include? "String value is too short."
       end
     end
@@ -141,6 +145,7 @@ class PokitDokTest < MiniTest::Test
         refute_nil(response["meta"].keys)
         refute_nil(response["data"].keys)
         assert response["data"]["errors"]["validation"]["provider"]["npi"].to_s.include? "String value is too short."
+        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
       end
     end
   end

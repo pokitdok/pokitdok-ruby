@@ -20,6 +20,7 @@ module PokitDok
     attr_reader :api_client # :nodoc:
     attr_reader :api_url
     attr_reader :version
+    attr_reader :status_code
 
     # Connect to the PokitDok API with the specified Client ID and Client
     # Secret.
@@ -36,7 +37,6 @@ module PokitDok
       @version = version
       @api_url = "#{base}/api/#{version}"
       @user_agent = "pokitdok-ruby#0.9.0##{Gem::Platform.local.os}##{Gem::Platform.local.version}"
-
       super(client_id, client_secret, '/oauth2/token', redirect_uri, scope, code, token, user_agent)
     end
 
@@ -412,25 +412,25 @@ module PokitDok
     public
       def get(endpoint, params = {})
         response = request(endpoint, 'GET', nil, params)
-
+        @status_code = response.status
         JSON.parse(response.body)
       end
 
       def post(endpoint, params = {})
         response = request(endpoint, 'POST', nil, params)
-
+        @status_code = response.status
         JSON.parse(response.body)
       end
 
       def put(endpoint, params = {})
         response = request(endpoint, 'PUT', nil, params)
-
+        @status_code = response.status
         JSON.parse(response.body)
       end
 
       def delete(endpoint, params = {})
         response = request(endpoint, 'DELETE', nil, params)
-
+        @status_code = response.status
         if response.body.empty?
           response.status == 204
         else
