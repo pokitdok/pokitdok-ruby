@@ -40,9 +40,10 @@ module PokitDok
       super(client_id, client_secret, '/oauth2/token', redirect_uri, scope, code, token, user_agent)
     end
 
-    # Invokes the appointments endpoint, to query for open appointment slots
-    # (using pd_provider_uuid and location) or booked appointments (using
-    # patient_uuid).
+    # Invokes the activities endpoint.
+    #
+    # This endpoint uses the user_schedule OAuth2 scope. You'll need to
+    # get the user's authorization via our OAuth2 provider
     #
     # +params+ an optional Hash of parameters
     #
@@ -99,7 +100,7 @@ module PokitDok
     end
 
     # Uploads an .837 file to the claims convert endpoint.
-    # Uses the multipart-post gem, since oauth2 doesn't support multipart.
+    # Uses the multipart-post gem, since oauth2 adoesn't support multipart.
     #
     # +x12_claims_file+ the path to the file to transmit
     #
@@ -212,10 +213,9 @@ module PokitDok
       get("schedule/appointmenttypes/#{appointment_id}", params)
     end
 
-    # Invokes the activities endpoint.
-    #
-    # This endpoint uses the user_schedule OAuth2 scope. You'll need to
-    # get the user's authorization via our OAuth2 provider
+    # Invokes the appointments endpoint, to query for open appointment slots
+    # (using pd_provider_uuid and location) or booked appointments (using
+    # patient_uuid).
     #
     # +params+ an optional Hash of parameters
     #

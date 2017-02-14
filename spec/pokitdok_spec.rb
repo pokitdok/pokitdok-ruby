@@ -170,8 +170,10 @@ class PokitDokTest < MiniTest::Test
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
     end
-    describe 'Live test of PUT and DELETE via the claims and activities endpoints' do
-      it 'should make a real eligibility call' do
+
+    describe 'Live test of PUT, DELETE, CLAIMS, ACTIVITIES' do
+      it 'Exercise the workflow of submitting a and deleting a claim' do
+        # this claim body represents the minimal amount of data needed to submit a claim via the claims endpoint
         @test_claim = {
             transaction_code: "chargeable",
             trading_partner_id: "MOCKPAYER",
@@ -223,17 +225,20 @@ class PokitDokTest < MiniTest::Test
         refute_nil(claim_response["meta"].keys, msg="the response[meta] section is empty")
         refute_nil(claim_response["data"].keys, msg="the response[data] section is empty")
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+        # use the activities endpoint via a GET to analyze the current status of this claim
         activity_id = claim_response["meta"]["activity_id"]
         activity_url = "/activities/#{activity_id}"
-
-        # check to see if the claim has started processing yet
-        get_response = @@pokitdok.get(url, data={})
-        assert refute_nil(get_response["data"]["history"], msg="the response[data][history] section is empty")
+        get_response = @@pokitdok.get(activity_url, data={})
+        refute_nil(get_response["data"]["history"], msg="the response[data][history] section is empty")
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+        # look in the history to see if it has transitioned from state "init" to "canceled"
         history = get_response["data"]["history"]
         if history.length != 1
           # this means that the claim is been picked up and is processing within the internal pokitdok system
-          # we aim to test out the put functionality by deleting the claim, so we need to resubmit
+          # we aim to test out the put functionality by deleting the claim,
+          # so we need to resubmit a claim to get one that is going to stay in the INIT stage
           claim_response = @@pokitdok.claims(@test_claim)
           refute_nil(claim_response["meta"].keys, msg="the response[meta] section is empty")
           refute_nil(claim_response["data"].keys, msg="the response[data] section is empty")
@@ -241,9 +246,34 @@ class PokitDokTest < MiniTest::Test
           activity_id = claim_response["meta"]["activity_id"]
           activity_url = "/activities/#{activity_id}"
         end
-        # exercise the PUT functionality to remove a claim
-        put_data = @@pokitdok.put(url, data={transition: "cancel"})
 
+        # exercise the PUT functionality to delete the claim from its INIT status
+        put_data = @@pokitdok.put(activity_url, data={transition: "cancel"})
+        # look in the history to see if it has transitioned from state "init" to "canceled"
+        history = put_data["data"]["history"]
+        assert history.length == 3, "Tested for cancelled claim, but recived the following claim history: #{history.to_s}"
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+        # exercise the PUT functionality to delete an already deleted claim
+        put_data = @@pokitdok.put(activity_url, data={transition: "cancel"})
+        refute_nil(put_data["data"]["errors"], msg="The response[data][errors] is empty")
+        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
+
+        # exercise the activities endpoint to get the status of this claims transaction
+        updated_get_response = @@pokitdok.activities({activity_id: claim_response["meta"]["activity_id"]})
+        refute_nil(updated_get_response["meta"], msg="the response[meta] section is empty. The full response: #{updated_get_response.to_s}")
+        refute_nil(updated_get_response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+        assert @@pokitdok.status_code == 422, "response body: #{updated_get_response["data"]}"
+        history_status = updated_get_response["data"]["history"]
+        status = []
+        history_status.each do |status_dict|
+          status.push(status_dict["name"])
+        end
+        # assert that all 3 transitions of a claim are in the history of this mock claim
+        assert history_status.include?  "init", "Failed test for init in the historical status. Full status: #{history_status.to_s}"
+        assert history_status.include?  "scheduled", "Failed test for scheduled in the historical status. Full status: #{history_status.to_s}"
+        assert history_status.include?  "canceled", "Failed test for canceled in the historical status. Full status: #{history_status.to_s}"
       end
     end
   end
