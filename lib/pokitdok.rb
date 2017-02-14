@@ -47,8 +47,12 @@ module PokitDok
     #
     # +params+ an optional Hash of parameters
     #
-    def activities(params = {})
-      get('activities/', params)
+    def activities(activity_id = nil, params = {})
+      activities_endpoint = 'activities/'
+      if activity_id
+        activities_endpoint = "activities/" + activity_id.to_s
+      end
+      get(activities_endpoint, params)
     end
 
     # Invokes the authorizations endpoint.
