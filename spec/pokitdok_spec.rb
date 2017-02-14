@@ -260,20 +260,19 @@ class PokitDokTest < MiniTest::Test
         assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
 
         # exercise the activities endpoint to get the status of this claims transaction
-        updated_get_response = @@pokitdok.activities({activity_id: claim_response["meta"]["activity_id"]})
+        updated_get_response = @@pokitdok.activities(claim_response["meta"]["activity_id"])
         refute_nil(updated_get_response["meta"], msg="the response[meta] section is empty. The full response: #{updated_get_response.to_s}")
         refute_nil(updated_get_response["data"], msg="the response[data] section is empty")
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
-        assert @@pokitdok.status_code == 422, "response body: #{updated_get_response["data"]}"
         history_status = updated_get_response["data"]["history"]
         status = []
         history_status.each do |status_dict|
-          status.push(status_dict["name"])
+          status << status_dict["name"]
         end
         # assert that all 3 transitions of a claim are in the history of this mock claim
-        assert history_status.include?  "init", "Failed test for init in the historical status. Full status: #{history_status.to_s}"
-        assert history_status.include?  "scheduled", "Failed test for scheduled in the historical status. Full status: #{history_status.to_s}"
-        assert history_status.include?  "canceled", "Failed test for canceled in the historical status. Full status: #{history_status.to_s}"
+        assert status.include?("init"), "Failed test for init in the historical status. Full status: #{status}"
+        assert status.include?("scheduled"), "Failed test for scheduled in the historical status. Full status: #{status}"
+        assert status.include?("canceled"), "Failed test for canceled in the historical status. Full status: #{status}"
       end
     end
   end
