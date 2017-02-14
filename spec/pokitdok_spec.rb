@@ -24,7 +24,11 @@ class PokitDokTest < MiniTest::Test
         @@pokitdok = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET)
       end
     end
-
+    #
+    # ******************************
+    # client set up tests
+    # ******************************
+    #
     describe 'Test token reuse' do
       it 'should work with existing token' do
         pokitdok_for_token = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET)
@@ -50,29 +54,11 @@ class PokitDokTest < MiniTest::Test
       end
     end
 
-    describe 'Live Eligibility Test' do
-      it 'should make a real eligibility call' do
-        @eligibility_query = {
-            member: {
-                birth_date: '1970-01-01',
-                first_name: 'Jane',
-                last_name: 'Doe',
-                id: 'W000000000'
-            },
-            provider: {
-                first_name: 'JEROME',
-                last_name: 'AYA-AY',
-                npi: '1467560003'
-            },
-            service_types: ['health_benefit_plan_coverage'],
-            trading_partner_id: 'MOCKPAYER'
-        }
-        response = @@pokitdok.eligibility @eligibility_query
-        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
-        refute_nil(response["data"].keys, msg="the response[data] section is empty")
-        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
-      end
-    end
+    #
+    # ******************************
+    # error tests
+    # ******************************
+    #
     describe 'Error Test: Missing Trading Partner ID' do
       it 'make a call to eligibility without a Trading partner' do
         @eligibility_query_2 = {
@@ -147,8 +133,13 @@ class PokitDokTest < MiniTest::Test
         assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
       end
     end
-    describe 'Live Eligibility Test via the direct POST method' do
-      it 'should make a real eligibility call' do
+    #
+    # ******************************
+    # get/post/put tests
+    # ******************************
+    #
+    describe 'test the POST method' do
+      it 'should make a real eligibility via the POST method' do
         @eligibility_query = {
             member: {
                 birth_date: '1970-01-01',
@@ -170,7 +161,6 @@ class PokitDokTest < MiniTest::Test
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
     end
-
     describe 'Live test of PUT, DELETE, CLAIMS, ACTIVITIES' do
       it 'Exercise the workflow of submitting a and deleting a claim' do
         # this claim body represents the minimal amount of data needed to submit a claim via the claims endpoint
@@ -224,14 +214,14 @@ class PokitDokTest < MiniTest::Test
         claim_response = @@pokitdok.claims(@test_claim)
         refute_nil(claim_response["meta"].keys, msg="the response[meta] section is empty")
         refute_nil(claim_response["data"].keys, msg="the response[data] section is empty")
-        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200 on use of claims endpoint, Observed status code: #{@@pokitdok.status_code}"
 
         # use the activities endpoint via a GET to analyze the current status of this claim
         activity_id = claim_response["meta"]["activity_id"]
         activity_url = "/activities/#{activity_id}"
         get_response = @@pokitdok.get(activity_url, data={})
         refute_nil(get_response["data"]["history"], msg="the response[data][history] section is empty")
-        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200 on the first get to activities, Observed status code: #{@@pokitdok.status_code}"
 
         # look in the history to see if it has transitioned from state "init" to "canceled"
         history = get_response["data"]["history"]
@@ -242,38 +232,308 @@ class PokitDokTest < MiniTest::Test
           claim_response = @@pokitdok.claims(@test_claim)
           refute_nil(claim_response["meta"].keys, msg="the response[meta] section is empty")
           refute_nil(claim_response["data"].keys, msg="the response[data] section is empty")
-          assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+          assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200 on the second use of claims endpoint, Observed status code: #{@@pokitdok.status_code}"
           activity_id = claim_response["meta"]["activity_id"]
           activity_url = "/activities/#{activity_id}"
         end
 
         # exercise the PUT functionality to delete the claim from its INIT status
         put_data = @@pokitdok.put(activity_url, data={transition: "cancel"})
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200 on put to cancel the activity, Observed status code: #{@@pokitdok.status_code}"
+        refute_nil(put_data, msg="the respones body is empty")
+        refute_nil(put_data["data"], msg="the responesbody[data] is empty")
+        assert put_data["data"].kind_of?(Hash), "Error grabbing the activity data; try running the test suite again. Full response: #{put_data}"
+
         # look in the history to see if it has transitioned from state "init" to "canceled"
+        assert put_data["data"]["history"].kind_of?(Array), "Error grabbing the activity data; try running the test suite again. Full response: #{assert put_data["data"]["history"]}"
         history = put_data["data"]["history"]
         assert history.length == 3, "Tested for cancelled claim, but recived the following claim history: #{history.to_s}"
-        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
 
         # exercise the PUT functionality to delete an already deleted claim
         put_data = @@pokitdok.put(activity_url, data={transition: "cancel"})
         refute_nil(put_data["data"]["errors"], msg="The response[data][errors] is empty")
-        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
+        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422 on put to cancel the activity, Observed status code: #{@@pokitdok.status_code}"
 
         # exercise the activities endpoint to get the status of this claims transaction
         updated_get_response = @@pokitdok.activities(claim_response["meta"]["activity_id"])
         refute_nil(updated_get_response["meta"], msg="the response[meta] section is empty. The full response: #{updated_get_response.to_s}")
         refute_nil(updated_get_response["data"], msg="the response[data] section is empty")
-        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
-        history_status = updated_get_response["data"]["history"]
-        status = []
-        history_status.each do |status_dict|
-          status << status_dict["name"]
-        end
-        # assert that all 3 transitions of a claim are in the history of this mock claim
-        assert status.include?("init"), "Failed test for init in the historical status. Full status: #{status}"
-        assert status.include?("scheduled"), "Failed test for scheduled in the historical status. Full status: #{status}"
-        assert status.include?("canceled"), "Failed test for canceled in the historical status. Full status: #{status}"
+        assert @@pokitdok.status_code == 404, "Status Code assertion failure. Tested for 200 on the last use of the activities endpoint, Observed status code: #{@@pokitdok.status_code} #{updated_get_response}"
+        assert updated_get_response["data"]["errors"]["query"].include?("is not a valid Activity Id"), "Failed test for error message. Observed payload: #{updated_get_response}"
       end
     end
+    #
+    # ******************************
+    # X12 API tests
+    # ******************************
+    #
+    describe 'X12 API Convenience function test: authorizations' do
+      it 'make a call to the live endpoint for: authorizations' do
+        @params = {
+            event: {
+                category: "health_services_review",
+                certification_type: "initial",
+                delivery: {
+                    quantity: 1,
+                    quantity_qualifier: "visits"
+                },
+                diagnoses: [
+                    {
+                        code: "R10.9",
+                        date: "2016-01-25"
+                    }
+                ],
+                place_of_service: "office",
+                provider: {
+                    organization_name: "KELLY ULTRASOUND CENTER, LLC",
+                    npi: "1760779011",
+                    phone: "8642341234"
+                },
+                services: [
+                    {
+                        cpt_code: "76700",
+                        measurement: "unit",
+                        quantity: 1
+                    }
+                ],
+                type: "diagnostic_medical"
+            },
+            patient: {
+                birth_date: "1970-01-25",
+                first_name: "JANE",
+                last_name: "DOE",
+                id: "1234567890"
+            },
+            provider: {
+                first_name: "JEROME",
+                npi: "1467560003",
+                last_name: "AYA-AY"
+            },
+            trading_partner_id: "MOCKPAYER"
+        }
+        response = @@pokitdok.authorizations @params
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'X12 API Convenience function test: claims_status' do
+      it 'make a call to the live endpoint for: claims_status' do
+        @params = {
+            patient: {
+                birth_date: "1970-01-25",
+                first_name: "JANE",
+                last_name: "DOE",
+                id: "1234567890"
+            },
+            provider: {
+                first_name: "Jerome",
+                last_name: "Aya-Ay",
+                npi: "1467560003"
+            },
+            service_date: "2014-01-25",
+            trading_partner_id: "MOCKPAYER"
+        }
+        response = @@pokitdok.claims_status @params
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'X12 API Convenience function test: claims_convert' do
+      it 'make a call to the live endpoint for: claims_convert' do
+        response = @@pokitdok.claims_convert('spec/fixtures/test_claim.837')
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'X12 API Convenience function test: eligibility' do
+      it 'make a call to the live endpoint for: eligibility' do
+        params = {
+            member: {
+                birth_date: '1970-01-01',
+                first_name: 'Jane',
+                last_name: 'Doe',
+                id: 'W000000000'
+            },
+            provider: {
+                first_name: 'JEROME',
+                last_name: 'AYA-AY',
+                npi: '1467560003'
+            },
+            service_types: ['health_benefit_plan_coverage'],
+            trading_partner_id: 'MOCKPAYER'
+        }
+        response = @@pokitdok.eligibility params
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+      end
+    end
+    describe 'X12 API Convenience function test: referrals' do
+      it 'make a call to the live endpoint for: referrals' do
+        @params = {
+            event: {
+                category: "specialty_care_review",
+                certification_type: "initial",
+                delivery: {
+                    quantity: 1,
+                    quantity_qualifier: "visits"
+                },
+                diagnoses: [
+                    {
+                        code: "H72.90",
+                        date: "2014-09-25"
+                    }
+                ],
+                place_of_service: "office",
+                provider: {
+                    first_name: "JOHN",
+                    npi: "1154387751",
+                    last_name: "FOSTER",
+                    phone: "8645822900"
+                },
+                type: "consultation"
+            },
+            patient: {
+                birth_date: "1970-01-25",
+                first_name: "JANE",
+                last_name: "DOE",
+                id: "1234567890"
+            },
+            provider: {
+                first_name: "CHRISTINA",
+                last_name: "BERTOLAMI",
+                npi: "1619131232"
+            },
+            trading_partner_id: "MOCKPAYER"
+        }
+        response = @@pokitdok.referrals @params
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    #
+    # ******************************
+    # Data API tests
+    # ******************************
+    #
+    describe 'Data API Convenience function test: cash_prices' do
+      it 'make a call to the live endpoint for: cash_prices' do
+        response = @@pokitdok.cash_prices({ zip_code: '29412', cpt_code: '99385'})
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Data API Convenience function test: icd_convert' do
+      it 'make a call to the live endpoint for: icd_convert' do
+        @params = {code: '250.12'}
+        response = @@pokitdok.icd_convert @params
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Data API Convenience function test: mpc' do
+      it 'make a call to the live endpoint for: mpc' do
+        @params = {code: '99213'}
+        response = @@pokitdok.mpc @params
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Data API Convenience function test: insurance_prices' do
+      it 'make a call to the live endpoint for: insurance_prices' do
+        @params = {zip_code: '94401', cpt_code: '90658'}
+        response = @@pokitdok.insurance_prices @params
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Data API Convenience function test: plans' do
+      it 'make a call to the live endpoint for: plans' do
+        @params = {state: 'SC', plan_type: 'PPO'}
+        response = @@pokitdok.plans @params
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Data API Convenience function test: providers' do
+      it 'make a call to the live endpoint for: providers' do
+        @params = {npi: '1467560003'}
+        response = @@pokitdok.providers @params
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Data API Convenience function test: trading_partners' do
+      it 'make a call to the live endpoint for: trading_partners' do
+        response = @@pokitdok.trading_partners("aetna")
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+      end
+    end
+
+    #
+    # ******************************
+    # Pharmacy API tests
+    # ******************************
+    #
+    describe 'Pharmacy API Convenience function test: pharmacy_plans' do
+      it 'make a call to the live endpoint for: pharmacy_plans' do
+        response = @@pokitdok.pharmacy_plans(trading_partner_id:'medicare_national', plan_number:'S5820003')
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Pharmacy API Convenience function test: pharmacy_formulary' do
+      it 'make a call to the live endpoint for: pharmacy_formulary' do
+        response = @@pokitdok.pharmacy_formulary(trading_partner_id: 'medicare_national', plan_number: 'S5820003', ndc: '00006073554')
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Pharmacy API Convenience function test: pharmacy_network' do
+      it 'make a call to the live endpoint for: pharmacy_network' do
+        response = @@pokitdok.pharmacy_network(trading_partner_id: 'medicare_national', plan_number: 'S5820003' , zipcode: '07030', radius: '1mi')
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+      end
+    end
+    #
+    # ******************************
+    # scheduling tests
+    # ******************************
+    #
+
+    #
+    # ******************************
+    # identity tests
+    # ******************************
+    #
   end
 end
+

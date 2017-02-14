@@ -50,7 +50,7 @@ module PokitDok
     def activities(activity_id = nil, params = {})
       activities_endpoint = 'activities/'
       if activity_id
-        activities_endpoint = "activities/" + activity_id.to_s
+        activities_endpoint = "activities/#{activity_id}" + activity_id.to_s
       end
       get(activities_endpoint, params)
     end
@@ -199,8 +199,10 @@ module PokitDok
     #
     # +params+ an optional Hash of parameters
     #
-    def trading_partners(params = {})
-      trading_partner_id = params.delete :trading_partner_id
+    def trading_partners(trading_partner_id = nil, params = {})
+      if params
+        trading_partner_id = params.delete :trading_partner_id
+      end
       get("tradingpartners/#{trading_partner_id}")
     end
 
