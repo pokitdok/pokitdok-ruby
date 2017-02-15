@@ -72,25 +72,23 @@ class OAuthApplicationClient
   # +path+ request path
   # +file+ the file to be sent with the request
   # +params+ an optional hash of parameters that will be sent in the request
-  def post_file(endpoint, file=nil, params={})
-    def post_file(endpoint, file=nil, params={})
-      if isAccessTokenExpired?
-        fetch_access_token()
+  def post_file(endpoint, file_name=nil, params={})
+    if isAccessTokenExpired?
+      fetch_access_token()
+    end
+    url = URI.parse(@api_url + endpoint)
+
+    File.open(file) do |f|
+      additional_params = params.merge({'file' => UploadIO.new(f, 'application/EDI-X12', file)})
+      req = Net::HTTP::Post::Multipart.new(url.path, additional_params)
+      req['Content-Type'] = 'application/EDI-X12'
+      req['Authorization'] = "Bearer #{self.token.token}"
+      req['User-Agent'] = @user_agent
+
+      @response = Net::HTTP.start(url.host, url.port) do |http|
+        http.request(req)
       end
-      url = URI.parse(@api_url + endpoint)
-
-      File.open(file) do |f|
-        additional_params = params.merge({'file' => UploadIO.new(f, 'application/EDI-X12', file)})
-        req = Net::HTTP::Post::Multipart.new(url.path, additional_params)
-
-        req['Authorization'] = "Bearer #{self.token.token}"
-        req['User-Agent'] = @user_agent
-
-        @response = Net::HTTP.start(url.host, url.port) do |http|
-          http.request(req)
-        end
-        JSON.parse(@response.body)
-      end
+      JSON.parse(@response.body)
     end
   end
 
