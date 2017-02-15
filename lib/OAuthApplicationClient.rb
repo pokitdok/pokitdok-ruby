@@ -1,4 +1,5 @@
 require 'oauth2'
+require 'rest-client'
 
 # OAuth 2.0 Client implementation for Ruby.
 class OAuthApplicationClient
@@ -63,8 +64,7 @@ class OAuthApplicationClient
     if isAccessTokenExpired?
       fetch_access_token()
     end
-    headers.merge({ headers: { :'Content-Type' => 'application/json'}})
-    @token.post(path, body: params.to_json, headers: headers({:'Content-Type' => 'application/json'}), &block)
+    @token.post(path, body: params.to_json, headers: headers({'Content-Type' => 'application/json'}), &block)
   end
 
   # Perform a POST request given the http request path, a file and optional params
@@ -73,22 +73,24 @@ class OAuthApplicationClient
   # +file+ the file to be sent with the request
   # +params+ an optional hash of parameters that will be sent in the request
   def post_file(endpoint, file=nil, params={})
-    if isAccessTokenExpired?
-      fetch_access_token()
-    end
-    url = URI.parse(@api_url + endpoint)
-
-    File.open(file) do |f|
-      additional_params = params.merge({'file' => UploadIO.new(f, 'application/EDI-X12', file)})
-      req = Net::HTTP::Post::Multipart.new(url.path, additional_params)
-
-      req['Authorization'] = "Bearer #{self.token.token}"
-      req['User-Agent'] = @user_agent
-
-      @response = Net::HTTP.start(url.host, url.port) do |http|
-        http.request(req)
+    def post_file(endpoint, file=nil, params={})
+      if isAccessTokenExpired?
+        fetch_access_token()
       end
-      JSON.parse(@response.body)
+      url = URI.parse(@api_url + endpoint)
+
+      File.open(file) do |f|
+        additional_params = params.merge({'file' => UploadIO.new(f, 'application/EDI-X12', file)})
+        req = Net::HTTP::Post::Multipart.new(url.path, additional_params)
+
+        req['Authorization'] = "Bearer #{self.token.token}"
+        req['User-Agent'] = @user_agent
+
+        @response = Net::HTTP.start(url.host, url.port) do |http|
+          http.request(req)
+        end
+        JSON.parse(@response.body)
+      end
     end
   end
 

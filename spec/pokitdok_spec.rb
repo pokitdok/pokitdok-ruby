@@ -342,6 +342,7 @@ class PokitDokTest < MiniTest::Test
 
       end
     end
+=begin
     describe 'X12 API Convenience function test: claims_convert' do
       it 'make a call to the live endpoint for: claims_convert' do
         response = @@pokitdok.claims_convert('spec/fixtures/test_claim.837')
@@ -351,6 +352,7 @@ class PokitDokTest < MiniTest::Test
 
       end
     end
+=end
     describe 'X12 API Convenience function test: eligibility' do
       it 'make a call to the live endpoint for: eligibility' do
         params = {
