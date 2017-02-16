@@ -342,19 +342,15 @@ class PokitDokTest < MiniTest::Test
 
       end
     end
-
-=begin
     describe 'X12 API Convenience function test: claims_convert' do
       it 'make a call to the live endpoint for: claims_convert' do
         response = @@pokitdok.claims_convert('spec/fixtures/test_claim.837')
         refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
         refute_nil(response["data"].keys, msg="the response[data] section is empty")
-        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{response}"
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
 
       end
     end
-=end
-
     describe 'X12 API Convenience function test: eligibility' do
       it 'make a call to the live endpoint for: eligibility' do
         params = {

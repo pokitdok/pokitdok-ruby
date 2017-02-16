@@ -401,12 +401,12 @@ module PokitDok
     # method is found. In this case the 'httpMethod'_request
     def request(endpoint, method='get', file=nil, params={})
       method = method.downcase
-      if endpoint[0] == '/'
-        endpoint[0] = ''
-      end
       if file
         self.send("post_file", endpoint, file)
       else
+        if endpoint[0] == '/'
+          endpoint[0] = ''
+        end
         # Work around to delete the leading slash on the request endpoint
         # Currently the module we're using appends a slash to the base url
         # so an additional url will break the request.
