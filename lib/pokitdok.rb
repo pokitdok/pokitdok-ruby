@@ -274,7 +274,7 @@ module PokitDok
     # +params+ an optional hash of parameters
     #
     def oop_insurance_prices(params = {})
-      post("/oop/insurance-load-price ", params)
+      post("/oop/insurance-load-price", params)
     end
 
     # Invokes the payers endpoint.
@@ -497,8 +497,8 @@ module PokitDok
 
 
     # Invokes the identity proof questionnaire endpoint
-    #  Validates an identity proof request and generates a
-    #  Knowledge Based Authentication questionnaire if possible
+    # Validates an identity proof request and generates a
+    # Knowledge Based Authentication questionnaire if possible
     #
     # +params+ a hash of parameters that will be sent in the POST body
     #
