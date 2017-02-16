@@ -85,7 +85,7 @@ class OAuthApplicationClient
       req['Authorization'] = "Bearer #{self.token.token}"
       req['User-Agent'] = @user_agent
 
-      @response = Net::HTTP.start(url.host, url.port) do |http|
+      @response = Net::HTTP.start(url.host, url.port, :use_ssl => true) do |http|
         http.request(req)
       end
       JSON.parse(@response.body)
