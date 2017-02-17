@@ -7,6 +7,8 @@ Dotenv.load
 
 CLIENT_ID = ENV["POKITDOK_CLIENT_ID"]
 CLIENT_SECRET = ENV["POKITDOK_CLIENT_SECRET"]
+CLIENT_ID_SI = ENV["POKITDOK_PLATFORM_API_CLIENT_ID"]
+CLIENT_SECRET_SI = ENV["POKITDOK_PLATFORM_API_CLIENT_SECRET"]
 SCHEDULE_AUTH_CODE = 'KmCCkuYkSmPEf7AxaCIUApX1pUFedJx9CrDWPMD8'
 BASE_URL = 'https://platform.pokitdok.com/v4/api'
 MATCH_NETWORK_LOCATION = /(.*\.)?pokitdok\.com/
@@ -48,6 +50,7 @@ class PokitDokTest < MiniTest::Test
     before do
       if @@pokitdok.nil?
         @@pokitdok = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET)
+        @@pokitdok_SI = PokitDok::PokitDok.new(CLIENT_ID_SI, CLIENT_SECRET_SI)
       end
     end
     #
@@ -600,20 +603,20 @@ class PokitDokTest < MiniTest::Test
 
     describe 'Scheduling API convenience function test: schedulers' do
       it 'make a call to the live endpoint for: schedulers' do
-          response = @@pokitdok.schedulers
-          refute_nil(response["meta"], msg="the response[meta] section is empty")
-          refute_nil(response["data"], msg="the response[data] section is empty")
+          response = @@pokitdok_SI.schedulers
+          refute_nil(response["meta"], msg="the response[meta] section is empty: #{response}")
+          refute_nil(response["data"], msg="the response[data] section is empty: #{response}")
           assert response["data"][0]["name"] == 'PokitDok', "Scheduler name failure: checked for Pokitdok, observed: #{response["data"][0]["name"]}"
           assert response["data"][1]["name"] == 'Greenway', "Scheduler name failure: checked for Greenway, observed: #{response["data"][1]["name"]}"
           assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
     end
 
-    describe 'Scheduling API convenience function test: schedulers' do
-      it 'make a call to the live endpoint for: schedulers' do
-        response = @@pokitdok.schedulers('967d207f-b024-41cc-8cac-89575a1f6fef')
-        refute_nil(response["meta"], msg="the response[meta] section is empty")
-        refute_nil(response["data"], msg="the response[data] section is empty")
+    describe 'Scheduling API convenience function test: schedulers for specific uuid' do
+      it 'make a call to the live endpoint for: schedulers for specific uuid' do
+        response = @@pokitdok_SI.schedulers('967d207f-b024-41cc-8cac-89575a1f6fef')
+        refute_nil(response["meta"], msg="the response[meta] section is empty: #{response}")
+        refute_nil(response["data"], msg="the response[data] section is empty: #{response}")
         assert response["data"][0]["scheduler_uuid"] == '967d207f-b024-41cc-8cac-89575a1f6fef', "Scheduler uuid failure: checked for 967d207f-b024-41cc-8cac-89575a1f6fef, observed: #{response["data"][0]["scheduler_uuid"]}"
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
@@ -621,9 +624,9 @@ class PokitDokTest < MiniTest::Test
 
     describe 'Scheduling API convenience function test: appointment_types' do
       it 'make a call to the live endpoint for: appointment_types' do
-        response = @@pokitdok.appointment_types
-        refute_nil(response["meta"], msg="the response[meta] section is empty")
-        refute_nil(response["data"], msg="the response[data] section is empty")
+        response = @@pokitdok_SI.appointment_types
+        refute_nil(response["meta"], msg="the response[meta] section is empty: #{response}")
+        refute_nil(response["data"], msg="the response[data] section is empty: #{response}")
         assert response["data"][0]["appointment_type_uuid"] == 'a3a45130-4adb-4d2c-9411-85a9d9ac4aa2', "appointment_type_uuid failure: checked for a3a45130-4adb-4d2c-9411-85a9d9ac4aa2, observed: #{response["data"][0]["appointment_type_uuid"]}"
         assert response["data"][1]["appointment_type_uuid"] == '3ee5c84a-b878-4ce2-b8cc-77743e2f9be1', "appointment_type_uuid failure: checked for 3ee5c84a-b878-4ce2-b8cc-77743e2f9be1, observed: #{response["data"][1]["appointment_type_uuid"]}"
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
@@ -631,11 +634,11 @@ class PokitDokTest < MiniTest::Test
       end
     end
 
-    describe 'Scheduling API convenience function test: appointment_types' do
-      it 'make a call to the live endpoint for: appointment_types' do
-        response = @@pokitdok.appointment_types("a3a45130-4adb-4d2c-9411-85a9d9ac4aa2")
-        refute_nil(response["meta"], msg="the response[meta] section is empty")
-        refute_nil(response["data"], msg="the response[data] section is empty")
+    describe 'Scheduling API convenience function test: appointment_types for specific uuid' do
+      it 'make a call to the live endpoint for: appointment_types for specific uuid' do
+        response = @@pokitdok_SI.appointment_types("a3a45130-4adb-4d2c-9411-85a9d9ac4aa2")
+        refute_nil(response["meta"], msg="the response[meta] section is empty: #{response}")
+        refute_nil(response["data"], msg="the response[data] section is empty: #{response}")
         assert response["data"][0]["appointment_type"] == 'SS1', "appointment_type failure: checked for SS1, observed: #{response["data"][0]["appointment_type"]}"
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
@@ -643,9 +646,9 @@ class PokitDokTest < MiniTest::Test
 
     describe 'Scheduling API convenience function test: get_appointments' do
       it 'make a call to the live endpoint for: get_appointments' do
-        response = @@pokitdok.get_appointments('bf8440b1-fd20-4994-bb28-e3981833e796')
-        refute_nil(response["meta"], msg="the response[meta] section is empty")
-        refute_nil(response["data"], msg="the response[data] section is empty")
+        response = @@pokitdok_SI.get_appointments('bf8440b1-fd20-4994-bb28-e3981833e796')
+        refute_nil(response["meta"], msg="the response[meta] section is empty: #{response}")
+        refute_nil(response["data"], msg="the response[data] section is empty: #{response}")
         assert response["data"][0]["appointment_type"] == 'OV1', "appointment_type failure: checked for SS1, observed: #{response["data"][0]["appointment_type"]}"
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
@@ -679,23 +682,23 @@ class PokitDokTest < MiniTest::Test
         }
         # test that DUARD is a valid identity
         response = @@pokitdok.validate_identity @DUARD
-        refute_nil(response["meta"], msg="the response[meta] section is empty")
-        refute_nil(response["data"], msg="the response[data] section is empty")
+        refute_nil(response["meta"], msg="the response[meta] section is empty: #{response}")
+        refute_nil(response["data"], msg="the response[data] section is empty: #{response}")
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
     end
-=begin
+
     describe 'Identity API Convenience function test:  create_identity' do
       it 'make a call to the live endpoint for: create_identity' do
         response = @@pokitdok.create_identity @identity_request
-        refute_nil(response["meta"], msg="the response[meta] section is empty")
-        refute_nil(response["data"], msg="the response[data] section is empty")
-        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+        refute_nil(response["meta"], msg="the response[meta] section is empty: #{response}")
+        refute_nil(response["data"], msg="the response[data] section is empty: #{response}")
+        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
 
       end
     end
 
-
+=begin
     describe 'Identity API Convenience function test: update_identity' do
       it 'make a call to the live endpoint for: update_identity' do
         #@identity_request["email"] = "tim@pokitdok.com"
@@ -705,18 +708,18 @@ class PokitDokTest < MiniTest::Test
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
     end
-
+=end
     describe 'Identity API Convenience function test:  identity_history' do
       it 'make a call to the live endpoint for: identity_history' do
 
         response = @@pokitdok.identity_history("054859ae-7152-468b-b45e-0f5c87d2d867")
-        refute_nil(response["meta"], msg="the response[meta] section is empty")
-        refute_nil(response["data"], msg="the response[data] section is empty")
+        refute_nil(response["meta"], msg="the response[meta] section is empty: #{response}")
+        refute_nil(response["data"], msg="the response[data] section is empty: #{response}")
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
 
       end
     end
-=end
+
 
   end
 end
