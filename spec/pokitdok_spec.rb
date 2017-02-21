@@ -624,29 +624,6 @@ class PokitDokTest < MiniTest::Test
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
     end
-
-    describe 'Identity API Convenience function test:  create_identity' do
-      it 'make a call to the live endpoint for: create_identity' do
-        response = @@pokitdok.create_identity @identity_request
-        refute_nil(response["meta"], msg="the response[meta] section is empty: #{response}")
-        refute_nil(response["data"], msg="the response[data] section is empty: #{response}")
-        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
-
-      end
-    end
-
-    describe 'Identity API Convenience function test:  identity_history' do
-      it 'make a call to the live endpoint for: identity_history' do
-
-        response = @@pokitdok.identity_history("054859ae-7152-468b-b45e-0f5c87d2d867")
-        refute_nil(response["meta"], msg="the response[meta] section is empty: #{response}")
-        refute_nil(response["data"], msg="the response[data] section is empty: #{response}")
-        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
-
-      end
-    end
-
-
   end
 end
 
