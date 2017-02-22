@@ -19,11 +19,44 @@ PokitDok Platform API Client for Ruby
 
 ## Installation
     gem install pokitdok-ruby
+    
+## Client ID and Secret Keys
+Always use environment variables to store your PokitDok client and secret keys. To do so, 
+we recommmend either using `dotenv` or setting plain old Linux OS environment variables.  The dotenv gem is very 
+similar to Figaro, except it loads environment variables from .env, and it doesn't use YAML.
+
+To use `dotenv`, just install the gem by adding to your Gemfile:
+```
+gem 'dotenv-rails', groups: [:development, :test]
+```
+
+And add your configuration values to a `.env` file. Make sure you git ignore the file so that you don't 
+accidentally publish it to github:
+```
+POKITDOK_CLIENT_ID=your_client_id
+POKITDOK_CLIENT_SECRET=your_secret_id
+```
+You can then access the values in your Ruby ENV hash
+```
+require 'dotenv'
+Dotenv.load
+client_id = ENV["POKITDOK_CLIENT_ID"]
+client_secret = ENV["POKITDOK_CLIENT_SECRET"]
+```
+
+It's also possible to maintain unique sets of environment variables per app using basic linux commands. 
+One approach is to have each app running on your server be owned by a different user. You can then use the user's `.bashrc`
+to store application-specific values.
 
 ## Quick Start
 ```ruby
 require 'pokitdok'
-pd = PokitDok::PokitDok.new("your_client_id", "your_client_secret")
+require 'dotenv'
+Dotenv.load
+
+client_id = ENV["POKITDOK_CLIENT_ID"]
+client_secret = ENV["POKITDOK_CLIENT_SECRET"]
+pd = PokitDok::PokitDok.new(client_id, client_secret)
 
 # Retrieve provider information by NPI
 pd.providers(npi: '1467560003')

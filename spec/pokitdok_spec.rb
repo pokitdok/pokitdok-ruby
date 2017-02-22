@@ -1,689 +1,629 @@
 # encoding: UTF-8
 
 require 'spec_helper'
+require 'dotenv'
+Dotenv.load
 
-CLIENT_ID = 'F7q38MzlwOxUwTHb7jvk'
-CLIENT_SECRET = 'O8DRamKmKMLtSTPjK99eUlbfOQEc44VVmp8ARmcY'
-SCHEDULE_AUTH_CODE = 'KmCCkuYkSmPEf7AxaCIUApX1pUFedJx9CrDWPMD8'
-BASE_URL = 'https://platform.pokitdok.com/v4/api'
-MATCH_NETWORK_LOCATION = /(.*\.)?pokitdok\.com/
-MATCH_OAUTH2_PATH = /[\/]oauth2[\/]token/
-TEST_REQUEST_PATH = '/endpoint'
+
+CLIENT_ID = ENV["POKITDOK_CLIENT_ID"]
+CLIENT_SECRET = ENV["POKITDOK_CLIENT_SECRET"]
+CLIENT_ID_SI = ENV["POKITDOK_PLATFORM_API_CLIENT_ID"]
+CLIENT_SECRET_SI = ENV["POKITDOK_PLATFORM_API_CLIENT_SECRET"]
 
 class PokitDokTest < MiniTest::Test
   @@pokitdok = nil
   @@current_request = nil
+  @identity_request = {
+      prefix: "Mr.",
+      first_name: "Oscar",
+      middle_name: "Harold",
+      last_name: "Whitmire",
+      suffix: "IV",
+      birth_date: "2000-05-01",
+      gender: "male",
+      email: "oscar@pokitdok.com",
+      phone: "555-555-5555",
+      secondary_phone: "333-333-4444",
+      address: {
+          address_lines: ["1400 Anyhoo Avenue"],
+          city: "Springfield",
+          state: "IL",
+          zipcode: "90210"
+      },
+      identifiers: [
+          {
+              provider_uuid: "1917f12b-fb6a-4016-93bc-adeb83204c83",
+              system_uuid: "967d207f-b024-41cc-8cac-89575a1f6fef",
+              value: "W90100-IG-88",
+              location: [-121.93831, 37.53901]
+          }
+      ]
+  }
 
   describe PokitDok do
 
-    describe 'Authenticated functions' do
+    before do
+      if @@pokitdok.nil?
+        @@pokitdok = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET)
+        @@pokitdok_SI = PokitDok::PokitDok.new(CLIENT_ID_SI, CLIENT_SECRET_SI)
+      end
+    end
+    #
+    # ******************************
+    # client set up tests
+    # ******************************
+    #
+    describe 'Test token reuse' do
+      it 'should work with existing token' do
+        pokitdok_for_token = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET)
+        first_token = pokitdok_for_token.token
 
-      let(:base_headers) {
-        {
-            :'User-Agent' => "#{@@pokitdok.user_agent}"
+        pokitdok_with_old_token = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET, nil, nil, nil, nil, nil, token=first_token)
+        second_token = pokitdok_with_old_token.token
+
+        assert first_token == second_token
+        results = pokitdok_with_old_token.activities
+        refute_nil(results)
+
+        pokitdok_for_new_token = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET)
+        third_token = pokitdok_for_new_token.token
+        assert (first_token != third_token) && (second_token != third_token)
+      end
+    end
+
+    describe 'Test Connection' do
+      it 'should instantiate the api_client' do
+        refute_nil(@@pokitdok)
+        assert @@pokitdok.user_agent.include? "pokitdok-ruby#"
+      end
+    end
+
+    #
+    # ******************************
+    # error tests
+    # ******************************
+    #
+    describe 'Error Test: Missing Trading Partner ID' do
+      it 'make a call to eligibility without a Trading partner' do
+        @eligibility_query_2 = {
+            member: {
+                birth_date: '1970-01-01',
+                first_name: 'Jane',
+                last_name: 'Doe',
+                id: 'W000000000'
+            },
+            provider: {
+                first_name: 'JEROME',
+                last_name: 'AYA-AY',
+                npi: '1467560003'
+            },
+            service_types: ['health_benefit_plan_coverage'],
         }
-      }
-      let(:json_headers) {
-        {
-            :'User-Agent' => "#{@@pokitdok.user_agent}",
-            :'Content-Type'=> 'application/json'
+        response = @@pokitdok.eligibility @eligibility_query_2
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert response["data"]["errors"]["query"].to_s.include? "Unable to find configuration for trading_partner_id: None, transaction_set_name: eligibility"
+        assert @@pokitdok.status_code == 400, "Status Code assertion failure. Tested for 400, Observed status code: #{@@pokitdok.status_code}"
+      end
+    end
+    describe 'Validation Error Test: Malformed Request' do
+      it 'make a call to eligibility with bad data' do
+        @bad_request = "bad request"
+        response = @@pokitdok.eligibility @bad_request
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert response["data"]["errors"]["validation"].to_s.include? "This endpoint only accepts JSON requests of <type 'dict'>. Request provided was of <type 'unicode'>."
+        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
+      end
+    end
+    describe 'Validation Error Test: Malformed Request' do
+      it 'make a call to eligibility with bad data' do
+        @bad_request = {
+            member: {
+                birth_date: '1970-01-01',
+                first_name: 'Jane',
+                last_name: 'Doe',
+                id: '1'
+            },
+            trading_partner_id: 'MOCKPAYER'
         }
-      }
-
-      let(:snub_auth) {
-        stub_request(:post, /#{MATCH_NETWORK_LOCATION}#{MATCH_OAUTH2_PATH}/).
-            to_return(
-                :status => 200,
-                :body => '{
-            "access_token": "s8KYRJGTO0rWMy0zz1CCSCwsSesDyDlbNdZoRqVR",
-            "token_type": "bearer",
-            "expires": 1393350569,
-            "expires_in": 3600
-          }',
-                :headers => {
-                    'Server'=> 'nginx',
-                    'Date' => Time.now(),
-                    'Content-type' => 'application/json;charset=UTF-8',
-                    'Connection' => 'keep-alive',
-                    'Pragma' => 'no-cache',
-                    'Cache-Control' => 'no-store'
-                }).times(2)
-      }
-
-      before do
-        if @@pokitdok.nil?
-          snub_auth
-
-          @@pokitdok = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET)
-        end
+        response = @@pokitdok.eligibility @bad_request
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert response["data"]["errors"]["validation"]["member"]["id"].to_s.include? "String value is too short."
+        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
       end
-
-      describe 'Test token reuse' do
-        it 'should work with existing token' do
-          snub_auth
-          pokitdok_for_token = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET)
-          first_token = pokitdok_for_token.token
-
-          snub_auth
-          pokitdok_with_old_token = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET, nil, nil, nil, nil, nil, token=first_token)
-          second_token = pokitdok_with_old_token.token
-
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-          assert first_token == second_token
-          results = pokitdok_with_old_token.activities
-          refute_nil(results)
-
-          snub_auth
-          pokitdok_for_new_token = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET)
-          third_token = pokitdok_for_new_token.token
-          assert (first_token != third_token) && (second_token != third_token)
-        end
+    end
+    describe 'Validation Error Test: Malformed Request' do
+      it 'make a call to eligibility with bad data' do
+        @bad_request = {
+            member: {
+                birth_date: '1970-01-01',
+                first_name: 'Jane',
+                last_name: 'Doe',
+                id: '100000000000'
+            },
+            provider: {
+                first_name: 'JEROME',
+                last_name: 'AYA-AY',
+                npi: '2'
+            },
+            trading_partner_id: 'MOCKPAYER'
+        }
+        response = @@pokitdok.eligibility @bad_request
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert response["data"]["errors"]["validation"]["provider"]["npi"].to_s.include? "String value is too short."
+        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
       end
-
-      describe 'Test Connection' do
-        it 'should instantiate the api_client' do
-          refute_nil(@@pokitdok.api_client)
-        end
+    end
+    #
+    # ******************************
+    # get/post/put tests
+    # ******************************
+    #
+    describe 'test the POST method' do
+      it 'should make a real eligibility via the POST method' do
+        @eligibility_query = {
+            member: {
+                birth_date: '1970-01-01',
+                first_name: 'Jane',
+                last_name: 'Doe',
+                id: 'W000000000'
+            },
+            provider: {
+                first_name: 'JEROME',
+                last_name: 'AYA-AY',
+                npi: '1467560003'
+            },
+            service_types: ['health_benefit_plan_coverage'],
+            trading_partner_id: 'MOCKPAYER'
+        }
+        response = @@pokitdok.post('eligibility/', @eligibility_query)
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
+    end
+    describe 'Live test of PUT, DELETE, CLAIMS, ACTIVITIES' do
+      it 'Exercise the workflow of submitting a and deleting a claim' do
+        # this claim body represents the minimal amount of data needed to submit a claim via the claims endpoint
+        @test_claim = {
+            transaction_code: "chargeable",
+            trading_partner_id: "MOCKPAYER",
+            billing_provider: {
+                taxonomy_code: "207Q00000X",
+                first_name: "Jerome",
+                last_name: "Aya-Ay",
+                npi: "1467560003",
+                address: {
+                    address_lines: [
+                        "8311 WARREN H ABERNATHY HWY"
+                    ],
+                    city: "SPARTANBURG",
+                    state: "SC",
+                    zipcode: "29301"
+                },
+                tax_id: "123456789"
+            },
+            subscriber: {
+                first_name: "Jane",
+                last_name: "Doe",
+                member_id: "W000000000",
+                address: {
+                    address_lines: ["123 N MAIN ST"],
+                    city: "SPARTANBURG",
+                    state: "SC",
+                    zipcode: "29301"
+                },
+                birth_date: "1970-01-25",
+                gender: "female"
+            },
+            claim: {
+                total_charge_amount: 60.0,
+                service_lines: [
+                    {
+                        procedure_code: "99213",
+                        charge_amount: 60.0,
+                        unit_count: 1.0,
+                        diagnosis_codes: [
+                            "J10.1"
+                        ],
+                        service_date: "2016-01-25"
+                    }
+                ]
+            }
+        }
+        # assert success of the claim post
+        claim_response = @@pokitdok.claims(@test_claim)
+        refute_nil(claim_response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(claim_response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200 on use of claims endpoint, Observed status code: #{@@pokitdok.status_code}"
 
-      describe 'General Request method' do
-        it 'should test request post' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(lambda { |request|
-                @@current_request = request
-                {
-                    status: 200,
-                    body: '{ "string" : "" }'
+        # use the activities endpoint via a GET to analyze the current status of this claim
+        activity_id = claim_response["meta"]["activity_id"]
+        activity_url = "/activities/#{activity_id}"
+        get_response = @@pokitdok.get(activity_url, data={})
+        refute_nil(get_response["data"]["history"], msg="the response[data][history] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200 on the first get to activities, Observed status code: #{@@pokitdok.status_code}"
+
+        # look in the history to see if it has transitioned from state "init" to "canceled"
+        history = get_response["data"]["history"]
+        if history.length != 1
+          # this means that the claim is been picked up and is processing within the internal pokitdok system
+          # we aim to test out the put functionality by deleting the claim,
+          # so we need to resubmit a claim to get one that is going to stay in the INIT stage
+          claim_response = @@pokitdok.claims(@test_claim)
+          refute_nil(claim_response["meta"].keys, msg="the response[meta] section is empty")
+          refute_nil(claim_response["data"].keys, msg="the response[data] section is empty")
+          assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200 on the second use of claims endpoint, Observed status code: #{@@pokitdok.status_code}"
+          activity_id = claim_response["meta"]["activity_id"]
+          activity_url = "/activities/#{activity_id}"
+        end
+
+        # exercise the PUT functionality to delete the claim from its INIT status
+        put_data = @@pokitdok.put(activity_url, data={transition: "cancel"})
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200 on put to cancel the activity, Observed status code: #{@@pokitdok.status_code}"
+        refute_nil(put_data, msg="the respones body is empty")
+        refute_nil(put_data["data"], msg="the responesbody[data] is empty")
+        assert put_data["data"].kind_of?(Hash), "Error grabbing the activity data; try running the test suite again. Full response: #{put_data}"
+
+        # look in the history to see if it has transitioned from state "init" to "canceled"
+        assert put_data["data"]["history"].kind_of?(Array), "Error grabbing the activity data; try running the test suite again. Full response: #{assert put_data["data"]["history"]}"
+        history = put_data["data"]["history"]
+        assert history.length == 3, "Tested for cancelled claim, but recived the following claim history: #{history.to_s}"
+
+        # exercise the PUT functionality to delete an already deleted claim
+        put_data = @@pokitdok.put(activity_url, data={transition: "cancel"})
+        refute_nil(put_data["data"]["errors"], msg="The response[data][errors] is empty")
+        assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422 on put to cancel the activity, Observed status code: #{@@pokitdok.status_code}"
+
+        # exercise the activities endpoint to get the status of this claims transaction
+        updated_get_response = @@pokitdok.activities(claim_response["meta"]["activity_id"])
+        refute_nil(updated_get_response["meta"], msg="the response[meta] section is empty. The full response: #{updated_get_response.to_s}")
+        refute_nil(updated_get_response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 404, "Status Code assertion failure. Tested for 200 on the last use of the activities endpoint, Observed status code: #{@@pokitdok.status_code} #{updated_get_response}"
+        assert updated_get_response["data"]["errors"]["query"].include?("is not a valid Activity Id"), "Failed test for error message. Observed payload: #{updated_get_response}"
+      end
+    end
+    #
+    # ******************************
+    # X12 API tests
+    # ******************************
+    #
+    describe 'X12 API Convenience function test: authorizations' do
+      it 'make a call to the live endpoint for: authorizations' do
+        @params = {
+            event: {
+                category: "health_services_review",
+                certification_type: "initial",
+                delivery: {
+                    quantity: 1,
+                    quantity_qualifier: "visits"
+                },
+                diagnoses: [
+                    {
+                        code: "R10.9",
+                        date: "2016-01-25"
+                    }
+                ],
+                place_of_service: "office",
+                provider: {
+                    organization_name: "KELLY ULTRASOUND CENTER, LLC",
+                    npi: "1760779011",
+                    phone: "8642341234"
+                },
+                services: [
+                    {
+                        cpt_code: "76700",
+                        measurement: "unit",
+                        quantity: 1
+                    }
+                ],
+                type: "diagnostic_medical"
+            },
+            patient: {
+                birth_date: "1970-01-25",
+                first_name: "JANE",
+                last_name: "DOE",
+                id: "1234567890"
+            },
+            provider: {
+                first_name: "JEROME",
+                npi: "1467560003",
+                last_name: "AYA-AY"
+            },
+            trading_partner_id: "MOCKPAYER"
+        }
+        response = @@pokitdok.authorizations @params
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'X12 API Convenience function test: claims_status' do
+      it 'make a call to the live endpoint for: claims_status' do
+        @params = {
+            patient: {
+                birth_date: "1970-01-25",
+                first_name: "JANE",
+                last_name: "DOE",
+                id: "1234567890"
+            },
+            provider: {
+                first_name: "Jerome",
+                last_name: "Aya-Ay",
+                npi: "1467560003"
+            },
+            service_date: "2014-01-25",
+            trading_partner_id: "MOCKPAYER"
+        }
+        response = @@pokitdok.claims_status @params
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'X12 API Convenience function test: claims_convert' do
+      it 'make a call to the live endpoint for: claims_convert' do
+        response = @@pokitdok.claims_convert('spec/fixtures/test_claim.837')
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'X12 API Convenience function test: eligibility' do
+      it 'make a call to the live endpoint for: eligibility' do
+        params = {
+            member: {
+                birth_date: '1970-01-01',
+                first_name: 'Jane',
+                last_name: 'Doe',
+                id: 'W000000000'
+            },
+            provider: {
+                first_name: 'JEROME',
+                last_name: 'AYA-AY',
+                npi: '1467560003'
+            },
+            service_types: ['health_benefit_plan_coverage'],
+            trading_partner_id: 'MOCKPAYER'
+        }
+        response = @@pokitdok.eligibility params
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+      end
+    end
+    describe 'X12 API Convenience function test: referrals' do
+      it 'make a call to the live endpoint for: referrals' do
+        @params = {
+            event: {
+                category: "specialty_care_review",
+                certification_type: "initial",
+                delivery: {
+                    quantity: 1,
+                    quantity_qualifier: "visits"
+                },
+                diagnoses: [
+                    {
+                        code: "H72.90",
+                        date: "2014-09-25"
+                    }
+                ],
+                place_of_service: "office",
+                provider: {
+                    first_name: "JOHN",
+                    npi: "1154387751",
+                    last_name: "FOSTER",
+                    phone: "8645822900"
+                },
+                type: "consultation"
+            },
+            patient: {
+                birth_date: "1970-01-25",
+                first_name: "JANE",
+                last_name: "DOE",
+                id: "1234567890"
+            },
+            provider: {
+                first_name: "CHRISTINA",
+                last_name: "BERTOLAMI",
+                npi: "1619131232"
+            },
+            trading_partner_id: "MOCKPAYER"
+        }
+        response = @@pokitdok.referrals @params
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    #
+    # ******************************
+    # Data API tests
+    # ******************************
+    #
+    describe 'Data API Convenience function test: cash_prices' do
+      it 'make a call to the live endpoint for: cash_prices' do
+        response = @@pokitdok.cash_prices({ zip_code: '29412', cpt_code: '99385'})
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Data API Convenience function test: icd_convert' do
+      it 'make a call to the live endpoint for: icd_convert' do
+        @params = {code: '250.12'}
+        response = @@pokitdok.icd_convert @params
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Data API Convenience function test: mpc' do
+      it 'make a call to the live endpoint for: mpc' do
+        @params = {code: '99213'}
+        response = @@pokitdok.mpc @params
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Data API Convenience function test: insurance_prices' do
+      it 'make a call to the live endpoint for: insurance_prices' do
+        @params = {zip_code: '94401', cpt_code: '90658'}
+        response = @@pokitdok.insurance_prices @params
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
+      end
+    end
+    describe 'Data API Convenience function test: oop_insurance_estimate' do
+      it 'make a call to the live endpoint for: oop_insurance_estimate' do
+        @params = {
+            trading_partner_id: "MOCKPAYER",
+            cpt_bundle: ["99385"],
+            zip_code: "29412",
+            eligibility: {
+                provider: {
+                    first_name: "JEROME",
+                    last_name: "AYA-AY",
+                    npi: "1467560003"
+                },
+                member: {
+                    birth_date: "1970-01-25",
+                    first_name: "Jane",
+                    last_name: "Doe",
+                    id: "W000000000"
                 }
-              })
+            }
+        }
+        response = @@pokitdok.oop_insurance_estimate @params
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
 
-          @@pokitdok.request(TEST_REQUEST_PATH, 'POST', nil, {param: 'value'})
-          json_headers.each do |key, value|
-            assert_equal(value, @@current_request.headers["#{key}"])
-          end
-
-          # NOTE: Currently this shows as an error in an IDE. I believe this is because it's
-          # a reserved property in Ruby
-          assert_equal('post', "#{@@current_request.method}")
-        end
-        it 'should test request put' do
-          stub_request(:put, MATCH_NETWORK_LOCATION).
-              to_return(lambda { |request|
-                @@current_request = request
-                {
-                    status: 200,
-                    body: '{ "string" : "" }'
-                }
-              })
-
-          @@pokitdok.request(TEST_REQUEST_PATH, 'PUT', nil, {param: 'value'})
-          json_headers.each do |key, value|
-            assert_equal(value, @@current_request.headers["#{key}"])
-          end
-
-          # NOTE: Currently this shows as an error in an IDE. I believe this is because it's
-          # a reserved property in Ruby
-          assert_equal('put', "#{@@current_request.method}")
-        end
-        it 'should test request get' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(lambda { |request|
-                @@current_request = request
-                {
-                    status: 200,
-                    body: '{ "string" : "" }'
-                }
-              })
-
-          @@pokitdok.request(TEST_REQUEST_PATH, 'GET', nil, {param: 'value'})
-          base_headers.each do |key, value|
-            assert_equal(value, @@current_request.headers["#{key}"])
-          end
-
-          # NOTE: Currently this shows as an error in an IDE. I believe this is because it's
-          # a reserved property in Ruby
-          assert_equal('get', "#{@@current_request.method}")
-        end
-        it 'should test request delete' do
-          stub_request(:delete, MATCH_NETWORK_LOCATION).
-              to_return(lambda { |request|
-                @@current_request = request
-                {
-                    status: 200,
-                    body: '{ "string" : "" }'
-                }
-              })
-
-          @@pokitdok.request(TEST_REQUEST_PATH, 'DELETE', nil, {param: 'value'})
-          base_headers.each do |key, value|
-            assert_equal(value, @@current_request.headers["#{key}"])
-          end
-
-          # NOTE: Currently this shows as an error in an IDE. I believe this is because it's
-          # a reserved property in Ruby
-          assert_equal('delete', "#{@@current_request.method}")
-        end
       end
+    end
+    describe 'Data API Convenience function test: oop_insurance_prices' do
+      it 'make a call to the live endpoint for: oop_insurance_prices' do
+        @params = {
+            trading_partner_id: "MOCKPAYER",
+            cpt_bundle:["99385"],
+            price: {
+                amount: "750"
+            }
+        }
+        response = @@pokitdok.oop_insurance_prices @params
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
 
-      describe 'Activities endpoint' do
-        it 'should expose the activities endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @activities = @@pokitdok.activities
-          refute_nil(@activities)
-        end
-
-        it 'should expose the activities endpoint with an id parameter' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @activities = @@pokitdok.activities(activity_id: 'activity_id')
-          refute_nil(@activities)
-        end
       end
+    end
+    describe 'Data API Convenience function test: plans' do
+      it 'make a call to the live endpoint for: plans' do
+        @params = {state: 'SC', plan_type: 'PPO'}
+        response = @@pokitdok.plans @params
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
 
-      describe 'Cash Prices endpoint' do
-        it 'should expose the cash prices endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = { cpt_code: '90658', zip_code: '94403' }
-          @prices = @@pokitdok.cash_prices query
-
-          refute_nil(@prices)
-        end
       end
+    end
+    describe 'Data API Convenience function test: providers' do
+      it 'make a call to the live endpoint for: providers' do
+        @params = {npi: '1467560003'}
+        response = @@pokitdok.providers @params
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
 
-      describe 'Claims endpoint' do
-        it 'should expose the claims endpoint' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = JSON.parse(IO.read('spec/fixtures/claim.json'))
-          @claim = @@pokitdok.claims(query)
-
-          refute_nil(@claim)
-        end
       end
-
-      describe 'Claims status endpoint' do
-        it 'should expose the claims status endpoint' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = JSON.parse(IO.read('spec/fixtures/claims_status.json'))
-          @claims_status = @@pokitdok.claims_status(query)
-
-          refute_nil(@claims_status)
-        end
+    end
+    describe 'Data API Convenience function test: trading_partners' do
+      it 'make a call to the live endpoint for: trading_partners' do
+        response = @@pokitdok.trading_partners("aetna")
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
+    end
 
-      describe 'Medical Procedure Endpoint endpoint' do
-        it 'should expose the mpc endpoint when a code is specified' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
+    #
+    # ******************************
+    # Pharmacy API tests
+    # ******************************
+    #
+    describe 'Pharmacy API Convenience function test: pharmacy_plans' do
+      it 'make a call to the live endpoint for: pharmacy_plans' do
+        response = @@pokitdok.pharmacy_plans(trading_partner_id:'medicare_national', plan_number:'S5820003')
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
 
-          query = { code: '99213' }
-          @mpc = @@pokitdok.mpc(query)
-
-          refute_nil(@mpc)
-        end
-        it 'should expose the mpc endpoint when name is specified' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = { name: 'office' }
-          @mpc = @@pokitdok.mpc(query)
-
-          refute_nil(@mpc)
-        end
       end
+    end
+    describe 'Pharmacy API Convenience function test: pharmacy_formulary' do
+      it 'make a call to the live endpoint for: pharmacy_formulary' do
+        response = @@pokitdok.pharmacy_formulary(trading_partner_id: 'medicare_national', plan_number: 'S5820003', ndc: '00006073554')
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
 
-      describe 'ICD Convert endpoint' do
-        it 'should expose the icd convert endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @icd = @@pokitdok.icd_convert({code: '250.12'})
-          refute_nil(@icd)
-        end
       end
-
-      describe 'Claims convert endpoint' do
-        it 'should expose the claims convert endpoint' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @converted_claim = @@pokitdok.claims_convert('spec/fixtures/chiropractic_example.837')
-
-          refute_nil(@converted_claim)
-        end
+    end
+    describe 'Pharmacy API Convenience function test: pharmacy_network' do
+      it 'make a call to the live endpoint for: pharmacy_network' do
+        response = @@pokitdok.pharmacy_network(trading_partner_id: 'medicare_national', plan_number: 'S5820003' , zipcode: '07030', radius: '1mi')
+        refute_nil(response["meta"], msg="the response[meta] section is empty")
+        refute_nil(response["data"], msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
-
-      describe 'Eligibility endpoint' do
-        it 'should expose the eligibility endpoint' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @eligibility_query = {
-              member: {
-                  birth_date: '1970-01-01',
-                  first_name: 'Jane',
-                  last_name: 'Doe',
-                  id: 'W000000000'
-              },
-              provider: {
-                  first_name: 'JEROME',
-                  last_name: 'AYA-AY',
-                  npi: '1467560003'
-              },
-              service_types: ['health_benefit_plan_coverage'],
-              trading_partner_id: 'MOCKPAYER'
-          }
-          @eligibility = @@pokitdok.eligibility(@eligibility_query)
-
-          refute_nil(@eligibility)
-        end
-      end
-
-      describe 'Enrollment endpoint' do
-        it 'should expose the enrollment endpoint' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = JSON.parse(IO.read('spec/fixtures/enrollment.json'))
-          @enrollment = @@pokitdok.enrollment(query)
-
-          refute_nil(@enrollment)
-        end
-      end
-
-      describe 'Enrollment Snapshot endpoint' do
-        it 'should expose the enrollment snapshot endpoint' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @enrollment_snapshot_activity = @@pokitdok.enrollment_snapshot('MOCKPAYER', 'spec/fixtures/acme_inc_supplemental_identifiers.834')
-
-          refute_nil(@enrollment_snapshot_activity)
-        end
-        it 'should expose the enrollment snapshots endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @enrollment_snapshot = @@pokitdok.enrollment_snapshots({snapshot_id: '577294e00640fd5ce02d493f'})
-
-          refute_nil(@enrollment_snapshot)
-        end
-        it 'should expose the enrollment snapshot data endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @enrollment_snapshot_data = @@pokitdok.enrollment_snapshot_data({snapshot_id: '577294e00640fd5ce02d493f'})
-
-          refute_nil(@enrollment_snapshot_data)
-        end
-      end
-
-      describe 'Insurance Prices endpoint' do
-        it 'should expose the insurance prices endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = { cpt_code: '87799', zip_code: '32218' }
-          @prices = @@pokitdok.insurance_prices query
-
-          refute_nil(@prices)
-        end
-      end
-
-      describe 'Payers endpoint' do
-        it 'should expose the payers endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @payers = @@pokitdok.payers(state: 'CA')
-
-          refute_nil(@payers)
-        end
-      end
-
-      describe 'Plans endpoint' do
-        it 'should expose the plans endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @plans = @@pokitdok.plans
-
-          refute_nil(@plans)
-        end
-
-        it 'should expose the plans endpoint withe state and plan type' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = {state: 'TX', plan_type: 'PPO'}
-          @plans = @@pokitdok.plans(query)
-
-          refute_nil(@plans)
-        end
-      end
-
-      describe 'Providers endpoint' do
-        it 'should expose the providers endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = { npi: '1467560003' }
-          @providers = @@pokitdok.providers(query)
-
-          refute_nil(@providers)
-        end
-
-        it 'should expose the providers endpoint with args' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = {
-              zipcode: '29307',
-              specialty: 'rheumatology',
-              radius: '20mi'
-          }
-          @providers = @@pokitdok.providers(query)
-
-          refute_nil(@providers)
-        end
-      end
-
-      describe 'Trading Partners endpoints' do
-        it 'should expose the trading partners endpoint (index call)' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @trading_partners = @@pokitdok.trading_partners
-
-          refute_nil(@trading_partners)
-        end
-
-        it 'should expose the trading partners endpoint (get call)' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @trading_partners = @@pokitdok.trading_partners({ trading_partner_id: 'aetna' })
-
-          refute_nil(@trading_partners)
-        end
-      end
-
-      describe 'Referrals endpoint' do
-        it 'should expose the referrals endpoint' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = JSON.parse(IO.read('spec/fixtures/referrals.json'))
-          @referrals = @@pokitdok.referrals(query)
-
-          refute_nil(@referrals)
-        end
-      end
-
-      describe 'Authorizations endpoint' do
-        it 'should expose the authorizations endpoint' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = JSON.parse(IO.read('spec/fixtures/authorizations.json'))
-          @authorizations = @@pokitdok.authorizations query
-
-          refute_nil(@authorizations)
-        end
-      end
-
-      describe 'Scheduling endpoints' do
-        it 'should list the schedulers' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @schedulers = @@pokitdok.schedulers
-
-          refute_nil(@schedulers)
-        end
-
-        it 'should give details on a specific scheduler' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @scheduler = @@pokitdok.scheduler({ uuid: '967d207f-b024-41cc-8cac-89575a1f6fef' })
-
-          refute_nil(@scheduler)
-        end
-
-        it 'should list appointment types' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @appointment_types = @@pokitdok.appointment_types
-
-          refute_nil(@appointment_types)
-        end
-
-        it 'should give details on a specific appointment type' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @appointment_type = @@pokitdok.appointment_type({ uuid: 'ef987695-0a19-447f-814d-f8f3abbf4860' })
-
-          refute_nil(@appointment_type)
-        end
-
-        it 'should create an open schedule slot' do
-          # Special Case: The scheduling endpoint reauthenticates for the scope (user_schedule),
-          # which would be caught by the below 'stub_request'. This would cause the OAuth module
-          # to fail because of an empty return body (to see what is required on an OAuth) POST
-          # refer to the 'before' code block above. This 'stub_request' will only catch the /schedule/slots/ request.
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = {
-              pd_provider_uuid: "b691b7f9-bfa8-486d-a689-214ae47ea6f8",
-              location: [32.788110, -79.932364],
-              appointment_type: "AT1",
-              start_date: "2014-12-25T15:09:34.197709",
-              end_date: "2014-12-25T16:09:34.197717"
-          }
-          @slot = @@pokitdok.schedule_slots(query)
-
-          refute_nil(@slot)
-        end
-
-        it 'should give details on a specific appointment' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @appointment = @@pokitdok.appointments({ uuid: 'ef987691-0a19-447f-814d-f8f3abbf4859' })
-
-          refute_nil(@appointment)
-        end
-
-        it 'should give details on a searched appointments' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = {
-              'appointment_type' => 'AT1',
-              'start_date' => Time.now.strftime("%Y/%m/%d"),
-              'end_date' => Time.now.strftime("%Y/%m/%d"),
-          }
-          @appointments = @@pokitdok.appointments(query)
-
-          refute_nil(@appointments)
-        end
-
-        it 'should book appointment for an open slot' do
-          stub_request(:put, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          appt_uuid = "ef987691-0a19-447f-814d-f8f3abbf4859"
-          booking_query = {
-              patient: {
-                  uuid: "500ef469-2767-4901-b705-425e9b6f7f83",
-                  email: "john@johndoe.com",
-                  phone: "800-555-1212",
-                  birth_date: "1970-01-01",
-                  first_name: "John",
-                  last_name: "Doe"
-              },
-              description: "Welcome to M0d3rN Healthcare"
-          }
-          @slot = @@pokitdok.book_appointment(appt_uuid, booking_query)
-
-          refute_nil(@slot)
-        end
-
-        it 'should cancel a specified appointment' do
-          stub_request(:delete, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @cancel_response = @@pokitdok.cancel_appointment "ef987691-0a19-447f-814d-f8f3abbf4859"
-
-          refute_nil(@cancel_response)
-        end
-      end
-
-      describe 'Identity Endpoint' do
-        it 'should expose the identity endpoint for creation' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = {
-              prefix: "Mr.",
-              first_name: "Gerald",
-              middle_name: "Harold",
-              last_name: "Whitmire",
-              suffix: "IV",
-              birth_date: "2000-05-25",
-              gender: "male",
-              email: "oscar@@pokitdok.com",
-              phone: "555-555-5555",
-              secondary_phone: "333-333-4444",
-              address: {
-                  address_lines: ["1400 Anyhoo Avenue"],
-                  city: "Springfield",
-                  state: "IL",
-                  zipcode: "90210"
-              }
-          }
-          @identity = @@pokitdok.create_identity(query)
-
-          refute_nil(@identity)
-        end
-
-        it 'should expose the identity endpoint for querying via id' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @identity = @@pokitdok.identity(identity_uuid: '1a0a60b2-3e07-11e6-94c0-08002778b074')
-
-          refute_nil(@identity)
-        end
-
-        it 'should expose the identity endpoint for querying via params' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = {first_name: 'Gerald', last_name: 'Whitmire'}
-          @identities = @@pokitdok.identity(query)
-
-          refute_nil(@identities)
-        end
-
-        it 'should expose the identity endpoint for updating' do
-          stub_request(:put, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @identity = @@pokitdok.update_identity('1a0a60b2-3e07-11e6-94c0-08002778b074', { first_name: 'John' })
-
-          refute_nil(@identity)
-        end
-
-        it 'should expose the identity history endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @identity = @@pokitdok.identity_history('1a0a60b2-3e07-11e6-94c0-08002778b074')
-
-          refute_nil(@identity)
-        end
-
-        it 'should expose the identity history endpoint with version number' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          @identity = @@pokitdok.identity_history('1a0a60b2-3e07-11e6-94c0-08002778b074', 1)
-
-          refute_nil(@identity)
-        end
-
-        it 'should expose the identity match endpoint' do
-          stub_request(:post, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = JSON.parse(IO.read('spec/fixtures/identity_match.json'))
-          @identity = @@pokitdok.identity_match(query)
-
-          refute_nil(@identity)
-        end
-      end
-
-      describe 'Pharmacy Plans Endpoint' do
-        it 'should expose the pharmacy plans endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = {trading_partner_id: 'MOCKPAYER', plan_number: 'S5820003'}
-          @pharmacy_plans = @@pokitdok.pharmacy_plans(query)
-
-          refute_nil(@pharmacy_plans)
-        end
-      end
-
-      describe 'Pharmacy Formulary Endpoint' do
-        it 'should expose the pharmacy formulary endpoint' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = {trading_partner_id: 'MOCKPAYER', plan_number: 'S5820003',
-                   ndc: '59310-579-22'}
-          @pharmacy_formulary = @@pokitdok.pharmacy_formulary(query)
-
-          refute_nil(@pharmacy_formulary)
-        end
-      end
-
-      describe 'Pharmacy Network Endpoint' do
-        it 'should expose the pharmacy formulary endpoint by NPI' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = {trading_partner_id: 'MOCKPAYER', plan_number: 'S5596033',
-                   npi: '1912301953'}
-          @pharmacy_network = @@pokitdok.pharmacy_network(query)
-
-          refute_nil(@pharmacy_network)
-        end
-        it 'should expose the pharmacy formulary endpoint by searching' do
-          stub_request(:get, MATCH_NETWORK_LOCATION).
-              to_return(status: 200, body: '{ "string" : "" }')
-
-          query = {trading_partner_id: 'MOCKPAYER', plan_number: 'S5596033',
-                   zipcode: '94401', radius: '10mi'}
-          @pharmacy_network = @@pokitdok.pharmacy_network(query)
-
-          refute_nil(@pharmacy_network)
-        end
+    end
+
+    #
+    # ******************************
+    # identity tests
+    # ******************************
+    #
+
+    describe 'Identity API Convenience function test: validate_identity ' do
+      it 'make a call to the live endpoint for: validate_identity' do
+        # make a fake identity
+        @DUARD = {
+            first_name: 'Duard',
+            last_name: 'Osinski',
+            birth_date: {
+                day: 12,
+                month: 3,
+                year: 1952
+            },
+            ssn: '491450000',
+            address: {city: 'North Perley',
+                      country_code: 'US',
+                      postal_code: '24330',
+                      state_or_province: 'GA',
+                      street1: '41072 Douglas Terrace ',
+                      street2: 'Apt. 992'
+            }
+        }
+        # test that DUARD is a valid identity
+        response = @@pokitdok.validate_identity @DUARD
+        refute_nil(response["meta"], msg="the response[meta] section is empty: #{response}")
+        refute_nil(response["data"], msg="the response[data] section is empty: #{response}")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
       end
     end
   end
 end
+
