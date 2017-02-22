@@ -4,7 +4,6 @@ require 'spec_helper'
 require 'dotenv'
 Dotenv.load
 
-
 CLIENT_ID = ENV["POKITDOK_CLIENT_ID"]
 CLIENT_SECRET = ENV["POKITDOK_CLIENT_SECRET"]
 
