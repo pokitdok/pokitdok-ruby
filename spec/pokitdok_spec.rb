@@ -1,14 +1,10 @@
 # encoding: UTF-8
 
 require 'spec_helper'
-require 'dotenv'
-Dotenv.load
-
 
 CLIENT_ID = ENV["POKITDOK_CLIENT_ID"]
 CLIENT_SECRET = ENV["POKITDOK_CLIENT_SECRET"]
-CLIENT_ID_SI = ENV["POKITDOK_PLATFORM_API_CLIENT_ID"]
-CLIENT_SECRET_SI = ENV["POKITDOK_PLATFORM_API_CLIENT_SECRET"]
+
 
 class PokitDokTest < MiniTest::Test
   @@pokitdok = nil
@@ -45,7 +41,6 @@ class PokitDokTest < MiniTest::Test
     before do
       if @@pokitdok.nil?
         @@pokitdok = PokitDok::PokitDok.new(CLIENT_ID, CLIENT_SECRET)
-        @@pokitdok_SI = PokitDok::PokitDok.new(CLIENT_ID_SI, CLIENT_SECRET_SI)
       end
     end
     #
