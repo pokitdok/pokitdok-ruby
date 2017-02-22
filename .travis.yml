@@ -8,4 +8,5 @@ rvm:
 env:
   global:
     - "JRUBY_OPTS=-Xcext.enabled=true"
+    - CI=true
 sudo: false
