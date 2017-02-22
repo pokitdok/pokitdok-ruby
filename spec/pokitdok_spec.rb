@@ -1,6 +1,7 @@
 # encoding: UTF-8
 
 require 'spec_helper'
+require 'pp'
 
 CLIENT_ID = ENV["POKITDOK_CLIENT_ID"]
 CLIENT_SECRET = ENV["POKITDOK_CLIENT_SECRET"]
