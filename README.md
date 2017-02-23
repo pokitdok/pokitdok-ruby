@@ -166,7 +166,7 @@ To use the Dockerfile within this project to run the tests, please head over to 
 * 2.1
 * 2.0
 * 1.9
-* JRuby 9.1
+* JRuby 9.1  (which is running Ruby 2.3.1)
 
 To execute the tests against those versions within a Docker Container, build the image and the tests will execute on build:
 ```shell
