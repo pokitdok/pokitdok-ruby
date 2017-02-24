@@ -1,11 +1,11 @@
 # encoding: UTF-8
 
 require 'spec_helper'
-require 'pp'
+require 'dotenv'
+Dotenv.load
 
 CLIENT_ID = ENV["POKITDOK_CLIENT_ID"]
 CLIENT_SECRET = ENV["POKITDOK_CLIENT_SECRET"]
-
 
 class PokitDokTest < MiniTest::Test
   @@pokitdok = nil
