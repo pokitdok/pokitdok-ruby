@@ -77,17 +77,16 @@ class OAuthApplicationClient
       fetch_access_token()
     end
     url = URI.parse(@api_url + endpoint)
-
     File.open(file) do |f|
       additional_params = params.merge({'file' => UploadIO.new(f, 'application/EDI-X12', file)})
       req = Net::HTTP::Post::Multipart.new(url.path, additional_params)
-
       req['Authorization'] = "Bearer #{self.token.token}"
       req['User-Agent'] = @user_agent
 
-      @response = Net::HTTP.start(url.host, url.port) do |http|
+      @response = Net::HTTP.start(url.host, url.port, :use_ssl => true) do |http|
         http.request(req)
       end
+      @status_code = @response.code.to_i
       JSON.parse(@response.body)
     end
   end

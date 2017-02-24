@@ -1,7 +1,6 @@
 # encoding: UTF-8
 
 require 'simplecov'
-require 'webmock/minitest'
 
 module SimpleCov
   # Setup SimpleCov.

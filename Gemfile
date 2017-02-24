@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 gem 'oauth2', '~> 1.0', require: 'oauth2'
 gem 'multipart-post', '~> 2.0'
+gem 'dotenv-rails', groups: [:development, :test]
 
 group :development do
 	gem 'bundler', '~> 1.0'
@@ -12,7 +13,6 @@ group :development do
 	gem 'jeweler', '~> 2.0'
 	gem 'ansi', '~> 1.4'
 	gem 'minitest-reporters', '~> 1.0'
-	gem 'webmock', '~> 1.17'
 	gem 'guard', '~> 2.6'
 	gem 'guard-minitest', '~> 2.2'
 	gem 'terminal-notifier'
