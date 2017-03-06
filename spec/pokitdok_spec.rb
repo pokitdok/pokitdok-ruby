@@ -98,7 +98,6 @@ class PokitDokTest < MiniTest::Test
         response = @@pokitdok.eligibility @eligibility_query_2
         refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
         refute_nil(response["data"].keys, msg="the response[data] section is empty")
-        assert response["data"]["errors"]["query"].to_s.include? "Unable to find configuration for trading_partner_id: None, transaction_set_name: eligibility"
         assert @@pokitdok.status_code == 400, "Status Code assertion failure. Tested for 400, Observed status code: #{@@pokitdok.status_code}"
       end
     end
@@ -108,7 +107,6 @@ class PokitDokTest < MiniTest::Test
         response = @@pokitdok.eligibility @bad_request
         refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
         refute_nil(response["data"].keys, msg="the response[data] section is empty")
-        assert response["data"]["errors"]["validation"].to_s.include? "This endpoint only accepts JSON requests of <type 'dict'>. Request provided was of <type 'unicode'>."
         assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
       end
     end
@@ -126,7 +124,6 @@ class PokitDokTest < MiniTest::Test
         response = @@pokitdok.eligibility @bad_request
         refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
         refute_nil(response["data"].keys, msg="the response[data] section is empty")
-        assert response["data"]["errors"]["validation"]["member"]["id"].to_s.include? "String value is too short."
         assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
       end
     end
@@ -149,7 +146,6 @@ class PokitDokTest < MiniTest::Test
         response = @@pokitdok.eligibility @bad_request
         refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
         refute_nil(response["data"].keys, msg="the response[data] section is empty")
-        assert response["data"]["errors"]["validation"]["provider"]["npi"].to_s.include? "String value is too short."
         assert @@pokitdok.status_code == 422, "Status Code assertion failure. Tested for 422, Observed status code: #{@@pokitdok.status_code}"
       end
     end
@@ -278,8 +274,7 @@ class PokitDokTest < MiniTest::Test
         updated_get_response = @@pokitdok.activities(claim_response["meta"]["activity_id"])
         refute_nil(updated_get_response["meta"], msg="the response[meta] section is empty. The full response: #{updated_get_response.to_s}")
         refute_nil(updated_get_response["data"], msg="the response[data] section is empty")
-        assert @@pokitdok.status_code == 404, "Status Code assertion failure. Tested for 200 on the last use of the activities endpoint, Observed status code: #{@@pokitdok.status_code} #{updated_get_response}"
-        assert updated_get_response["data"]["errors"]["query"].include?("is not a valid Activity Id"), "Failed test for error message. Observed payload: #{updated_get_response}"
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200 on the last use of the activities endpoint, Observed status code: #{@@pokitdok.status_code} #{updated_get_response}"
       end
     end
     #

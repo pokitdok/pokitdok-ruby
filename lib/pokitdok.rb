@@ -111,7 +111,7 @@ module PokitDok
     def activities(activity_id = nil, params = {})
       activities_endpoint = 'activities/'
       if activity_id
-        activities_endpoint = "activities/#{activity_id}" + activity_id.to_s
+        activities_endpoint = "activities/#{activity_id.to_s}"
       end
       get(activities_endpoint, params)
     end

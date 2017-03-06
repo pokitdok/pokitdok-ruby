@@ -1,2 +1,0 @@
-FROM ruby:2.0-onbuild
-RUN bundle exec rake spec
