@@ -19,4 +19,5 @@ group :development do
 	gem 'terminal-notifier-guard', '~> 1.5'
 	gem 'guard-rubocop', '~> 1.0'
 	gem 'coveralls', require: false
+	gem 'rake', '< 11.0'
 end
