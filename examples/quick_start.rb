@@ -3,7 +3,7 @@ require 'dotenv'
 Dotenv.load
 
 ########################
-# make a .env file at the top of your project with
+# make a env.list file at the top of your project with
 # POKITDOK_CLIENT_ID=your_client_id
 # POKITDOK_CLIENT_SECRET=your_secret_id
 ########################

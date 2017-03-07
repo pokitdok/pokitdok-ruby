@@ -10,3 +10,4 @@ pkg
 *.iml
 *.gem
 .env
+env.list
