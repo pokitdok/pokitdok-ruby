@@ -478,23 +478,37 @@ class PokitDokTest < MiniTest::Test
 
       end
     end
-    describe 'Data API Convenience function test: oop_insurance_estimate' do
-      it 'make a call to the live endpoint for: oop_insurance_estimate' do
+    describe 'Data API Convenience function test: oop_insurance_prices oop_insurance_estimate and oop_insurance_delete_price' do
+      it 'make a call to the live endpoint for: oop_insurance_prices oop_insurance_estimate and oop_insurance_delete_price' do
         @params = {
             trading_partner_id: "MOCKPAYER",
-            cpt_bundle: ["99385"],
-            zip_code: "29412",
+            cpt_bundle:["81291", "99999"],
+            price: {
+                amount: "1300",
+                currency: "USD
+            }
+        }
+        response = @@pokitdok.oop_insurance_prices @params
+        refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
+        refute_nil(response["data"].keys, msg="the response[data] section is empty")
+        assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+        @load_price_uuid = response["data"]["uuid"]
+
+        # run the insurance estimate on that posted price
+        @params = {
+            trading_partner_id: "MOCKPAYER",
+            cpt_bundle: ["81291", "99999"],
+            service_type_codes: ["30"],
             eligibility: {
-                provider: {
-                    first_name: "JEROME",
-                    last_name: "AYA-AY",
-                    npi: "1467560003"
+               "provider: {
+                    npi: "1912301953",
+                    organization_name: "PokitDok, Inc"
                 },
                 member: {
-                    birth_date: "1970-01-25",
-                    first_name: "Jane",
-                    last_name: "Doe",
-                    id: "W000000000"
+                    birth_date: "1975-04-26",
+                    first_name: "Joe",
+                    last_name: "Immortan",
+                    id: "999999999"
                 }
             }
         }
@@ -503,21 +517,12 @@ class PokitDokTest < MiniTest::Test
         refute_nil(response["data"].keys, msg="the response[data] section is empty")
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
 
-      end
-    end
-    describe 'Data API Convenience function test: oop_insurance_prices' do
-      it 'make a call to the live endpoint for: oop_insurance_prices' do
-        @params = {
-            trading_partner_id: "MOCKPAYER",
-            cpt_bundle:["99385"],
-            price: {
-                amount: "750"
-            }
-        }
-        response = @@pokitdok.oop_insurance_prices @params
+        # delete the price
+        response = @@pokitdok.oop_insurance_delete_price @load_price_uuid
         refute_nil(response["meta"].keys, msg="the response[meta] section is empty")
         refute_nil(response["data"].keys, msg="the response[data] section is empty")
         assert @@pokitdok.status_code == 200, "Status Code assertion failure. Tested for 200, Observed status code: #{@@pokitdok.status_code}"
+
 
       end
     end

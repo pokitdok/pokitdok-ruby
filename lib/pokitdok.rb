@@ -277,6 +277,16 @@ module PokitDok
       post("/oop/insurance-load-price", params)
     end
 
+    # Invokes the insurance load price endpoint
+    # Deletes a procedure price for a specific trading partner
+    #
+    # +params+ an optional hash of parameters
+    #
+    def oop_insurance_delete_price(price_uuid, params = {})
+      path = "/oop/insurance-load-price/" + price_uuid
+      delete(path, params)
+    end
+
     # Invokes the payers endpoint.
     #
     # +params+ an optional hash of parameters
