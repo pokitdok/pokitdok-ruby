@@ -263,7 +263,7 @@ class PokitDokTest < MiniTest::Test
         # look in the history to see if it has transitioned from state "init" to "canceled"
         assert put_data["data"]["history"].kind_of?(Array), "Error grabbing the activity data; try running the test suite again. Full response: #{assert put_data["data"]["history"]}"
         history = put_data["data"]["history"]
-        assert history.length == 3, "Tested for cancelled claim, but recived the following claim history: #{history.to_s}"
+        assert history.length > 2, "Tested for cancelled claim, but recived the following claim history: #{history.to_s}"
 
         # exercise the PUT functionality to delete an already deleted claim
         put_data = @@pokitdok.put(activity_url, data={transition: "cancel"})
@@ -485,7 +485,7 @@ class PokitDokTest < MiniTest::Test
             cpt_bundle:["81291", "99999"],
             price: {
                 amount: "1300",
-                currency: "USD
+                currency: "USD"
             }
         }
         response = @@pokitdok.oop_insurance_prices @params
@@ -500,16 +500,16 @@ class PokitDokTest < MiniTest::Test
             cpt_bundle: ["81291", "99999"],
             service_type_codes: ["30"],
             eligibility: {
-               "provider: {
+               provider: {
                     npi: "1912301953",
                     organization_name: "PokitDok, Inc"
-                },
-                member: {
+               },
+               member: {
                     birth_date: "1975-04-26",
                     first_name: "Joe",
                     last_name: "Immortan",
                     id: "999999999"
-                }
+               }
             }
         }
         response = @@pokitdok.oop_insurance_estimate @params
