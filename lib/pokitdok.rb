@@ -121,10 +121,11 @@ module PokitDok
     # +params+ an optional Hash of parameters
     #
     def trading_partners(trading_partner_id = nil, params = {})
-      if params
-        trading_partner_id = params.delete :trading_partner_id
+      trading_partner_endpoint = 'tradingpartners/'
+      if !trading_partner_id.to_s.empty?
+        trading_partner_endpoint = "tradingpartners/#{trading_partner_id}"
       end
-      get("tradingpartners/#{trading_partner_id}")
+      get(trading_partner_endpoint, params)
     end
 
     #
